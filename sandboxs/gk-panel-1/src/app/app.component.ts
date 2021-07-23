@@ -7,7 +7,6 @@ import { Component } from "@angular/core";
         xxxx
     </gk-panel>
     `,
-    styleUrls: ["./app.component.css"]
 })
 export class AppComponent {
 }
