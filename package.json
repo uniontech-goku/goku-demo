@@ -1,0 +1,9 @@
+{
+  "name": "goku-demo",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {
+    "fs-extra": "^10.0.0"
+  },
+  "devDependencies": {}
+}
