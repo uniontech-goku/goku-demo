@@ -5,15 +5,15 @@ import {
     GKIconModule,
 } from 'ng-goku'
 
-import { AppComponent } from "./app.component";
+import { IconDemo1Component } from "./app.component";
 
 @NgModule({
-    declarations: [AppComponent],
+    declarations: [IconDemo1Component],
     imports: [
         BrowserModule,
         GKIconModule,
     ],
     providers: [],
-    bootstrap: [AppComponent]
+    bootstrap: [IconDemo1Component]
 })
 export class AppModule { }
