@@ -12,7 +12,7 @@
             "polyfills": "polyfills.ts",
             "prefix": "app",
             "styles": [
-                "styles.less"
+                "src/styles.less"
             ],
             "scripts": [],
             "environmentSource": "environments/environment.ts",
