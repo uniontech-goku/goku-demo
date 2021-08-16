@@ -1,5 +1,6 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
+import { HttpClientModule } from '@angular/common/http';
 
 import {
     GKSearchModule,
@@ -11,6 +12,7 @@ import { AppComponent } from "./app.component";
     declarations: [AppComponent],
     imports: [
         BrowserModule,
+        HttpClientModule,
         GKSearchModule,
     ],
     providers: [],
