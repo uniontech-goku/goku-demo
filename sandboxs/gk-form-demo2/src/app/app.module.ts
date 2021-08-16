@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { baseModules } form "./baseModules"
+import { baseModules } from "./baseModules"
 
 import {
     GKButtonModule,
