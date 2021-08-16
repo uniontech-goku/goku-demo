@@ -3,7 +3,7 @@ import { NzIconService } from 'ng-zorro-antd/icon'
 import { FlagOutline, FlagFill, FlagTwoTone } from '@ant-design/icons-angular/icons'
 
 @Component({
-    selector: 'app-icon-demo1',
+    selector: 'app-root',
     template: `
     <div>
         <gk-icon style="font-size: 20px" type="flag"></gk-icon>
@@ -23,7 +23,7 @@ import { FlagOutline, FlagFill, FlagTwoTone } from '@ant-design/icons-angular/ic
     </div>
     `,
 })
-export class IconDemo1Component {
+export class AppComponent {
     constructor(
         private nzIcon: NzIconService,
     ) {
