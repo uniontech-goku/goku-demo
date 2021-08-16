@@ -1,6 +1,8 @@
-import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
-import { HttpClientModule } from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { HttpClientModule } from '@angular/common/http'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 import {
     GKButtonModule,
@@ -13,7 +15,11 @@ import { AppComponent } from "./app.component";
     declarations: [AppComponent],
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
+        BrowserAnimationsModule,
         HttpClientModule,
+        FormsModule,
+        ReactiveFormsModule,
         GKButtonModule,
         GKSearchModule,
     ],
