@@ -24,8 +24,7 @@ function GKBigUploadWorker({ addEventListener, postMessage }) {
             const fileMD5Calc = new Md5();
             let index = 0;
             let start = 0;
-            const fileSize = file.size;
-            while (start < fileSize) {
+            while (start < file.size) {
                 if (stopFlag) {
                     console.warn(`分片进程检测到 取消动作, 直接退出`);
                     return;
@@ -40,29 +39,22 @@ function GKBigUploadWorker({ addEventListener, postMessage }) {
                     end = file.size;
                     chunkSizeCurrent = end - start;
                 }
-                try {
-                    const chunkBlob = file.slice(start, end);
-                    const chunkUint8 = new Uint8Array(yield new Response(chunkBlob).arrayBuffer());
-                    fileMD5Calc.appendByteArray(chunkUint8);
-                    const chunkMd5 = new Md5().appendByteArray(chunkUint8).end();
-                    postMessage({
-                        type: 'addChunk',
-                        data: {
-                            chunk: {
-                                index,
-                                size: chunkSizeCurrent,
-                                md5: chunkMd5,
-                                blob: chunkBlob,
-                                state: 'waitCheck',
-                            },
+                const chunkBlob = file.slice(start, end);
+                const chunkUint8 = new Uint8Array(yield new Response(chunkBlob).arrayBuffer());
+                fileMD5Calc.appendByteArray(chunkUint8);
+                const chunkMd5 = new Md5().appendByteArray(chunkUint8).end();
+                postMessage({
+                    type: 'addChunk',
+                    data: {
+                        chunk: {
+                            index,
+                            size: chunkSizeCurrent,
+                            md5: chunkMd5,
+                            blob: chunkBlob,
+                            state: 'waitCheck',
                         },
-                    });
-                }
-                catch (error) {
-                    console.warn(`分片进程发生错误， 退出`, error);
-                    postMessage({ type: 'sliceError' });
-                    return;
-                }
+                    },
+                });
                 index++;
                 start = end;
             }

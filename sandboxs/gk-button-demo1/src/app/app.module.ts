@@ -2,7 +2,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 
 import {
-    GKPanelModule,
+    GKButtonModule,
 } from 'ng-goku'
 
 import { AppComponent } from "./app.component";
@@ -11,8 +11,7 @@ import { AppComponent } from "./app.component";
     declarations: [AppComponent],
     imports: [
         BrowserModule,
-
-        GKPanelModule,
+        GKButtonModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

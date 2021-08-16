@@ -81,7 +81,7 @@ class AsideMenuComponent {
         this.router$ = this.router.events.pipe(filter((evt) => evt instanceof NavigationEnd), tap(() => {
             this.checkSubmenuOpen();
         }));
-        this.submenuOpen = [-1, -1];
+        this.submenuOpen = [];
         this.checkSubmenuOpen = () => {
             const urls = [];
             const routerTree = this.activatedRoute.snapshot;
@@ -96,7 +96,6 @@ class AsideMenuComponent {
                 }
             }
             const pathUrl = urls.join('/');
-            this.submenuOpen = [-1, -1];
             for (let m = 0; m < this.asideMenus.menuGroups.length; m++) {
                 const group = this.asideMenus.menuGroups[m];
                 for (let n = 0; n < group.menus.length; n++) {
@@ -104,7 +103,10 @@ class AsideMenuComponent {
                     if (firstMenu.type === 'firtsMenuWp') {
                         for (const secondMenu of firstMenu.children) {
                             if ('/' + secondMenu.path === pathUrl) {
-                                this.submenuOpen = [m, n];
+                                if (!this.submenuOpen[m]) {
+                                    this.submenuOpen[m] = [];
+                                }
+                                this.submenuOpen[m][n] = true;
                                 return;
                             }
                         }
@@ -125,19 +127,11 @@ class AsideMenuComponent {
     ngOnInit() {
         this.checkSubmenuOpen();
     }
-    clickSubmenu(m, n) {
-        if (this.submenuOpen[0] === m && this.submenuOpen[1] === n) {
-            this.submenuOpen = [-1, -1];
-        }
-        else {
-            this.submenuOpen = [m, n];
-        }
-    }
 }
 AsideMenuComponent.decorators = [
     { type: Component, args: [{
                 selector: 'gk-aside-menu',
-                template: "<div class=\"gk-aside-menu-container\">\n    <div class=\"gk-aside-fast\" [ngStyle]=\"{ height: fastMenusHeight }\">\n        <ul nz-menu nzMode=\"inline\" *ngIf=\"asideMenus.fastMenus.length > 0\">\n            <li *ngFor=\"let menu of asideMenus.fastMenus\" nz-menu-item nzMatchRouter>\n                <gk-icon [type]=\"menu.icon\"></gk-icon>\n                <a [routerLink]=\"[menu.path]\" [queryParams]=\"menu.queryParams\">{{ menu.label }}</a>\n            </li>\n        </ul>\n    </div>\n\n    <div class=\"gk-aside-main\" [ngStyle]=\"{ bottom: asideMenusBottom }\">\n        <ul nz-menu nzMode=\"inline\">\n            <ng-container *ngFor=\"let group of asideMenus.menuGroups; let m = index\">\n                <li *ngIf=\"group.title\" nz-menu-group [nzTitle]=\"group.title\" class=\"gk-menu-group\"></li>\n                <ng-container *ngFor=\"let firstMenu of group.menus; let n = index\">\n                    <li *ngIf=\"firstMenu.type === 'firtsMenuWp'\" nz-submenu [nzTitle]=\"titleTpl\"\n                        [nzOpen]=\"submenuOpen[0] === m && submenuOpen[1] === n\" (nzOpenChange)=\"clickSubmenu(m, n)\">\n                        <ng-template #titleTpl>\n                            <gk-icon [type]=\"firstMenu.icon\"></gk-icon>\n                            <span>{{ firstMenu.label }}</span>\n                        </ng-template>\n                        <ul>\n                            <li *ngFor=\"let secondMenu of firstMenu.children\" nz-menu-item nzMatchRouter\n                                class=\"child-menu\">\n                                <a [routerLink]=\"[secondMenu.path]\"\n                                    [queryParams]=\"secondMenu.config.queryParams\">{{secondMenu.label}}</a>\n                            </li>\n                        </ul>\n                    </li>\n                    <li *ngIf=\"firstMenu.type === 'firtsMenuLink'\" nz-menu-item nzMatchRouter>\n                        <gk-icon [type]=\"firstMenu.icon\"></gk-icon>\n                        <a [routerLink]=\"[firstMenu.path]\" [queryParams]=\"firstMenu.config.queryParams\">{{\n                            firstMenu.label }}</a>\n                    </li>\n                </ng-container>\n            </ng-container>\n        </ul>\n\n        <ng-container *ngIf=\"router$ | async\"></ng-container>\n    </div>\n</div>\n",
+                template: "<div class=\"gk-aside-menu-container\">\n    <div class=\"gk-aside-fast\" [ngStyle]=\"{ height: fastMenusHeight }\">\n        <ul nz-menu nzMode=\"inline\" *ngIf=\"asideMenus.fastMenus.length > 0\">\n            <li *ngFor=\"let menu of asideMenus.fastMenus\" nz-menu-item nzMatchRouter>\n                <gk-icon [type]=\"menu.icon\"></gk-icon>\n                <a [routerLink]=\"[menu.path]\" [queryParams]=\"menu.queryParams\">{{ menu.label }}</a>\n            </li>\n        </ul>\n    </div>\n\n    <div class=\"gk-aside-main\" [ngStyle]=\"{ bottom: asideMenusBottom }\">\n        <ul nz-menu nzMode=\"inline\">\n            <ng-container *ngFor=\"let group of asideMenus.menuGroups; let m = index\">\n                <li *ngIf=\"group.title\" nz-menu-group [nzTitle]=\"group.title\" class=\"gk-menu-group\"></li>\n                <ng-container *ngFor=\"let firstMenu of group.menus; let n = index\">\n                    <li *ngIf=\"firstMenu.type === 'firtsMenuWp'\" nz-submenu [nzTitle]=\"titleTpl\"\n                        [nzOpen]=\"submenuOpen[m] && submenuOpen[m][n]\">\n                        <ng-template #titleTpl>\n                            <gk-icon [type]=\"firstMenu.icon\"></gk-icon>\n                            <span>{{ firstMenu.label }}</span>\n                        </ng-template>\n                        <ul>\n                            <li *ngFor=\"let secondMenu of firstMenu.children\" nz-menu-item nzMatchRouter\n                                class=\"child-menu\">\n                                <a [routerLink]=\"[secondMenu.path]\"\n                                    [queryParams]=\"secondMenu.config.queryParams\">{{secondMenu.label}}</a>\n                            </li>\n                        </ul>\n                    </li>\n                    <li *ngIf=\"firstMenu.type === 'firtsMenuLink'\" nz-menu-item nzMatchRouter>\n                        <gk-icon [type]=\"firstMenu.icon\"></gk-icon>\n                        <a [routerLink]=\"[firstMenu.path]\" [queryParams]=\"firstMenu.config.queryParams\">{{\n                            firstMenu.label }}</a>\n                    </li>\n                </ng-container>\n            </ng-container>\n        </ul>\n\n        <ng-container *ngIf=\"router$ | async\"></ng-container>\n    </div>\n</div>\n",
                 encapsulation: ViewEncapsulation.None,
                 styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}.gk-aside-menu-container{background:#fff;box-sizing:border-box;height:100%;padding-bottom:8px;padding-top:8px;position:relative}.gk-aside-menu-container .gk-aside-main{left:0;margin-bottom:8px;overflow-x:visible;overflow-y:auto;position:absolute;right:0;top:8px}.gk-aside-menu-container .gk-aside-main .gk-menu-group{margin-top:16px}.gk-aside-menu-container .gk-aside-main .gk-menu-group .ant-menu-item-group-title{color:#262626;font-size:16px;font-weight:500}.gk-aside-menu-container .ant-menu-sub.ant-menu-inline{background:#fff}.gk-aside-menu-container .gk-aside-fast{bottom:8px;left:0;overflow-x:visible;overflow-y:auto;position:absolute;right:0}"]
             },] }
@@ -150,8 +144,7 @@ AsideMenuComponent.propDecorators = {
     asideMenus: [{ type: Input }]
 };
 
-const logoBase64 = 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTIzcHgiIGhlaWdodD0iMzVweCIgdmlld0JveD0iMCAwIDEyMyAzNSIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KICAgIDxnIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAuMDAwMDAwLCA1LjAwMDAwMCkiIGZpbGw9IiMwMDUwRkYiPgogICAgICAgICAgICA8cGF0aCBkPSJNMCwxLjIzMTM3MDc3IEMwLDAuNTUwNjMxODM1IDAuNTUxNzkzNTA2LDAgMS4yMzI1MzI0NCwwIEwzNS43Njg2MjkyLDAgQzM2LjQ0ODIwNjUsMCAzNywwLjU1MDYzMTgzNSAzNywxLjIzMTM3MDc3IEwzNywxMC43Njg2MjkyIEMzNywxMS40NDkzNjgyIDM3LjU1MDYzMTgsMTIgMzguMjMxMzcwOCwxMiBMNDcuNzY3NDY3NiwxMiBDNDguNDQ3MDQ0OCwxMiA0OSwxMi41NTE3OTM1IDQ5LDEzLjIzMTM3MDggTDQ5LDIzLjM2ODE2NDYgQzQ5LDI0LjA0Nzc0MTggNDguNDQ3MDQ0OCwyNC41OTk1MzUzIDQ3Ljc2NzQ2NzYsMjQuNTk5NTM1MyBMMS4yMzI1MzI0NCwyNC41OTk1MzUzIEMwLjU1MTc5MzUwNiwyNC41OTk1MzUzIDAsMjQuMDQ3NzQxOCAwLDIzLjM2ODE2NDYgTDAsMS4yMzEzNzA3NyBaIiBpZD0iRmlsbC0xIj48L3BhdGg+CiAgICAgICAgICAgIDxwYXRoIGQ9Ik0xMjMsMS4yMzEzNzA3NyBDMTIzLDAuNTUwNjMxODM1IDEyMi40NDgyMDYsMCAxMjEuNzY4NjI5LDAgTDg3LjIzMjUzMjQsMCBDODYuNTUxNzkzNSwwIDg2LDAuNTUwNjMxODM1IDg2LDEuMjMxMzcwNzcgTDg2LDEwLjc2NzQ2NzYgQzg2LDExLjQ0ODIwNjUgODUuNDQ5MzY4MiwxMiA4NC43Njg2MjkyLDEyIEw3NS4yMzI1MzI0LDEyIEM3NC41NTE3OTM1LDEyIDc0LDEyLjU1MDYzMTggNzQsMTMuMjMxMzcwOCBMNzQsMjMuMzY4MTY0NiBDNzQsMjQuMDQ3NzQxOCA3NC41NTE3OTM1LDI0LjU5OTUzNTMgNzUuMjMyNTMyNCwyNC41OTk1MzUzIEwxMjEuNzY4NjI5LDI0LjU5OTUzNTMgQzEyMi40NDgyMDYsMjQuNTk5NTM1MyAxMjMsMjQuMDQ3NzQxOCAxMjMsMjMuMzY4MTY0NiBMMTIzLDEuMjMxMzcwNzcgWiIgaWQ9IkZpbGwtMiI+PC9wYXRoPgogICAgICAgICAgICA8cGF0aCBkPSJNNDMuMDQ5ODgzOCwxLjI0NDcyOTk4IEw0NC4xMzYwNDU4LDEuMjQ0NzI5OTggTDQ0LjEzNjA0NTgsMy4yNjI1NTE3MSBDNDQuMTM2MDQ1OCwzLjg3MTI2NzA3IDQ0LjQ0ODUzNTIsNC4xMDcwODYxOSA0NC45NjU0Nzg2LDQuMTA3MDg2MTkgQzQ1LjU4MjMyNTYsNC4xMDcwODYxOSA0NS43ODY3Nzk2LDMuODI1OTYxOTIgNDUuNzg2Nzc5NiwzLjIzMjM0ODI3IEw0NS43ODY3Nzk2LDEuMjQ0NzI5OTggTDQ2Ljg3MDYxODIsMS4yNDQ3Mjk5OCBMNDYuODcwNjE4MiwzLjQzMDk5Mzk0IEM0Ni44NzA2MTgyLDQuMTAzNjAxMTggNDYuNjI4OTkwOCw1LjAxODk5NzU2IDQ0Ljk1NzM0NjksNS4wMTg5OTc1NiBDNDMuNzM5OTE2MSw1LjAxODk5NzU2IDQzLjA0OTg4MzgsNC41MTcxNTU4OSA0My4wNDk4ODM4LDMuNTA1MzQwODUgTDQzLjA0OTg4MzgsMS4yNDQ3Mjk5OCBaIiBpZD0iRmlsbC0zIj48L3BhdGg+CiAgICAgICAgICAgIDxwb2x5Z29uIGlkPSJGaWxsLTQiIHBvaW50cz0iNDcuODU2NTI4IDEuMjQ0NzI5OTggNDguOTAwODY5OCAxLjI0NDcyOTk4IDUwLjYxMzE3MjIgMy41MTM0NzI1NCA1MC42MTMxNzIyIDEuMjQ0NzI5OTggNTEuNjM0MjgwNiAxLjI0NDcyOTk4IDUxLjYzNDI4MDYgNC45MzQxOTU2MSA1MC41ODUyOTIxIDQuOTM0MTk1NjEgNDguODgxMTIxNCAyLjY3MTI2MTQgNDguODgxMTIxNCA0LjkzNDE5NTYxIDQ3Ljg1NjUyOCA0LjkzNDE5NTYxIj48L3BvbHlnb24+CiAgICAgICAgICAgIDxwb2x5Z29uIGlkPSJGaWxsLTUiIHBvaW50cz0iNTguOTEzODg5IDEuMjQ0NzI5OTggNTkuOTU4MjMwOSAxLjI0NDcyOTk4IDYxLjY3MDUzMzIgMy41MTM0NzI1NCA2MS42NzA1MzMyIDEuMjQ0NzI5OTggNjIuNjkyODAzMyAxLjI0NDcyOTk4IDYyLjY5MjgwMzMgNC45MzQxOTU2MSA2MS42NDI2NTMxIDQuOTM0MTk1NjEgNTkuOTM4NDgyNSAyLjY3MTI2MTQgNTkuOTM4NDgyNSA0LjkzNDE5NTYxIDU4LjkxMzg4OSA0LjkzNDE5NTYxIj48L3BvbHlnb24+CiAgICAgICAgICAgIDxwb2x5Z29uIGlkPSJGaWxsLTYiIHBvaW50cz0iNTIuNjQyMzc4MyA0LjkzNDU0NDEyIDUzLjczMDg2MzYgNC45MzQ1NDQxMiA1My43MzA4NjM2IDEuMjQ1MDc4NDggNTIuNjQyMzc4MyAxLjI0NTA3ODQ4Ij48L3BvbHlnb24+CiAgICAgICAgICAgIDxwYXRoIGQ9Ik01Ni4zNDEwMjExLDQuMDcwMTQ1MDcgQzU1LjgzMjIwOTQsNC4wNzAxNDUwNyA1NS40MTg2NTQ3LDMuNjYxMjM3MDQgNTUuNDE4NjU0NywzLjA4OTY5NTEzIEM1NS40MTg2NTQ3LDIuNTE2OTkxNTYgNTUuODMyMjA5NCwyLjExMTU2ODU0IDU2LjM0MTAyMTEsMi4xMTE1Njg1NCBDNTYuODQ4NjcxMiwyLjExMTU2ODU0IDU3LjI2MjIyNTksMi41MTY5OTE1NiA1Ny4yNjIyMjU5LDMuMDg5Njk1MTMgQzU3LjI2MjIyNTksMy42NjEyMzcwNCA1Ni44NDg2NzEyLDQuMDcwMTQ1MDcgNTYuMzQxMDIxMSw0LjA3MDE0NTA3IE01Ni4zNDEwMjExLDEuMTY3MTMwMzkgQzU1LjEwMDM1NywxLjE2NzEzMDM5IDU0LjM0NjQzMjgsMi4wMjc5MjgyNiA1NC4zNDY0MzI4LDMuMDg4NTMzNDYgQzU0LjM0NjQzMjgsNC4xNTAzMDAzMyA1NS4yMzk3NTc1LDUuMDExMDk4MiA1Ni4zNDEwMjExLDUuMDExMDk4MiBDNTcuNDQxMTIzMSw1LjAxMTA5ODIgNTguMzM1NjA5NSw0LjE1MDMwMDMzIDU4LjMzNTYwOTUsMy4wODg1MzM0NiBDNTguMzM1NjA5NSwyLjAyNzkyODI2IDU3LjUyNzA4NjgsMS4xNjcxMzAzOSA1Ni4zNDEwMjExLDEuMTY3MTMwMzkiIGlkPSJGaWxsLTciPjwvcGF0aD4KICAgICAgICAgICAgPHBvbHlnb24gaWQ9IkZpbGwtOCIgcG9pbnRzPSI2My4zNTk4MzQ1IDEuMjQ0NzI5OTggNjcuMDMxODc1MSAxLjI0NDcyOTk4IDY3LjAzMTg3NTEgMi4wMjc2OTU5MyA2NS43NDEyNTkxIDIuMDI3Njk1OTMgNjUuNzQxMjU5MSA0LjkzNDE5NTYxIDY0LjY1NTA5NzIgNC45MzQxOTU2MSA2NC42NTUwOTcyIDIuMDMyMzQyNjEgNjMuMzU5ODM0NSAyLjAzMjM0MjYxIj48L3BvbHlnb24+CiAgICAgICAgICAgIDxwb2x5Z29uIGlkPSJGaWxsLTkiIHBvaW50cz0iNjcuNjk1NjUzNyAxLjI0NDcyOTk4IDcxLjA1OTg1MTUgMS4yNDQ3Mjk5OCA3MS4wNTk4NTE1IDIuMDI3Njk1OTMgNjguNzgxODE1NiAyLjAyNzY5NTkzIDY4Ljc4MTgxNTYgMi42NjU0NTMwNSA3MC44NzM5ODQyIDIuNjY1NDUzMDUgNzAuODczOTg0MiAzLjQwNTQzNzE4IDY4Ljc4MTgxNTYgMy40MDU0MzcxOCA2OC43ODE4MTU2IDQuMTUyMzkxMzQgNzEuMTA4NjQxNyA0LjE1MjM5MTM0IDcxLjEwODY0MTcgNC45MzQxOTU2MSA2Ny42OTU2NTM3IDQuOTM0MTk1NjEiPjwvcG9seWdvbj4KICAgICAgICAgICAgPHBhdGggZD0iTTc0LjQ4NjQzMTEsMi41NjY5NDMzOSBMNzUuNDI1MDYwOSwyLjU2Njk0MzM5IEM3NS4zOTEzNzI1LDEuODY1Mjk0MzggNzQuNzgyNjU3MSwxLjE1NDM1MjAxIDczLjY1NTgzNjcsMS4xNTQzNTIwMSBDNzIuNTAyMjk3OCwxLjE1NDM1MjAxIDcxLjcyODYyNTMsMS44OTc4MjExNiA3MS43Mjg2MjUzLDMuMTI1NzA2OTIgQzcxLjcyODYyNTMsNC4zNTM1OTI2OCA3Mi43MTgzNjg2LDUuMDIxNTUzMjQgNzMuNjQwNzM1LDUuMDIxNTUzMjQgQzc0Ljc4MzgxODgsNS4wMjE1NTMyNCA3NS4zOTM2OTU4LDQuMzQ3Nzg0MzMgNzUuNDU2NDI2LDMuNDMyMzg3OTQgTDc0LjUxNzc5NjIsMy40MzIzODc5NCBDNzQuNDYyMDM2LDMuODcxNDk5NCA3NC4yNjIyMjg3LDQuMjA4MzgzODYgNzMuNjcwOTM4NCw0LjIwODM4Mzg2IEM3My4xMTkxNDQ5LDQuMjA4MzgzODYgNzIuNzAzMjY2OCwzLjc4MjA1MDc3IDcyLjcwMzI2NjgsMy4xNDE5NzAzMSBDNzIuNzAzMjY2OCwyLjQxMjQ0MTIxIDczLjExNjgyMTYsMS45ODYxMDgxMiA3My42NTkzMjE3LDEuOTg2MTA4MTIgQzc0LjMwNzUzMzksMS45ODYxMDgxMiA3NC40NzEzMjk0LDIuNDI5ODY2MjcgNzQuNDg2NDMxMSwyLjU2Njk0MzM5IiBpZD0iRmlsbC0xMCI+PC9wYXRoPgogICAgICAgICAgICA8cG9seWdvbiBpZD0iRmlsbC0xMSIgcG9pbnRzPSI3Ni4xNzQ0NTQ2IDEuMjQ0NzI5OTggNzcuMjU5NDU0OSAxLjI0NDcyOTk4IDc3LjI1OTQ1NDkgMi42MDUwNDYxOCA3OC44NzE4NTM2IDIuNjA1MDQ2MTggNzguODcxODUzNiAxLjI0NDcyOTk4IDc5Ljk1ODAxNTUgMS4yNDQ3Mjk5OCA3OS45NTgwMTU1IDQuOTM0MTk1NjEgNzguODY3MjA2OSA0LjkzNDE5NTYxIDc4Ljg2NzIwNjkgMy40MDMxMTM4NCA3Ny4yNTk0NTQ5IDMuNDAzMTEzODQgNzcuMjU5NDU0OSA0LjkzNDE5NTYxIDc2LjE3NDQ1NDYgNC45MzQxOTU2MSI+PC9wb2x5Z29uPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+';
-const defaultUserBase64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAEFklEQVRYR7WXy1McVRTGf7fnAcFAhscMDG8EVEiUlwuiVVqoMbqLGxdW+T/p0rVVLqxSqXIRY1lSWmpIKS8xIUWAQEIykAFmeAwO09N9rTvQ7TCP7qbEu5hFz733fOc753znXJFKpSQe1t9HsBTzsZHQ2ExopHWBPDkpBFQGJI21Jk21Jj1RgwsVHi4FhBuAZ0nBzLKf9W0fzQ3Q0iCor4HqKkEwcGwko8P+oWR7D55sSZ5uQWu9wVB3lkjI2b+yADJZ+PVugEdxH/2dgpc6BJVBb16lM3B/TXJvVdIeNnj9sk7QX/psSQDJA8H3MwFC1T5G+4VnOgtNqLBN3pMk9w3eHdIJXSxmowjARkLw3VSQl7s0XukR3lx22fXnkmT+ocl7Ixmaak+DOAVAeT4+GeS1Kxpd0fMxbmF7GJP89pfJjdHMKSZsACrm47eDdDf7zs3zQmIUE8tPDW5czdg5YQOYmAugSz9jQ+freSGIiRlJQGQZG9Bzf+UAqFK7+UcFH7yhuSZcKg3xXTg8gqwJPg2qKiQNNYLqC+4poxLzm59N3n/1KFeiOQC3pgLUXfIz2Ovs/dYePI6XMnKcWC31gkjIHcTsA8nObpbrIzpiayclv/ipkg/HNMc617MwvyaRpuKtwIitiILLHVBxIlDloCid+HLC5KM304jJu2m5vhPgnRHNEfrOPizHrC3l1a0jLIjUurPww5RJa52OGP8lIxvr/fR1ONOvZHbpaWnD+V87I4KmOncAC2uSze0s4rNvs3JsWCNS6wwgcQALj0oDyD/Z0ywIe8iDZwnJxLSJ+PRrQ6r4u3WvrAF37ku7A5bzcaTXm3SralB5ID75ypAfX9dy5eS09lIwuyIhnwTL9bxvV7oEddXuITBM+PzWGQCsbsDqpvvoEK2DF9vcxcwG4DUEe4cwtSgxS2DINzfY440BOwRek1CRupmA+RV5Kgr5ZPe3C1rC7vSrHXYSei1D69rpB5J4stjIpYsw2udOvXXSLkOvQmQdVHL8+4Ilff8K02CPhoq/12ULkVcpti5WOXDzjtJjVRDHHqvft4fPNrLZUnyWZmTFbvKEgfwqHO4VtIa9heBUMzpLO45tS6YXQTeKS0HpyEC3oL3RGUTJdqw8KzeQqNl/Zw8Wn0hiW+46EA4JXmiDSEig3guFq+RAojYVjmTJA1jdkKzHJemjk2sKla+csxKCAUG0HtobofGkzziOZMqENZR2RbWcYa/L2lkOT2fTcYNyHEotYxtJwcRcEN0ovq7MHFKEs0SLQCC5NuQylls37aYEP84F2T30ltVuTNVUmbw1oBN6zsPDxLpM5cTthQDLMZ/b/Y7/d0cNrvad8WmWf6OamGdX/DyO+4pngTIEqc9tYYPB5//D47TQrf/ref4P48EpqypQj8wAAAAASUVORK5CYII=';
+const logobase64 = 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTAycHgiIGhlaWdodD0iMThweCIgdmlld0JveD0iMCAwIDEwMiAxOCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KICAgIDx0aXRsZT7nvJbnu4Q8L3RpdGxlPgogICAgPGRlZnM+CiAgICAgICAgPGxpbmVhckdyYWRpZW50IHgxPSItMjkuNzQxMDE5MiUiIHkxPSI0Ni4wMzYzODczJSIgeDI9IjE3ODIuNTM5NjglIiB5Mj0iMTM1Ljg2NzQ0NiUiIGlkPSJsaW5lYXJHcmFkaWVudC0xIj4KICAgICAgICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzAwNzFGRiIgb2Zmc2V0PSIwJSI+PC9zdG9wPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjMDBEREZGIiBzdG9wLW9wYWNpdHk9IjAuNzUiIG9mZnNldD0iMjElIj48L3N0b3A+CiAgICAgICAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiMwMDZDRkYiIHN0b3Atb3BhY2l0eT0iMC45MiIgb2Zmc2V0PSI0NiUiPjwvc3RvcD4KICAgICAgICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzAwRkNBNyIgb2Zmc2V0PSI3MiUiPjwvc3RvcD4KICAgICAgICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzAwQTJGRiIgb2Zmc2V0PSIxMDAlIj48L3N0b3A+CiAgICAgICAgPC9saW5lYXJHcmFkaWVudD4KICAgICAgICA8bGluZWFyR3JhZGllbnQgeDE9IjEuOTE4Mjk5OCUiIHkxPSI0Mi44ODk3NTQ4JSIgeDI9IjM4OC4yNjY2NTklIiB5Mj0iMTE0LjEwNzU5JSIgaWQ9ImxpbmVhckdyYWRpZW50LTIiPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjMDA3MUZGIiBvZmZzZXQ9IjAlIj48L3N0b3A+CiAgICAgICAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiMwMERERkYiIHN0b3Atb3BhY2l0eT0iMC43NSIgb2Zmc2V0PSIyMSUiPjwvc3RvcD4KICAgICAgICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzAwNkNGRiIgc3RvcC1vcGFjaXR5PSIwLjkyIiBvZmZzZXQ9IjQ2JSI+PC9zdG9wPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjMDBGQ0E3IiBvZmZzZXQ9IjcyJSI+PC9zdG9wPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjMDBBMkZGIiBvZmZzZXQ9IjEwMCUiPjwvc3RvcD4KICAgICAgICA8L2xpbmVhckdyYWRpZW50PgogICAgICAgIDxsaW5lYXJHcmFkaWVudCB4MT0iLTIxNS44MDY1ODIlIiB5MT0iNDAuNTU3OTM0OCUiIHgyPSI2MDAuNjUwMTQyJSIgeTI9IjcyLjUwMTMzMjMlIiBpZD0ibGluZWFyR3JhZGllbnQtMyI+CiAgICAgICAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiMwMDcxRkYiIG9mZnNldD0iMCUiPjwvc3RvcD4KICAgICAgICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzAwRERGRiIgc3RvcC1vcGFjaXR5PSIwLjc1IiBvZmZzZXQ9IjIxJSI+PC9zdG9wPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjMDA2Q0ZGIiBzdG9wLW9wYWNpdHk9IjAuOTIiIG9mZnNldD0iNDYlIj48L3N0b3A+CiAgICAgICAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiMwMEZDQTciIG9mZnNldD0iNzIlIj48L3N0b3A+CiAgICAgICAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiMwMEEyRkYiIG9mZnNldD0iMTAwJSI+PC9zdG9wPgogICAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICAgICAgPGxpbmVhckdyYWRpZW50IHgxPSItMjE4LjQ3OTU3OSUiIHkxPSI0My41MDgyODczJSIgeDI9IjU5NC4wMTUzNjYlIiB5Mj0iNjMuMTU5OTE0MSUiIGlkPSJsaW5lYXJHcmFkaWVudC00Ij4KICAgICAgICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzAwNzFGRiIgb2Zmc2V0PSIwJSI+PC9zdG9wPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjMDBEREZGIiBzdG9wLW9wYWNpdHk9IjAuNzUiIG9mZnNldD0iMjElIj48L3N0b3A+CiAgICAgICAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiMwMDZDRkYiIHN0b3Atb3BhY2l0eT0iMC45MiIgb2Zmc2V0PSI0NiUiPjwvc3RvcD4KICAgICAgICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzAwRkNBNyIgb2Zmc2V0PSI3MiUiPjwvc3RvcD4KICAgICAgICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzAwQTJGRiIgb2Zmc2V0PSIxMDAlIj48L3N0b3A+CiAgICAgICAgPC9saW5lYXJHcmFkaWVudD4KICAgICAgICA8bGluZWFyR3JhZGllbnQgeDE9Ii0yMjMuOTI4MTY5JSIgeTE9IjMwLjY4NjcxMjQlIiB4Mj0iNTc4Ljg1OTM0OCUiIHkyPSI4Ny4yODg5MDYxJSIgaWQ9ImxpbmVhckdyYWRpZW50LTUiPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjMDA3MUZGIiBvZmZzZXQ9IjAlIj48L3N0b3A+CiAgICAgICAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiMwMERERkYiIHN0b3Atb3BhY2l0eT0iMC43NSIgb2Zmc2V0PSIyMSUiPjwvc3RvcD4KICAgICAgICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzAwNkNGRiIgc3RvcC1vcGFjaXR5PSIwLjkyIiBvZmZzZXQ9IjQ2JSI+PC9zdG9wPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjMDBGQ0E3IiBvZmZzZXQ9IjcyJSI+PC9zdG9wPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjMDBBMkZGIiBvZmZzZXQ9IjEwMCUiPjwvc3RvcD4KICAgICAgICA8L2xpbmVhckdyYWRpZW50PgogICAgICAgIDxsaW5lYXJHcmFkaWVudCB4MT0iLTQuNzc2NDk0ODUlIiB5MT0iMzEuODI1ODAwNCUiIHgyPSIyMjYuNTkyODc5JSIgeTI9IjEwMy4zMjIxNjYlIiBpZD0ibGluZWFyR3JhZGllbnQtNiI+CiAgICAgICAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiMwMDcxRkYiIG9mZnNldD0iMCUiPjwvc3RvcD4KICAgICAgICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzAwRERGRiIgc3RvcC1vcGFjaXR5PSIwLjc1IiBvZmZzZXQ9IjIxJSI+PC9zdG9wPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjMDA2Q0ZGIiBzdG9wLW9wYWNpdHk9IjAuOTIiIG9mZnNldD0iNDYlIj48L3N0b3A+CiAgICAgICAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiMwMEZDQTciIG9mZnNldD0iNzIlIj48L3N0b3A+CiAgICAgICAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiMwMEEyRkYiIG9mZnNldD0iMTAwJSI+PC9zdG9wPgogICAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICAgICAgPGxpbmVhckdyYWRpZW50IHgxPSItMTEuMDAxOTQ4OCUiIHkxPSIzMi42NzI0NDU3JSIgeDI9IjMzMS4xMjk2MjklIiB5Mj0iMTA2LjMwMzU2MiUiIGlkPSJsaW5lYXJHcmFkaWVudC03Ij4KICAgICAgICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzAwNzFGRiIgb2Zmc2V0PSIwJSI+PC9zdG9wPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjMDBEREZGIiBzdG9wLW9wYWNpdHk9IjAuNzUiIG9mZnNldD0iMjElIj48L3N0b3A+CiAgICAgICAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiMwMDZDRkYiIHN0b3Atb3BhY2l0eT0iMC45MiIgb2Zmc2V0PSI0NiUiPjwvc3RvcD4KICAgICAgICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzAwRUFCOSIgb2Zmc2V0PSI3MiUiPjwvc3RvcD4KICAgICAgICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzAwQTJGRiIgb2Zmc2V0PSIxMDAlIj48L3N0b3A+CiAgICAgICAgPC9saW5lYXJHcmFkaWVudD4KICAgICAgICA8bGluZWFyR3JhZGllbnQgeDE9Ii0xMjkuMDUxNDQyJSIgeTE9IjExLjE5Mjk1NjElIiB4Mj0iMjEyLjk2NDYxNSUiIHkyPSI4NS4zNTM0Mjc5JSIgaWQ9ImxpbmVhckdyYWRpZW50LTgiPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjMDA3MUZGIiBvZmZzZXQ9IjAlIj48L3N0b3A+CiAgICAgICAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiMwMERERkYiIHN0b3Atb3BhY2l0eT0iMC43NSIgb2Zmc2V0PSIyMSUiPjwvc3RvcD4KICAgICAgICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzAwNkNGRiIgc3RvcC1vcGFjaXR5PSIwLjkyIiBvZmZzZXQ9IjQ2JSI+PC9zdG9wPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjMDBFQUI5IiBvZmZzZXQ9IjcyJSI+PC9zdG9wPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjMDBBMkZGIiBvZmZzZXQ9IjEwMCUiPjwvc3RvcD4KICAgICAgICA8L2xpbmVhckdyYWRpZW50PgogICAgICAgIDxsaW5lYXJHcmFkaWVudCB4MT0iLTI1My4xNDA1NDclIiB5MT0iLTIwLjkxNjM5MzklIiB4Mj0iMTA0LjUwODcwNiUiIHkyPSI2Mi43Nzg5MzQ4JSIgaWQ9ImxpbmVhckdyYWRpZW50LTkiPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjMDA3MUZGIiBvZmZzZXQ9IjAlIj48L3N0b3A+CiAgICAgICAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiMwMERERkYiIHN0b3Atb3BhY2l0eT0iMC43NSIgb2Zmc2V0PSIyMSUiPjwvc3RvcD4KICAgICAgICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzAwNkNGRiIgc3RvcC1vcGFjaXR5PSIwLjkyIiBvZmZzZXQ9IjQ2JSI+PC9zdG9wPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjMDBFQUI5IiBvZmZzZXQ9IjcyJSI+PC9zdG9wPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjMDBBMkZGIiBvZmZzZXQ9IjEwMCUiPjwvc3RvcD4KICAgICAgICA8L2xpbmVhckdyYWRpZW50PgogICAgICAgIDxsaW5lYXJHcmFkaWVudCB4MT0iMzYuMDY1MTAxNSUiIHkxPSI0Ny4wMTg4NzglIiB4Mj0iNDk1Ljk5MjY2OSUiIHkyPSIxNDUuOTYyMjU1JSIgaWQ9ImxpbmVhckdyYWRpZW50LTEwIj4KICAgICAgICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzAwNzFGRiIgb2Zmc2V0PSIwJSI+PC9zdG9wPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjMDBEREZGIiBzdG9wLW9wYWNpdHk9IjAuNzUiIG9mZnNldD0iMjElIj48L3N0b3A+CiAgICAgICAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiMwMDZDRkYiIHN0b3Atb3BhY2l0eT0iMC45MiIgb2Zmc2V0PSI0NiUiPjwvc3RvcD4KICAgICAgICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzAwRkNBNyIgb2Zmc2V0PSI3MiUiPjwvc3RvcD4KICAgICAgICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzAwQTJGRiIgb2Zmc2V0PSIxMDAlIj48L3N0b3A+CiAgICAgICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDwvZGVmcz4KICAgIDxnIGlkPSLpobXpnaItMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9IummlumhtSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTEzOC4wMDAwMDAsIC0yNi4wMDAwMDApIiBmaWxsLXJ1bGU9Im5vbnplcm8iPgogICAgICAgICAgICA8ZyBpZD0i57yW57uELTE0Ij4KICAgICAgICAgICAgICAgIDxnIGlkPSLnvJbnu4QiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEzOC4wMDAwMDAsIDI2LjAwMDAwMCkiPgogICAgICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik02Ljc1LDE2IEM2Ljg3MjcyOTk0LDE2IDYuOTc0ODA0MTksMTYuMDg4NDM3NiA2Ljk5NTk3MjE3LDE2LjIwNTA2MjIgTDcsMTYuMjUgTDcsMTcuNzUgQzcsMTcuODcyNzI5OSA2LjkxMTU2MjQyLDE3Ljk3NDgwNDIgNi43OTQ5Mzc4MiwxNy45OTU5NzIyIEw2Ljc1LDE4IEwxLjI1LDE4IEMxLjEyNzI3MDA2LDE4IDEuMDI1MTk1ODEsMTcuOTExNTYyNCAxLjAwNDAyNzgzLDE3Ljc5NDkzNzggTDEsMTcuNzUgTDEsMTYuMjUgQzEsMTYuMTI3MjcwMSAxLjA4ODQzNzU4LDE2LjAyNTE5NTggMS4yMDUwNjIxOCwxNi4wMDQwMjc4IEwxLjI1LDE2IEw2Ljc1LDE2IFoiIGlkPSLot6/lvoQiIGZpbGw9InVybCgjbGluZWFyR3JhZGllbnQtMSkiPjwvcGF0aD4KICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMTMuODgzNjAwOCwwLjI3MzAxMjYzMSBMMTQuNTA4NSwxLjQ5OTUgTDE0LjUwODUsMS40OTk1IEwxOC43NSwxLjQ5OTk3MjE3IEMxOC44ODgwNjAzLDEuNTAwMDE1MzcgMTguOTk5OTcyMiwxLjYxMTkzOTY4IDE5LDEuNzUgTDE5LDMuMjUgQzE5LDMuMzg4MDcxMTkgMTguODg4MDcxMiwzLjUgMTguNzUsMy41IEwxMi43MTgsMy41IEwxMi43MTgsMy41IEwxMC43MzMsNy41IEwxNi4yNDc1LDcuNDk5NSBMMTUuMTgwNDk1Niw1LjM2MTY0MjI4IEMxNS4xMTg4MzczLDUuMjM4MTAzMjEgMTUuMTY5MDAxNSw1LjA4Nzk3MTA1IDE1LjI5MjU0MDYsNS4wMjYzMTI3MiBDMTUuMzI3MjEyNSw1LjAwOTAwNzk3IDE1LjM2NTQzMjUsNSAxNS40MDQxODI5LDUgTDE2Ljk0NDk5NTQsNSBDMTcuMTM0NTE4NCw1IDE3LjMwNzc1MDYsNS4xMDcxNTQzOSAxNy4zOTIzNzg5LDUuMjc2NzMzMjkgTDE4Ljc3ODEwNzYsOC4wNTM0NjY1OCBDMTkuMDI0NzIxMiw4LjU0NzYzMjczIDE4LjgyNDA0MDIsOS4xNDgxNTMzNiAxOC4zMjk4NzQsOS4zOTQ3NjY5NiBDMTguMTkxMTk1Nyw5LjQ2Mzk3NDM4IDE4LjAzODMyODgsOS41IDE3Ljg4MzM0MDYsOS41IEwxNi40OTk1LDkuNSBMMTYuNDk5NSw5LjUgTDE2LjUsMTUuNzUgQzE2LjUsMTUuODcyNzI5OSAxNi41ODg0Mzc2LDE1Ljk3NDgwNDIgMTYuNzA1MDYyMiwxNS45OTU5NzIyIEwxNi43NSwxNiBMMTguNzUsMTYgQzE4Ljg3MjcyOTksMTYgMTguOTc0ODA0MiwxNi4wODg0Mzc2IDE4Ljk5NTk3MjIsMTYuMjA1MDYyMiBMMTksMTYuMjUgTDE5LDE3Ljc1IEMxOSwxNy44NzI3Mjk5IDE4LjkxMTU2MjQsMTcuOTc0ODA0MiAxOC43OTQ5Mzc4LDE3Ljk5NTk3MjIgTDE4Ljc1LDE4IEwxNS45MDY5MTcyLDE4IEMxNS4xNjgzNzM2LDE4IDE0LjU0NzU3OTIsMTcuNDMzIDE0LjUwMjYwNzYsMTYuNjk3MDQ0NCBMMTQuNSwxNi42MTEzOTkzIEwxNC40OTk1LDkuNSBMMTIuNDk5NSw5LjUgTDEyLjUsMTQuMzAwMjk5IEMxMi41LDE2LjMwODY2OTggMTAuODc0NzcwMiwxNy45MzUwOTU3IDguODU3MDI1ODIsMTcuOTk4MTA1IEw4LjczNTUsMTggTDguMjUsMTggQzguMTI3MjcwMDYsMTggOC4wMjUxOTU4MSwxNy45MTE1NjI0IDguMDA0MDI3ODMsMTcuNzk0OTM3OCBMOCwxNy43NSBMOCwxNi4yNSBDOCwxNi4xMjcyNzAxIDguMDg4NDM3NTgsMTYuMDI1MTk1OCA4LjIwNTA2MjE4LDE2LjAwNDAyNzggTDguMjUsMTYgTDguNzM1NSwxNiBDOS42ODIzOTIyMiwxNiAxMC40NDc0NTM0LDE1LjI4MzczNSAxMC40OTc0MDUzLDE0LjM5MzAzOTkgTDEwLjUsMTQuMzAwMjk5IEwxMC40OTk1LDkuNSBMOS4xMTIyNTA4Nyw5LjUgQzguNTU5OTY2MTIsOS41IDguMTEyMjUwODcsOS4wNTIyODQ3NSA4LjExMjI1MDg3LDguNSBDOC4xMTIyNTA4Nyw4LjM0NTgzNzY2IDguMTQ3ODkzNyw4LjE5Mzc2MjY5IDguMjE2Mzk0OSw4LjA1NTY1NTQ0IEwxMC40NzYsMy41IEwxMC40NzYsMy41IEw4LjI1LDMuNSBDOC4xMTE5Mjg4MSwzLjUgOCwzLjM4ODA3MTE5IDgsMy4yNSBMOCwxLjc1IEM4LDEuNjExOTI4ODEgOC4xMTE5Mjg4MSwxLjUgOC4yNSwxLjUgTDEyLjI2NCwxLjUgTDEyLjI2NCwxLjUgTDExLjY4NTEyNDIsMC4zNjM0NjM2NDcgQzExLjYyMjQ1OTksMC4yNDA0MzE3NTggMTEuNjcxMzk3NiwwLjA4OTg5NTMwMTUgMTEuNzk0NDI5NCwwLjAyNzIzMTA1OTYgQzExLjgyOTU3MzIsMC4wMDkzMzExNjU4NCAxMS44Njg0NTM0LDYuMjc1NjEwODZlLTE3IDExLjkwNzg5MzEsMCBMMTMuNDM4MDkzNSwwIEMxMy42MjYxMTYyLC0yLjU2NTgzODAxZS0xNiAxMy43OTgyNDMzLDAuMTA1NDgxNzMyIDEzLjg4MzYwMDgsMC4yNzMwMTI2MzEgWiIgaWQ9Iui3r+W+hCIgZmlsbD0idXJsKCNsaW5lYXJHcmFkaWVudC0yKSI+PC9wYXRoPgogICAgICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0zNC44ODM1ODUsMC4yNzMwNzI3MDYgTDM1LjUwODUsMS41IEwzNS41MDg1LDEuNSBMNDAuMjUsMS41IEM0MC4zNzI3Mjk5LDEuNSA0MC40NzQ4MDQyLDEuNTg4NDM3NTggNDAuNDk1OTcyMiwxLjcwNTA2MjE4IEw0MC41LDEuNzUgTDQwLjUsMy4yNSBDNDAuNSwzLjM3MjcyOTk0IDQwLjQxMTU2MjQsMy40NzQ4MDQxOSA0MC4yOTQ5Mzc4LDMuNDk1OTcyMTcgTDQwLjI1LDMuNSBMMjguNzUsMy41IEMyOC42MjcyNzAxLDMuNSAyOC41MjUxOTU4LDMuNDExNTYyNDIgMjguNTA0MDI3OCwzLjI5NDkzNzgyIEwyOC41LDMuMjUgTDI4LjUsMS43NSBDMjguNSwxLjYyNzI3MDA2IDI4LjU4ODQzNzYsMS41MjUxOTU4MSAyOC43MDUwNjIyLDEuNTA0MDI3ODMgTDI4Ljc1LDEuNSBMMzMuMjY0LDEuNSBMMzIuNjg1MTI0MiwwLjM2MzQ2MzY0NyBDMzIuNjIyNDU5OSwwLjI0MDQzMTc1OCAzMi42NzEzOTc2LDAuMDg5ODk1MzAxNSAzMi43OTQ0Mjk0LDAuMDI3MjMxMDU5NiBDMzIuODI5NTczMiwwLjAwOTMzMTE2NTg0IDMyLjg2ODQ1MzQsLTEuNjAyNTc4NDNlLTE1IDMyLjkwNzg5MzEsLTEuMzMyMjY3NjNlLTE1IEwzNC40MzgwNDcyLC0xLjMzMjI2NzYzZS0xNSBDMzQuNjI2MDk0LC0xLjM2NjgxMTI4ZS0xNSAzNC43OTgyMzkxLDAuMTA1NTA4NjggMzQuODgzNTg1LDAuMjczMDcyNzA2IFoiIGlkPSLot6/lvoQiIGZpbGw9InVybCgjbGluZWFyR3JhZGllbnQtMykiPjwvcGF0aD4KICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMjguNzUsNyBMNDAuMjUsNyBDNDAuMzg4MDcxMiw3IDQwLjUsNi44ODgwNzExOSA0MC41LDYuNzUgTDQwLjUsNS4yNSBDNDAuNSw1LjExMTkyODgxIDQwLjM4ODA3MTIsNSA0MC4yNSw1IEwyOC43NSw1IEMyOC42MTE5Mjg4LDUgMjguNSw1LjExMTkyODgxIDI4LjUsNS4yNSBMMjguNSw2Ljc1IEMyOC41LDYuODg4MDcxMTkgMjguNjExOTI4OCw3IDI4Ljc1LDcgWiIgaWQ9IlN0cm9rZS0xNSIgZmlsbD0idXJsKCNsaW5lYXJHcmFkaWVudC00KSI+PC9wYXRoPgogICAgICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0yOC43NSwxMCBMNDAuMywxMCBDNDAuNDEwNDU2OSwxMCA0MC41LDkuOTEwNDU2OTUgNDAuNSw5LjggTDQwLjUsOC4yIEM0MC41LDguMDg5NTQzMDUgNDAuNDEwNDU2OSw4IDQwLjMsOCBMMjguNzUsOCBDMjguNjExOTI4OCw4IDI4LjUsOC4xMTE5Mjg4MSAyOC41LDguMjUgTDI4LjUsOS43NSBDMjguNSw5Ljg4ODA3MTE5IDI4LjYxMTkyODgsMTAgMjguNzUsMTAgWiIgaWQ9IlN0cm9rZS0xNyIgZmlsbD0idXJsKCNsaW5lYXJHcmFkaWVudC00KSI+PC9wYXRoPgogICAgICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0yOS4yNSwxOCBMMzguNSwxOCBDMzkuNjA0NTY5NSwxOCA0MC41LDE3LjEwNDU2OTUgNDAuNSwxNiBMNDAuNSwxMi4yNSBDNDAuNSwxMS44MzU3ODY0IDQwLjE2NDIxMzYsMTEuNSAzOS43NSwxMS41IEwyOS4yNSwxMS41IEMyOC44MzU3ODY0LDExLjUgMjguNSwxMS44MzU3ODY0IDI4LjUsMTIuMjUgTDI4LjUsMTcuMjUgQzI4LjUsMTcuNjY0MjEzNiAyOC44MzU3ODY0LDE4IDI5LjI1LDE4IFogTTMwLjUsMTYgTDMwLjUsMTMuNSBMMzguNSwxMy41IEwzOC41LDE1LjI1IEMzOC41LDE1LjY2NDIxMzYgMzguMTY0MjEzNiwxNiAzNy43NSwxNiBMMzAuNSwxNiBMMzAuNSwxNiBaIiBpZD0iU3Ryb2tlLTI3IiBmaWxsPSJ1cmwoI2xpbmVhckdyYWRpZW50LTUpIj48L3BhdGg+CiAgICAgICAgICAgICAgICAgICAgPHBhdGggZD0iTTI4LjM5NjA4OCwwIEMyOC41MzQxNTkyLDEuMzUzMzQyNTVlLTE1IDI4LjY0NjA4OCwwLjExMTkyODgxMyAyOC42NDYwODgsMC4yNSBDMjguNjQ2MDg4LDAuMzAyNTYzNTQgMjguNjI5NTIwMiwwLjM1Mzc4OTg0NCAyOC41OTg3Mzk0LDAuMzk2Mzk4MTQxIEwyNi40OTkwMTQ4LDMuMzAxIEwyNi41LDE3Ljc1IEMyNi41LDE3Ljg2ODM0NjcgMjYuNDE3NzY2NiwxNy45Njc0ODY4IDI2LjMwNzMyMjcsMTcuOTkzMzk3MyBMMjYuMjUsMTggTDI0Ljc1LDE4IEMyNC42MTE5Mjg4LDE4IDI0LjUsMTcuODg4MDcxMiAyNC41LDE3Ljc1IEwyNC41LDE3Ljc1IEwyNC40OTkwMTQ4LDYuMDcgTDIzLjYxNjY4NjgsNy4yOTI3OTYyOCBDMjMuNTIyNjgxNyw3LjQyMjkyMjY4IDIzLjM3MTkxMzksNy41IDIzLjIxMTM4NCw3LjUgTDIxLjQ4OTAxNDgsNy41IEMyMS4zNTA5NDM3LDcuNSAyMS4yMzkwMTQ4LDcuMzg4MDcxMTkgMjEuMjM5MDE0OCw3LjI1IEMyMS4yMzkwMTQ4LDcuMTk3NDM2NDYgMjEuMjU1NTgyNiw3LjE0NjIxMDE2IDIxLjI4NjM2MzUsNy4xMDM2MDE4NiBMMjYuMjY4NDE2MSwwLjIwNzIwMzcxOCBDMjYuMzYyNDIxMiwwLjA3NzA3NzMxNTggMjYuNTEzMTg5LDIuNTE1MzM0NjRlLTE2IDI2LjY3MzcxODgsMCBMMjguMzk2MDg4LDAgWiIgaWQ9IuW9oueKtue7k+WQiCIgZmlsbD0idXJsKCNsaW5lYXJHcmFkaWVudC02KSI+PC9wYXRoPgogICAgICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik00NC41LDIgTDQ0LjUsOC41IEw0NC41LDguNSBDNDQuNSwxMy4xOTQyODQ3IDQ4LjMwNTcxNTMsMTcgNTMsMTcgQzU3LjY5NDI4NDcsMTcgNjEuNSwxMy4xOTQyODQ3IDYxLjUsOC41IEw2MS41LDIgQzYxLjUsMS40NDc3MTUyNSA2MS4wNTIyODQ3LDEgNjAuNSwxIEM1OS45NDc3MTUzLDEgNTkuNSwxLjQ0NzcxNTI1IDU5LjUsMiBMNTkuNSw4LjUgTDU5LjUsOC41IEM1OS41LDEyLjA4OTcxNTMgNTYuNTg5NzE1MywxNSA1MywxNSBDNDkuNDEwMjg0NywxNSA0Ni41LDEyLjA4OTcxNTMgNDYuNSw4LjUgTDQ2LjUsMiBDNDYuNSwxLjQ0NzcxNTI1IDQ2LjA1MjI4NDcsMSA0NS41LDEgQzQ0Ljk0NzcxNTMsMSA0NC41LDEuNDQ3NzE1MjUgNDQuNSwyIFoiIGlkPSLot6/lvoQiIGZpbGw9InVybCgjbGluZWFyR3JhZGllbnQtNykiPjwvcGF0aD4KICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNNzUuNzk4LDE3IEw3Mi4yMDI1LDE3IEM2OC41MDExNDcsMTcgNjUuNSwxMy45OTkyMTY1IDY1LjUsMTAuMjk4IEw2NS41LDcuNzAyIEM2NS41LDQuMDAwNzgzNDkgNjguNTAxMTQ3LDEgNzIuMjAyNSwxIEw3NS43OTgsMSBDNzkuNDk5Mjg0NywxIDgyLjUsNC4wMDA3MTUyNSA4Mi41LDcuNzAyIEw4Mi41LDEwLjI5OCBDODIuNSwxMy45OTkyODQ3IDc5LjQ5OTI4NDcsMTcgNzUuNzk4LDE3IFogTTc1Ljc5OCwxNSBDNzguMzk0NzE1MywxNSA4MC41LDEyLjg5NDcxNTMgODAuNSwxMC4yOTggTDgwLjUsNy43MDIgQzgwLjUsNS4xMDUyODQ3NSA3OC4zOTQ3MTUzLDMgNzUuNzk4LDMgTDcyLjIwMjUsMyBDNjkuNjA1NjYyMywzIDY3LjUsNS4xMDU0MDcyMiA2Ny41LDcuNzAyIEw2Ny41LDEwLjI5OCBDNjcuNSwxMi44OTQ1OTI4IDY5LjYwNTY2MjMsMTUgNzIuMjAyNSwxNSBMNzUuNzk4LDE1IFoiIGlkPSJTdHJva2UtMjEiIGZpbGw9InVybCgjbGluZWFyR3JhZGllbnQtOCkiPjwvcGF0aD4KICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNOTcsOCBDOTkuNDg1Mjg0Nyw4IDEwMS41LDEwLjAxNDcxNTMgMTAxLjUsMTIuNSBDMTAxLjUsMTQuOTg1Mjg0NyA5OS40ODUyODQ3LDE3IDk3LDE3IEw5NywxNyBMODcuNSwxNyBDODYuOTQ3NzE1MywxNyA4Ni41LDE2LjU1MjI4NDcgODYuNSwxNiBDODYuNSwxNS40NDc3MTUzIDg2Ljk0NzcxNTMsMTUgODcuNSwxNSBMODcuNSwxNSBMOTcsMTUgQzk4LjM4MDcxNTMsMTUgOTkuNSwxMy44ODA3MTUzIDk5LjUsMTIuNSBDOTkuNSwxMS4xMTkyODQ3IDk4LjM4MDcxNTMsMTAgOTcsMTAgTDk3LDEwIEw5MCwxMCBDODcuNTE0NzE1MywxMCA4NS41LDcuOTg1Mjg0NzUgODUuNSw1LjUgQzg1LjUsMy4wMTQ3MTUyNSA4Ny41MTQ3MTUzLDEgOTAsMSBMOTAsMSBMOTkuNSwxIEMxMDAuMDUyMjg1LDEgMTAwLjUsMS40NDc3MTUyNSAxMDAuNSwyIEMxMDAuNSwyLjU1MjI4NDc1IDEwMC4wNTIyODUsMyA5OS41LDMgTDk5LjUsMyBMOTAsMyBDODguNjE5Mjg0NywzIDg3LjUsNC4xMTkyODQ3NSA4Ny41LDUuNSBDODcuNSw2Ljg4MDcxNTI1IDg4LjYxOTI4NDcsOCA5MCw4IEw5MCw4IFoiIGlkPSLlvaLnirbnu5PlkIgiIGZpbGw9InVybCgjbGluZWFyR3JhZGllbnQtOSkiIG9wYWNpdHk9IjAuOTciPjwvcGF0aD4KICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNNi4yOTQ5NzI2OSwwLjM3MDkzNzU2NyBMMy40Niw1LjUgTDMuNDYsNS41IEw0LjU3NDUsNS41IEw2LjQxMTk4NTc0LDUuNSBDNi41NTAwNTY5Myw1LjUgNi42NjE5ODU3NCw1LjYxMTkyODgxIDYuNjYxOTg1NzQsNS43NSBDNi42NjE5ODU3NCw1Ljc4OTQ2MjA3IDYuNjUyNjQ0LDUuODI4MzYzNjQgNi42MzQ3MjQ2NSw1Ljg2MzUyMjYgTDMuNzYyLDExLjUgTDMuNzYyLDExLjUgTDYuNzUsMTEuNSBDNi44ODgwNzExOSwxMS41IDcsMTEuNjExOTI4OCA3LDExLjc1IEw3LDEzLjI1IEM3LDEzLjM4ODA3MTIgNi44ODgwNzExOSwxMy41IDYuNzUsMTMuNSBMMi41LDEzLjUgTDIuNSwxMy41IEwxLjcyMzY3OTI3LDEzLjUgQzEuMzA5NDY1NzEsMTMuNSAwLjk3MzY3OTI3NCwxMy4xNjQyMTM2IDAuOTczNjc5Mjc0LDEyLjc1IEMwLjk3MzY3OTI3NCwxMi42MzE2ODA5IDEuMDAxNjcyNzcsMTIuNTE1MDQwNCAxLjA1NTM3MjQ1LDEyLjQwOTYwOTEgTDMuNTU2LDcuNSBMMy41NTYsNy41IEwxLjUyNTY4ODA5LDcuNSBDMS4wMjg2MzE4MSw3LjUgMC42MjU2ODgwODgsNy4wOTcwNTYyNyAwLjYyNTY4ODA4OCw2LjYgQzAuNjI1Njg4MDg4LDYuNDQ3NzI2NTYgMC42NjQzMjM3MTgsNi4yOTc5NDI2OCAwLjczNzk3ODcxOSw2LjE2NDY2OCBMNC4wMDIyNDk2MywwLjI1ODE0ODg4OSBDNC4wOTAyNzQxNywwLjA5ODg3MzMxNTQgNC4yNTc4ODUxLDMuNjY0OTYyNDZlLTE2IDQuNDM5ODY1OTUsMCBMNi4wNzYxNzExNywwIEM2LjIxNDI0MjM2LC05LjEzNTQxNjg1ZS0xNiA2LjMyNjE3MTE3LDAuMTExOTI4ODEzIDYuMzI2MTcxMTcsMC4yNSBDNi4zMjYxNzExNywwLjI5MjMwMjgyNiA2LjMxNTQzNjY5LDAuMzMzOTEzODc2IDYuMjk0OTcyNjksMC4zNzA5Mzc1NjcgWiIgaWQ9Iui3r+W+hCIgZmlsbD0idXJsKCNsaW5lYXJHcmFkaWVudC0xMCkiPjwvcGF0aD4KICAgICAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgPC9nPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+';
 
 class TopBarComponent {
     constructor(sanitizer, nzIcon) {
@@ -169,8 +162,7 @@ class TopBarComponent {
         this.userText = ''; // 用户头像区域显示的文本内容
         this.userActions = []; // 用户区域下拉选项列表
         this.userEvent = new EventEmitter();
-        this.logoBase64 = this.sanitizer.bypassSecurityTrustUrl(logoBase64);
-        this.defaultUserBase64 = defaultUserBase64;
+        this.logoBase64 = this.sanitizer.bypassSecurityTrustResourceUrl(logobase64);
         this.searchContorl = new FormControl();
         nzIcon.addIcon(DownOutline, UserOutline);
     }
@@ -209,9 +201,9 @@ class TopBarComponent {
 TopBarComponent.decorators = [
     { type: Component, args: [{
                 selector: 'gk-top-bar',
-                template: "<div class=\"gk-top-bar-container\">\n    <div class=\"gk-topbar-left-container clearfix\">\n        <div class=\"gk-topbar-logo-container\">\n            <ng-container *ngIf=\"logo_content.childNodes.length == 0\">\n                <div class=\"gk-logo-default\">\n                    <img class=\"gk-logo-img\" [src]=\"logoSrc || logoBase64\" alt=\"\" />\n                    <a class=\"gk-logo-link\" *ngIf=\"logoHref\" [routerLink]=\"[logoHref]\"></a>\n                </div>\n            </ng-container>\n\n            <div #logo_content class=\"gk-topbar-logo-content\">\n                <ng-content select=\"#logo\"></ng-content>\n            </div>\n        </div>\n        <div class=\"gk-topbar-menu-container\" *ngIf='topMenus && topMenus.length'>\n            <div class=\"menu\">\n                <ul class=\"gk-title-stress\">\n                    <ng-container *ngFor=\"let firstMenu of topMenus\">\n                        <li *ngIf=\"$any(firstMenu).children\">\n                            <a nz-dropdown class=\"gk-title\" [nzDropdownMenu]=\"childMenu\">\n                                <gk-icon [type]=\"firstMenu.icon\" style=\"margin-right: 3px;\"></gk-icon>\n                                <span>{{ firstMenu.label }}</span>\n                                <gk-icon type=\"down\"></gk-icon>\n                            </a>\n                            <nz-dropdown-menu #childMenu=\"nzDropdownMenu\">\n                                <ul nz-menu nzSelectable class=\"gk-top-bar-dropdown\">\n                                    <li *ngFor=\"let secondMenu of $any(firstMenu).children\" nz-menu-item>\n                                        <a [routerLink]=\"[secondMenu.path]\" [queryParams]=\"secondMenu.queryParams\"\n                                            class=\"gk-title-minor\">{{ secondMenu.label }}</a>\n                                    </li>\n                                </ul>\n                            </nz-dropdown-menu>\n                        </li>\n                        <li *ngIf=\"!$any(firstMenu).children\">\n                            <a class=\"gk-title\" [routerLink]=\"[$any(firstMenu).path]\"\n                                [queryParams]=\"$any(firstMenu).queryParams\">\n                                <gk-icon [type]=\"firstMenu.icon\" style=\"margin-right: 3px;\"></gk-icon>\n                                <span>{{ firstMenu.label }}</span>\n                            </a>\n                        </li>\n                    </ng-container>\n\n                </ul>\n            </div>\n        </div>\n\n        <gk-top-search *ngIf='searchLeft' [control]='searchContorl' [searchPlaceholder]=\"searchPlaceholder\"\n            (doSearch)='searchEvent.emit(searchContorl.value)'></gk-top-search>\n\n        <div class=\"gk-topbar-left-content\">\n            <ng-content select=\"#left\"></ng-content>\n        </div>\n    </div>\n\n    <div class=\"gk-topbar-right-container clearfix\">\n        <div class=\"gk-topbar-right-content\">\n            <ng-content select=\"#right\"></ng-content>\n        </div>\n\n        <gk-top-search *ngIf='searchRight' [control]='searchContorl' [searchPlaceholder]=\"searchPlaceholder\"\n            (doSearch)='searchEvent.emit(searchContorl.value)'></gk-top-search>\n\n        <div class=\"gk-topbar-fastbtns-container\" *ngIf='topFast?.length'>\n            <div class=\"fastbtns\">\n                <ng-container *ngFor=\"let child of topFast\">\n                    <a class=\"gk-title-minor gk-topbar-fastbtns-item\" [routerLink]='[child.path]'>\n                        <gk-icon [type]=\"child.icon\" style=\"margin-right: 3px;\"></gk-icon>\n                        <span>{{ child.label }}</span>\n                    </a>\n                </ng-container>\n            </div>\n        </div>\n        <div *ngIf=\"user\" class=\"gk-topbar-user-container\">\n            <ng-container *ngIf=\"!(userActions && userActions.length)\">\n                <div class=\"user\">\n                    <nz-avatar nzIcon=\"user\" [nzSize]=\"32\" [nzSrc]=\"userAvatar || defaultUserBase64\"></nz-avatar>\n                    <span *ngIf=\"userText\" style=\"margin-left: 5px;\">{{ userText }}</span>\n                </div>\n            </ng-container>\n            <ng-container *ngIf=\"userActions && userActions.length\">\n                <div class=\"user\" nz-dropdown [nzDropdownMenu]=\"menu\">\n                    <nz-avatar nzIcon=\"user\" [nzSize]=\"32\" [nzSrc]=\"userAvatar || defaultUserBase64\"></nz-avatar>\n                    <span *ngIf=\"userText\" style=\"margin-left: 5px;\">{{ userText }}</span>\n                    <gk-icon type=\"down\" style=\"margin-left: 5px;\"></gk-icon>\n                </div>\n                <nz-dropdown-menu #menu=\"nzDropdownMenu\">\n                    <ul nz-menu>\n                        <li nz-menu-item *ngFor=\"let item of userActions\" (click)=\"userEvent.emit(item)\">\n                            <gk-icon [type]=\"item.icon\" style=\"margin-right: 3px;\"></gk-icon>\n                            <span>{{ item.label }}</span>\n                        </li>\n                    </ul>\n                </nz-dropdown-menu>\n            </ng-container>\n        </div>\n    </div>\n</div>\n",
+                template: "<div class=\"gk-top-bar-container\">\n    <div class=\"gk-topbar-left-container clearfix\">\n        <div class=\"gk-topbar-logo-container\">\n            <ng-container *ngIf=\"logo_content.childNodes.length == 0\">\n                <div class=\"gk-logo-default\">\n                    <img class=\"gk-logo-img\" [src]=\"logoSrc?logoSrc:logoBase64\" alt=\"\" />\n                    <a class=\"gk-logo-link\" *ngIf=\"logoHref\" [routerLink]=\"[logoHref]\"></a>\n                </div>\n            </ng-container>\n\n            <div #logo_content class=\"gk-topbar-logo-content\">\n                <ng-content select=\"#logo\"></ng-content>\n            </div>\n        </div>\n        <div class=\"gk-topbar-menu-container\" *ngIf='topMenus && topMenus.length'>\n            <div class=\"menu\">\n                <ul class=\"gk-title-stress\">\n                    <ng-container *ngFor=\"let firstMenu of topMenus\">\n                        <li *ngIf=\"$any(firstMenu).children\">\n                            <a nz-dropdown class=\"gk-title\" [nzDropdownMenu]=\"childMenu\">\n                                <gk-icon [type]=\"firstMenu.icon\" style=\"margin-right: 3px;\"></gk-icon>\n                                <span>{{ firstMenu.label }}</span>\n                                <gk-icon type=\"down\"></gk-icon>\n                            </a>\n                            <nz-dropdown-menu #childMenu=\"nzDropdownMenu\">\n                                <ul nz-menu nzSelectable class=\"gk-top-bar-dropdown\">\n                                    <li *ngFor=\"let secondMenu of $any(firstMenu).children\" nz-menu-item>\n                                        <a [routerLink]=\"[secondMenu.path]\" [queryParams]=\"secondMenu.queryParams\"\n                                            class=\"gk-title-minor\">{{ secondMenu.label }}</a>\n                                    </li>\n                                </ul>\n                            </nz-dropdown-menu>\n                        </li>\n                        <li *ngIf=\"!$any(firstMenu).children\">\n                            <a class=\"gk-title\" [routerLink]=\"[$any(firstMenu).path]\"\n                                [queryParams]=\"$any(firstMenu).queryParams\">\n                                <gk-icon [type]=\"firstMenu.icon\" style=\"margin-right: 3px;\"></gk-icon>\n                                <span>{{ firstMenu.label }}</span>\n                            </a>\n                        </li>\n                    </ng-container>\n\n                </ul>\n            </div>\n        </div>\n\n        <gk-top-search *ngIf='searchLeft' [control]='searchContorl' [searchPlaceholder]=\"searchPlaceholder\"\n            (doSearch)='searchEvent.emit(searchContorl.value)'></gk-top-search>\n\n        <div class=\"gk-topbar-left-content\">\n            <ng-content select=\"#left\"></ng-content>\n        </div>\n    </div>\n\n    <div class=\"gk-topbar-right-container clearfix\">\n        <div class=\"gk-topbar-right-content\">\n            <ng-content select=\"#right\"></ng-content>\n        </div>\n\n        <gk-top-search *ngIf='searchRight' [control]='searchContorl' [searchPlaceholder]=\"searchPlaceholder\"\n            (doSearch)='searchEvent.emit(searchContorl.value)'></gk-top-search>\n\n        <div class=\"gk-topbar-fastbtns-container\" *ngIf='topFast?.length'>\n            <div class=\"fastbtns\">\n                <ng-container *ngFor=\"let child of topFast\">\n                    <a class=\"gk-title-minor gk-topbar-fastbtns-item\" [routerLink]='[child.path]'>\n                        <gk-icon [type]=\"child.icon\" style=\"margin-right: 3px;\"></gk-icon>\n                        <span>{{ child.label }}</span>\n                    </a>\n                </ng-container>\n            </div>\n        </div>\n        <div class=\"gk-topbar-user-container\" *ngIf='user'>\n            <ng-container *ngIf='userActions.length'>\n                <div class=\"user\" nz-dropdown [nzDropdownMenu]=\"menu\">\n                    <nz-avatar nzIcon=\"user\" [nzSize]=\"30\" [nzSrc]=\"userAvatar\"\n                        [ngClass]=\"{'without-usericon':!userAvatar}\"></nz-avatar>\n                    <span *ngIf=\"userText\" style=\"margin-left: 3px;\">{{userText}}</span>\n                    <gk-icon *ngIf=\"userActions.length\" type=\"down\" style=\"margin-left: 5px;\"></gk-icon>\n                </div>\n                <nz-dropdown-menu #menu=\"nzDropdownMenu\">\n                    <ul nz-menu>\n                        <li nz-menu-item *ngFor=\"let item of userActions\" (click)=\"userEvent.emit(item)\">\n                            <gk-icon [type]=\"item.icon\" style=\"margin-right: 3px;\"></gk-icon>\n                            <span>{{ item.label }}</span>\n                        </li>\n                    </ul>\n                </nz-dropdown-menu>\n            </ng-container>\n            <ng-container *ngIf='!userActions.length'>\n                <div class=\"user\">\n                    <nz-avatar nzIcon=\"user\" [nzSize]=\"30\" [nzSrc]=\"userAvatar\"\n                        [ngClass]=\"{'without-usericon':!userAvatar}\"></nz-avatar>\n                    <span *ngIf=\"userText\">{{ userText }}</span>\n                </div>\n            </ng-container>\n        </div>\n    </div>\n</div>\n",
                 encapsulation: ViewEncapsulation.None,
-                styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled),.gk-top-bar-dropdown a:hover{color:#3266fb}.gk-top-bar-dropdown i{margin-right:4px}.gk-top-bar-dropdown .gk-topbar-no-icon a,.gk-top-bar-dropdown .gk-topbar-no-icon span{margin-left:19px;padding-left:0}.gk-top-bar-container{background:#fff;height:72px;overflow-y:hidden;width:100%}.gk-top-bar-container .clearfix:after{clear:both;content:\"\";display:block;height:0;visibility:hidden}.gk-top-bar-container .cursor-default{cursor:default}.gk-top-bar-container .gk-topbar-search-container{float:left;height:72px;line-height:72px;margin-right:71px}.gk-top-bar-container .gk-topbar-search-container .ant-input-affix-wrapper{background:#f7f8fa;color:#000;outline:none;vertical-align:middle;width:168px}.gk-top-bar-container .gk-topbar-search-container .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-focused){border:1px solid transparent}.gk-top-bar-container .gk-topbar-search-container .ant-input-affix-wrapper input{background:#f7f8fa;color:#000}.gk-top-bar-container .gk-topbar-left-container{float:left}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-logo-container{float:left;height:72px;min-width:208px;position:relative}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-logo-container .gk-logo-default{display:inline-block;height:100%;width:208px}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-logo-container .gk-logo-default .gk-logo-img{border:none;left:50%;max-height:100%;max-width:100%;position:absolute;top:50%;transform:translate(-50%,-50%)}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-logo-container .gk-logo-default .gk-logo-link{height:100%;position:absolute;width:100%}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container{align-items:center;display:flex;float:left;height:72px;justify-content:center;margin-left:16px}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu>ul>li{float:left;list-style:none;margin-right:46px}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu>ul>li .submenu li{list-style:none;width:100%}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu ul{margin:0;padding:0}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu ul:after,.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu ul:before{clear:both;content:\"\";display:block}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu ul li{list-style:none}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu ul li a{color:#595959}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu ul li a:hover{color:#3266fb}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu ul li .anticon-down{font-size:10px;margin-left:4px}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-left-content{float:left;height:100%;overflow:hidden}.gk-top-bar-container .gk-topbar-right-container{float:right;height:72px;line-height:72px;margin-right:28px}.gk-top-bar-container .gk-topbar-right-container .gk-topbar-right-content{float:left;height:100%;line-height:normal;margin-right:28px;overflow:hidden}.gk-top-bar-container .gk-topbar-right-container .gk-topbar-fastbtns-container{color:#333;float:left;margin-right:34px}.gk-top-bar-container .gk-topbar-right-container .gk-topbar-fastbtns-container .gk-topbar-fastbtns-item{margin-left:10px}.gk-top-bar-container .gk-topbar-right-container .gk-topbar-user-container{float:left}"]
+                styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled),.gk-top-bar-dropdown a:hover{color:#3266fb}.gk-top-bar-dropdown i{margin-right:4px}.gk-top-bar-dropdown .gk-topbar-no-icon a,.gk-top-bar-dropdown .gk-topbar-no-icon span{margin-left:19px;padding-left:0}.gk-top-bar-container{background:#fff;height:72px;overflow-y:hidden;width:100%}.gk-top-bar-container .clearfix:after{clear:both;content:\"\";display:block;height:0;visibility:hidden}.gk-top-bar-container .cursor-default{cursor:default}.gk-top-bar-container .gk-topbar-search-container{float:left;height:72px;line-height:72px;margin-right:71px}.gk-top-bar-container .gk-topbar-search-container .ant-input-affix-wrapper{background:#f7f8fa;color:#000;outline:none;width:168px}.gk-top-bar-container .gk-topbar-search-container .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-focused){border:1px solid transparent}.gk-top-bar-container .gk-topbar-search-container .ant-input-affix-wrapper input{background:#f7f8fa;color:#000}.gk-top-bar-container .gk-topbar-left-container{float:left}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-logo-container{float:left;height:72px;min-width:208px;position:relative}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-logo-container .gk-logo-default{display:inline-block;height:100%;width:208px}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-logo-container .gk-logo-default .gk-logo-img{border:none;left:50%;max-height:100%;max-width:100%;position:absolute;top:50%;transform:translate(-50%,-50%)}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-logo-container .gk-logo-default .gk-logo-link{height:100%;position:absolute;width:100%}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container{align-items:center;display:flex;float:left;height:72px;justify-content:center;margin-left:16px}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu>ul>li{float:left;list-style:none;margin-right:46px}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu>ul>li .submenu li{list-style:none;width:100%}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu ul{margin:0;padding:0}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu ul:after,.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu ul:before{clear:both;content:\"\";display:block}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu ul li{list-style:none}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu ul li a{color:#595959}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu ul li a:hover{color:#3266fb}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu ul li .anticon-down{font-size:10px;margin-left:4px}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-left-content{float:left;height:100%;overflow:hidden}.gk-top-bar-container .gk-topbar-right-container{float:right;height:72px;line-height:72px;margin-right:28px}.gk-top-bar-container .gk-topbar-right-container .gk-topbar-right-content{float:left;height:100%;line-height:normal;margin-right:28px;overflow:hidden}.gk-top-bar-container .gk-topbar-right-container .gk-topbar-fastbtns-container{color:#333;float:left;margin-right:34px}.gk-top-bar-container .gk-topbar-right-container .gk-topbar-fastbtns-container .gk-topbar-fastbtns-item{margin-left:10px}.gk-top-bar-container .gk-topbar-right-container .gk-topbar-user-container{float:left}.gk-top-bar-container .gk-topbar-right-container .gk-topbar-user-container .without-usericon{background-color:#00a2ae}"]
             },] }
 ];
 TopBarComponent.ctorParameters = () => [
@@ -359,7 +351,7 @@ class HomeComponent {
         this.searchPlaceholder = '搜索'; // 搜索框内提示文字
         this.searchInput = new EventEmitter(); // 搜索框输入事件
         this.searchEvent = new EventEmitter(); // 点击搜索事件
-        this.userConf = { user: true }; // 用户区配置项
+        this.userConf = { user: true, userActions: [] }; // 用户区配置项
         this.userEvent = new EventEmitter(); // 点击用户区下拉列表事件
     }
     get asideMenus() { return this._asideMenus; }
@@ -381,7 +373,7 @@ class HomeComponent {
 HomeComponent.decorators = [
     { type: Component, args: [{
                 selector: 'gk-home',
-                template: "<div class=\"gk-home-container\">\n    <div class=\"gk-top\">\n        <gk-top-bar [logoSrc]=\"logoSrc\" [logoHref]=\"logoHref\" [topMenus]=\"topMenus\" [topFast]=\"topFast\"\n            [user]=\"userConf.user !== false\" [userAvatar]=\"userConf.userAvatar\" [userText]=\"userConf.userText\"\n            [userActions]=\"userConf.userActions\" [search]=\"search\" [searchPlaceholder]=\"searchPlaceholder\"\n            [searchPosition]=\"searchPosition\" (searchEvent)=\"searchEvent.emit($event)\"\n            (userEvent)=\"userEvent.emit($event)\" (searchInput)=\"searchInput.emit($event)\">\n            <ng-content id=\"logo\" select=\"#logo\"></ng-content>\n            <ng-content id=\"left\" select=\"#left\"></ng-content>\n            <ng-content id='right' select=\"#right\"></ng-content>\n        </gk-top-bar>\n    </div>\n    <main class=\"gk-content\">\n        <div class=\"gk-aside\">\n            <gk-aside-menu [asideMenus]=\"asideMenusClass\"></gk-aside-menu>\n        </div>\n        <div class=\"gk-inner-page\" [ngClass]=\"{ 'has-bread-crumbs': showBcs }\">\n            <gk-bread-crumbs *ngIf=\"bcs.enable\" [asideMenus]=\"asideMenusClass\" class=\"gk-bread-crumbs\">\n            </gk-bread-crumbs>\n            <div class=\"gk-inner-body\">\n                <ng-content select=\"#inner-page\"> </ng-content>\n                <router-outlet></router-outlet>\n            </div>\n        </div>\n    </main>\n</div>\n",
+                template: "<div class=\"gk-home-container\">\n    <div class=\"gk-top\">\n        <gk-top-bar [logoSrc]=\"logoSrc\" [logoHref]=\"logoHref\" [topMenus]=\"topMenus\" [topFast]=\"topFast\"\n            [user]=\"userConf.user !== false\" [userText]=\"userConf.userText\" [userActions]=\"userConf.userActions\"\n            [search]=\"search\" [searchPlaceholder]=\"searchPlaceholder\" [searchPosition]=\"searchPosition\"\n            (searchEvent)=\"searchEvent.emit($event)\" (userEvent)=\"userEvent.emit($event)\"\n            (searchInput)=\"searchInput.emit($event)\">\n            <ng-content id=\"logo\" select=\"#logo\"></ng-content>\n            <ng-content id=\"left\" select=\"#left\"></ng-content>\n            <ng-content id='right' select=\"#right\"></ng-content>\n        </gk-top-bar>\n    </div>\n    <main class=\"gk-content\">\n        <div class=\"gk-aside\">\n            <gk-aside-menu [asideMenus]=\"asideMenusClass\"></gk-aside-menu>\n        </div>\n        <div class=\"gk-inner-page\" [ngClass]=\"{ 'has-bread-crumbs': showBcs }\">\n            <gk-bread-crumbs *ngIf=\"bcs.enable\" [asideMenus]=\"asideMenusClass\" class=\"gk-bread-crumbs\">\n            </gk-bread-crumbs>\n            <div class=\"gk-inner-body\">\n                <ng-content select=\"#inner-page\"> </ng-content>\n                <router-outlet></router-outlet>\n            </div>\n        </div>\n    </main>\n</div>\n",
                 encapsulation: ViewEncapsulation.None,
                 styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}body,html{height:100%}.gk-home-container{box-sizing:border-box;height:100%;padding-top:72px;position:relative}.gk-home-container .gk-top{box-shadow:0 3px 10px rgba(0,0,0,.05);height:72px;left:0;position:fixed;top:0;width:100%;z-index:900}.gk-home-container .gk-content{box-sizing:border-box;height:100%;padding-left:208px;position:relative}.gk-home-container .gk-content .gk-aside{bottom:0;box-shadow:0 0 2px rgba(0,0,0,.05);left:0;overflow:hidden;position:fixed;top:72px;width:208px;z-index:899}.gk-home-container .gk-content .gk-inner-page{box-sizing:border-box;height:100%;padding-top:24px;position:relative}.gk-home-container .gk-content .gk-inner-page.has-bread-crumbs{padding-top:70px}.gk-home-container .gk-content .gk-inner-page .gk-inner-body{box-sizing:border-box;padding:0 24px 24px}.gk-home-container .gk-content .gk-inner-page .gk-bread-crumbs{height:22px;line-height:22px;padding-left:24px;padding-right:24px;position:absolute;top:24px}"]
             },] }
@@ -2136,7 +2128,6 @@ GKButtonModule.decorators = [
 class GKModalService {
     constructor() {
         this.center = false;
-        this.width = 716;
     }
 }
 GKModalService.ɵprov = ɵɵdefineInjectable({ factory: function GKModalService_Factory() { return new GKModalService(); }, token: GKModalService, providedIn: "root" });
@@ -2182,7 +2173,7 @@ class ModalComponent {
         if (typeof this.size === 'number') {
             return this.size;
         }
-        return this.modalService.width;
+        return 716;
     }
     createShowBtns() {
         if (this.btns) {
@@ -2707,23 +2698,7 @@ class IOComponent {
     // 判断表单项是否显示
     showPropItem(item) {
         if (item.options.filter) {
-            const showFlag = !item.options.filter(this.formGroup, this.data);
-            if (item.formControl && (item.formControl.showFlag !== showFlag)) {
-                item.formControl.showFlag = showFlag;
-                setTimeout(() => {
-                    if (showFlag) {
-                        this.formGroup.get(item.prop).setValidators(item.formControl.validas.sync);
-                        this.formGroup.get(item.prop).setAsyncValidators(item.formControl.validas.async);
-                    }
-                    else {
-                        this.formGroup.get(item.prop).setValidators([]);
-                        this.formGroup.get(item.prop).setAsyncValidators([]);
-                        this.formGroup.get(item.prop).markAsDirty();
-                        this.formGroup.get(item.prop).updateValueAndValidity();
-                    }
-                }, 0);
-            }
-            return showFlag;
+            return !item.options.filter(this.formGroup, this.data);
         }
         return true;
     }
@@ -3500,20 +3475,15 @@ class GKEditor {
     }
 }
 
-class GKInfoBase {
-    constructor() {
-        this.controlMode = 'info';
-    }
-}
 class GKInfoStatusText {
     constructor(text, status) {
         this.text = text;
         this.status = status;
     }
 }
-class GKInfoTextBase extends GKInfoBase {
+class GKInfoTextBase {
     constructor(config = {}) {
-        super();
+        this.controlMode = 'info';
         this.controlType = 'infoText';
         this.config = {
             textType: 'singel',
@@ -3525,9 +3495,9 @@ class GKInfoTextBase extends GKInfoBase {
         // }
     }
 }
-class GKInfoRateBase extends GKInfoBase {
+class GKInfoRateBase {
     constructor(config = {}) {
-        super();
+        this.controlMode = 'info';
         this.controlType = 'infoRate';
         this.config = {
             tooltips: [],
@@ -3535,9 +3505,9 @@ class GKInfoRateBase extends GKInfoBase {
         util.merge(this.config, config);
     }
 }
-class GKInfoTagsBase extends GKInfoBase {
+class GKInfoTagsBase {
     constructor(config = {}) {
-        super();
+        this.controlMode = 'info';
         this.controlType = 'infoTags';
         this.config = {
             tagType: 'default',
@@ -3545,35 +3515,25 @@ class GKInfoTagsBase extends GKInfoBase {
         util.merge(this.config, config);
     }
 }
-class GKInfoLinkBase extends GKInfoBase {
+class GKInfoLinkBase {
     constructor(config = {}) {
-        super();
+        this.controlMode = 'info';
         this.controlType = 'infoLink';
         this.config = {};
         util.merge(this.config, config);
     }
 }
-class GKInfoImgBase extends GKInfoBase {
+class GKInfoImgBase {
     constructor(config = {}) {
-        super();
+        this.controlMode = 'info';
         this.controlType = 'infoImg';
         this.config = {};
         util.merge(this.config, config);
     }
 }
-class GKInfoEditorBase extends GKInfoBase {
-    constructor(config = {}) {
-        super();
-        this.controlType = 'infoEditor';
-        this.config = {};
-        util.merge(this.config, config);
-        // 因为富文本作为展示的话，则不需要任何额外的配置
-        this.edit = new GKEditor();
-    }
-}
-class GKInfoCustomBase extends GKInfoBase {
+class GKInfoCustomBase {
     constructor(config) {
-        super();
+        this.controlMode = 'info';
         this.controlType = 'infoCustom';
         this.config = {
             render: undefined,
@@ -3581,17 +3541,22 @@ class GKInfoCustomBase extends GKInfoBase {
         util.merge(this.config, config);
     }
 }
-
-class GKFormBase {
-    constructor() {
-        this.controlMode = 'form';
-        this.showFlag = undefined;
-        this.validas = { sync: [], async: [] };
+class GKInfoEditorBase {
+    constructor(config = {}) {
+        this.controlMode = 'info';
+        this.controlType = 'infoEditor';
+        this.config = {};
+        util.merge(this.config, config);
+        // 因为富文本作为展示的话，则不需要任何额外的配置
+        this.edit = new GKEditor();
     }
 }
-class GKFormTextBase extends GKFormBase {
+
+class GKFormBaseInter {
+}
+class GKFormTextBase {
     constructor(config = {}) {
-        super();
+        this.controlMode = 'form';
         this.controlType = 'formText';
         this.config = {
             placeholder: '请输入',
@@ -3599,9 +3564,9 @@ class GKFormTextBase extends GKFormBase {
         util.merge(this.config, config);
     }
 }
-class GKFormTextareaBase extends GKFormBase {
+class GKFormTextareaBase {
     constructor(config = {}) {
-        super();
+        this.controlMode = 'form';
         this.controlType = 'formTextarea';
         this.config = {
             placeholder: '请输入',
@@ -3611,9 +3576,9 @@ class GKFormTextareaBase extends GKFormBase {
         util.merge(this.config, config);
     }
 }
-class GKFormNumberBase extends GKFormBase {
+class GKFormNumberBase {
     constructor(config = {}) {
-        super();
+        this.controlMode = 'form';
         this.controlType = 'formNumber';
         this.config = {
             placeholder: '请输入',
@@ -3641,9 +3606,9 @@ class GKFormNumberBase extends GKFormBase {
         }
     }
 }
-class GKFormPasswordBase extends GKFormBase {
+class GKFormPasswordBase {
     constructor(config = {}) {
-        super();
+        this.controlMode = 'form';
         this.controlType = 'formPassword';
         this.showPassword = false;
         this.config = {
@@ -3652,9 +3617,9 @@ class GKFormPasswordBase extends GKFormBase {
         util.merge(this.config, config);
     }
 }
-class GKFormSwitchBase extends GKFormBase {
+class GKFormSwitchBase {
     constructor(config = {}) {
-        super();
+        this.controlMode = 'form';
         this.controlType = 'formSwitch';
         this.config = {
             disabled: false,
@@ -3662,9 +3627,9 @@ class GKFormSwitchBase extends GKFormBase {
         util.merge(this.config, config);
     }
 }
-class GKFormRadioBase extends GKFormBase {
+class GKFormRadioBase {
     constructor(config = {}) {
-        super();
+        this.controlMode = 'form';
         this.controlType = 'formRadio';
         this.config = {
             options: [],
@@ -3672,9 +3637,9 @@ class GKFormRadioBase extends GKFormBase {
         util.merge(this.config, config);
     }
 }
-class GKFormCheckboxBase extends GKFormBase {
+class GKFormCheckboxBase {
     constructor(config = {}) {
-        super();
+        this.controlMode = 'form';
         this.controlType = 'formCheckbox';
         this.config = {
             options: [],
@@ -3682,9 +3647,9 @@ class GKFormCheckboxBase extends GKFormBase {
         util.merge(this.config, config);
     }
 }
-class GKFormSelectBase extends GKFormBase {
+class GKFormSelectBase {
     constructor(config = {}) {
-        super();
+        this.controlMode = 'form';
         this.controlType = 'formSelect';
         this.list = [];
         this.loading = false;
@@ -3697,9 +3662,9 @@ class GKFormSelectBase extends GKFormBase {
         this.list = this.config.options || [];
     }
 }
-class GKFormRateBase extends GKFormBase {
+class GKFormRateBase {
     constructor(config = {}) {
-        super();
+        this.controlMode = 'form';
         this.controlType = 'formRate';
         this.config = {
             allowHalf: false,
@@ -3708,9 +3673,9 @@ class GKFormRateBase extends GKFormBase {
         util.merge(this.config, config);
     }
 }
-class GKFormDateBase extends GKFormBase {
+class GKFormDateBase {
     constructor(config = {}) {
-        super();
+        this.controlMode = 'form';
         this.controlType = 'formDate';
         this.config = {
             mode: 'date',
@@ -3719,9 +3684,9 @@ class GKFormDateBase extends GKFormBase {
         this.disabledDateFunc = getDisabledDateTextFunc(this.config.disabledDate);
     }
 }
-class GKFormDateRangeBase extends GKFormBase {
+class GKFormDateRangeBase {
     constructor(config = {}) {
-        super();
+        this.controlMode = 'form';
         this.controlType = 'formDateRange';
         this.config = {
             mode: 'date',
@@ -3731,9 +3696,9 @@ class GKFormDateRangeBase extends GKFormBase {
         this.fastRanges = gteFastRanges(this.config.fastRange);
     }
 }
-class GKFormAgreeBase extends GKFormBase {
+class GKFormAgreeBase {
     constructor(config = {}) {
-        super();
+        this.controlMode = 'form';
         this.controlType = 'formAgree';
         this.config = {
             content: [],
@@ -3741,9 +3706,9 @@ class GKFormAgreeBase extends GKFormBase {
         util.merge(this.config, config);
     }
 }
-class GKFormUploadBase extends GKFormBase {
+class GKFormUploadBase {
     constructor(config = {}) {
-        super();
+        this.controlMode = 'form';
         this.controlType = 'formUpload';
         this.nzFileList = [];
         this.previewImage = '';
@@ -3760,9 +3725,9 @@ class GKFormUploadBase extends GKFormBase {
         util.merge(this.config, config);
     }
 }
-class GKFormEditorBase extends GKFormBase {
+class GKFormEditorBase {
     constructor(config = {}) {
-        super();
+        this.controlMode = 'form';
         this.controlType = 'formEditor';
         this.config = {};
         util.merge(this.config, config);
@@ -4014,7 +3979,7 @@ class GKIOControl {
                 const asyncValidas = util.array(((_a = propItem.formControl) === null || _a === void 0 ? void 0 : _a.config.asyncValidas) || [])
                     .map((v, index) => {
                     if (typeof v === 'object') {
-                        return ((control) => {
+                        return (control) => {
                             if (!this.formGroup) {
                                 return Promise.resolve(null);
                             }
@@ -4026,13 +3991,11 @@ class GKIOControl {
                                 const isError = yield asyncFunc;
                                 resolve(isError ? { [`valida-async-${index}`]: v.tip } : null);
                             }));
-                        });
+                        };
                     }
                     return v;
                 });
                 group[propItem.prop] = fb.control(null, validas, asyncValidas);
-                propItem.formControl.showFlag = true;
-                propItem.formControl.validas = { sync: validas, async: asyncValidas };
             }
         }
         this.formGroup = fb.group(group);
@@ -4453,80 +4416,67 @@ class EchartLineConfig {
             },
         };
         this.color = ['#4F9AFF', '#FFB257', '#ee6666', '#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc'];
-        this.type = 'area';
         if (config.yAxisScale) {
             this.yAxis.scale = true;
         }
-        if (config.type) {
-            this.type = config.type;
-        }
     }
-}
-function hex2Rgba(hex, alpha = 1) {
-    const c = hex.replace('#', '').match(/../g);
-    return 'rgba(' + parseInt(c[0], 16) + ',' + parseInt(c[1], 16) + ',' + parseInt(c[2], 16) + ',' + alpha + ')';
 }
 class EchartLineOption {
     constructor(data, config) {
-        this.colorGroup = [];
-        const option = util.merge(data, new EchartLineConfig(config));
-        if (config && config.color) {
-            const color = option.color = config.color;
-            if (Array.isArray(color)) {
-                this.colorGroup = color.map(item => this.formatColor(item));
-            }
-            else {
-                this.colorGroup = [this.formatColor(color)];
-            }
-        }
-        else {
-            this.colorGroup = option.color.map(item => this.formatColor(item));
-        }
-        const type = option.type;
-        option.series.forEach((item, index) => {
-            item.areaStyle = type === 'area' ? { color: this.colorGroup[index][1] } : undefined;
-            item.emphasis.itemStyle.color = this.colorGroup[index][0];
-            item.emphasis.itemStyle.borderColor = this.colorGroup[index][0];
-        });
-        return option;
-    }
-    formatColor(color) {
-        return [color, new graphic.LinearGradient(0, 0, 0, 1, [{
+        this.blue = ['#4F9AFF', new graphic.LinearGradient(0, 0, 0, 1, [{
                     offset: 0,
-                    color: hex2Rgba(color, 0.42),
+                    color: 'rgba(84,159,255,0.42)',
                 }, {
                     offset: 1,
-                    color: hex2Rgba(color, 0),
+                    color: 'rgba(79,154,255,0)',
                 }])];
+        this.orange = ['#FFB257', new graphic.LinearGradient(0, 0, 0, 1, [{
+                    offset: 0,
+                    color: 'rgba(254,218,172,0.39)',
+                }, {
+                    offset: 1,
+                    color: 'rgba(255,178,87,0)',
+                }])];
+        this.colorGroup = [this.blue, this.orange];
+        const option = util.merge(data, new EchartLineConfig(config));
+        let color;
+        if (config && config.color) {
+            color = this[config.color];
+            option.color = this[config.color][0];
+        }
+        option.series.forEach((item, index) => {
+            if (color) {
+                item.lineStyle.color = color[0];
+                item.areaStyle.color = color[1];
+                item.emphasis.itemStyle.color = color[0];
+                item.emphasis.itemStyle.borderColor = color[0];
+            }
+            else {
+                item.areaStyle.color = this.colorGroup[index][1];
+                item.emphasis.itemStyle.color = this.colorGroup[index][0];
+                item.emphasis.itemStyle.borderColor = this.colorGroup[index][0];
+            }
+        });
+        return option;
     }
 }
 
 class EchartPieData {
     constructor(data) {
         this.series = [];
-        const groups = [];
-        data.series.map(item => {
-            if (!groups.includes(item.group)) {
-                groups.push(item.group);
-                const obj = {};
-                obj.name = item.group;
-                obj.data = [{
-                        name: item.name,
-                        value: item.value[0],
-                    }];
-                this.series.push(obj);
-            }
-            else {
-                this.series[groups.indexOf(item.group)].data.push({
-                    name: item.name,
-                    value: item.value[0],
-                });
-            }
+        const obj = {};
+        obj.name = data.series[0].group;
+        obj.data = data.series.map(item => {
+            return {
+                name: item.name,
+                value: item.value[0],
+            };
         });
+        this.series = [obj];
     }
 }
 class EchartPieConfig {
-    constructor(config, length = 1) {
+    constructor(config) {
         this.width = 'auto';
         this.height = 'auto';
         this.legend = {
@@ -4573,27 +4523,12 @@ class EchartPieConfig {
                     show: false,
                     position: 'center',
                 },
-            }, {
-                type: 'pie',
-                radius: ['0%', '30%'],
-                center: ['50%', '50%'],
-                labelLine: {
-                    show: false,
-                },
-                label: {
-                    show: false,
-                    position: 'center',
-                },
             }];
         this.width = config.width ? config.width : this.width;
         this.height = config.height ? config.height : this.height;
         this.legend.orient = config.orient ? config.orient : this.legend.orient;
         this.color = config.colorGroup ? config.colorGroup : this.color;
-        this.series = this.series.slice(0, length);
         this.series[0].center = config.center ? config.center : this.series[0].center;
-        if (this.series[1]) {
-            this.series[1].center = config.center ? config.center : this.series[1].center;
-        }
     }
 }
 class EchartPieOption {
@@ -4603,13 +4538,11 @@ class EchartPieOption {
         let maxName;
         let max = 0;
         let left = 100;
-        option.series.map(i => {
-            i.data.map((item, index) => {
-                dataMap[item.name] = { value: item.value };
-                if (typeof item.value === 'number') {
-                    valueSum += item.value;
-                }
-            });
+        option.series[0].data.map((item, index) => {
+            dataMap[item.name] = { value: item.value };
+            if (typeof item.value === 'number') {
+                valueSum += item.value;
+            }
         });
         // tslint:disable-next-line: forin
         for (const key in dataMap) {
@@ -4626,7 +4559,7 @@ class EchartPieOption {
         return { dataMap, valueSum };
     }
     constructor(data, config) {
-        const option = util.merge(data, new EchartPieConfig(config, data.series.length));
+        const option = util.merge(data, new EchartPieConfig(config));
         // 图例 文本formatter函数封装
         const { dataMap, valueSum } = this.dataGroup(option);
         if (config.legendFormatter) {
@@ -4643,20 +4576,20 @@ use([TitleComponent$1, TooltipComponent, GridComponent, LegendComponent, LineCha
 class ChartLineComponent {
     constructor() {
         this.config = {};
-        this.updateChart = () => {
-            if (!this.isHaveData) {
-                return;
-            }
-            this.echartData = new EchartLineData(this.data);
-            this.eachartOption = new EchartLineOption(this.echartData, this.config);
-            this.gkChart.setOption(this.eachartOption);
-        };
         this.resize = util.debounce(() => {
             this.gkChart.resize();
         }, 100);
     }
     get isHaveData() {
         return this.data && this.data.series.length > 0;
+    }
+    updateChart() {
+        if (!this.isHaveData) {
+            return;
+        }
+        this.echartData = new EchartLineData(this.data);
+        this.eachartOption = new EchartLineOption(this.echartData, this.config);
+        this.gkChart.setOption(this.eachartOption);
     }
     ngOnChanges(changes) {
         if (this.gkChart) {
@@ -5056,9 +4989,6 @@ class GKSearch {
         };
         util.merge(this.options, options);
         this.getFormGroup();
-        if (this.initValue) {
-            this.formGroup.patchValue(this.initValue);
-        }
     }
     getFormGroup() {
         if (this.formGroup) {
@@ -5100,8 +5030,7 @@ class GKTable2 {
 }
 
 class Table2Component {
-    constructor(nzModalService, gkReq, modalService) {
-        this.nzModalService = nzModalService;
+    constructor(gkReq, modalService) {
         this.gkReq = gkReq;
         this.modalService = modalService;
         /** 是否在组件加载时获取数据 */
@@ -5459,40 +5388,26 @@ class Table2Component {
             disabled: btn.disabled,
             onClick: (trData) => {
                 if (btn.tip) {
-                    const onCancel = () => {
-                        this.initModal();
-                    };
-                    const onOk = () => __awaiter(this, void 0, void 0, function* () {
-                        if (btn.onBeforeSubmit) {
-                            const flag = yield btn.onBeforeSubmit();
-                            if (flag === false) {
-                                return;
+                    this.modal = {
+                        show: true,
+                        width: btn.width,
+                        title: btn.title || btn.label || '删除',
+                        type: 'text',
+                        text: btn.tip === true ? '你确定要删除吗?' : btn.tip,
+                        onCancel: () => {
+                            this.initModal();
+                        },
+                        onOk: () => __awaiter(this, void 0, void 0, function* () {
+                            if (btn.onBeforeSubmit) {
+                                const flag = yield btn.onBeforeSubmit();
+                                if (flag === false) {
+                                    return;
+                                }
                             }
-                        }
-                        yield ajaxFunc(trData);
-                        this.initModal();
-                    });
-                    if (btn.confirmMode) {
-                        this.nzModalService.confirm({
-                            nzWidth: btn.width || 520,
-                            nzClosable: false,
-                            nzTitle: btn.title || btn.label || '删除',
-                            nzContent: btn.tip === true ? '你确定要删除吗?' : btn.tip,
-                            nzOnCancel: onCancel,
-                            nzOnOk: onOk,
-                        });
-                    }
-                    else {
-                        this.modal = {
-                            show: true,
-                            width: btn.width,
-                            title: btn.title || btn.label || '删除',
-                            type: 'text',
-                            text: btn.tip === true ? '你确定要删除吗?' : btn.tip,
-                            onCancel,
-                            onOk,
-                        };
-                    }
+                            yield ajaxFunc(trData);
+                            this.initModal();
+                        }),
+                    };
                 }
                 else {
                     ajaxFunc(trData);
@@ -5509,12 +5424,11 @@ class Table2Component {
 Table2Component.decorators = [
     { type: Component, args: [{
                 selector: 'gk-table2',
-                template: "<nz-table #nzTable [nzData]=\"showList\" [nzLoading]=\"loading\" [nzFrontPagination]=\"false\" [nzTotal]=\"total\"\n    [nzShowPagination]=\"table.config.pageMode !== 'none'\" [nzPageIndex]=\"pageIndex\" [nzPageSize]=\"pageSize\"\n    (nzPageIndexChange)=\"onChangeIndex($event)\" (nzPageSizeChange)=\"onChangeSize($event)\"\n    [nzShowQuickJumper]=\"table.config.showQuickJumper\" [nzShowSizeChanger]=\"table.config.showSizeChanger\"\n    [nzPageSizeOptions]=\"table.config.pageSizeOptions\" [nzShowTotal]=\"totalTemplate\" [nzTableLayout]=\"tableLayout\"\n    [nzScroll]=\"layoutScroll\" class=\"gk-table-container\"\n    [ngClass]=\"{ 'hide-more-page-last-btn': hideMorePageLastBtnClass }\">\n    <thead>\n        <tr>\n            <ng-container *ngFor=\"let col of table.config.columns\">\n                <ng-container *ngIf=\"table.config.header === false\">\n                    <th [nzWidth]=\"col.width\" class=\"gk-table-hide-header-th\"></th>\n                </ng-container>\n                <ng-container *ngIf=\"table.config.header !== false\">\n                    <th *ngIf=\"col.type === 'check'\" [nzShowCheckbox]=\"true\" [nzIndeterminate]=\"checkHalf\"\n                        [nzChecked]=\"checkAll\" (nzCheckedChange)=\"onPageCheckChange($event, col)\" [nzWidth]=\"col.width\"\n                        [nzLeft]=\"col.fixed === 'left'\" [nzRight]=\"col.fixed === 'right'\"></th>\n                    <th *ngIf=\"col.type !== 'check'\" [nzWidth]=\"col.width\" [nzLeft]=\"col.fixed === 'left'\"\n                        [nzRight]=\"col.fixed === 'right'\" [nzShowSort]=\"!!col.sort\"\n                        [nzSortDirections]=\"['ascend', 'descend', null]\"\n                        [nzSortOrder]=\"sortKey === col.sortKey ? sortState : null\"\n                        (nzSortOrderChange)=\"onSortOrderChange(col.sortKey , $any($event))\">{{ col.title }}</th>\n                </ng-container>\n            </ng-container>\n        </tr>\n    </thead>\n\n    <tbody>\n        <ng-container *ngFor=\"let tr of nzTable.data; let index = index\">\n            <tr>\n                <ng-container *ngFor=\"let col of table.config.columns\">\n\n                    <td *ngIf=\"col.type === 'check'\" [nzEllipsis]=\"table.config.tdEllipsis\"\n                        [nzLeft]=\"col.fixed === 'left'\" [nzRight]=\"col.fixed === 'right'\" [ngStyle]=\"col.tdStyle\"\n                        [nzShowCheckbox]=\"!col.hide || !col.hide(tr, index)\"\n                        [nzDisabled]=\"col.disabled && !col.disabled(tr, index)\" [nzChecked]=\"checkTrs.includes(tr)\"\n                        (nzCheckedChange)=\"onTrCheckChange(tr, col)\">\n                    </td>\n\n                    <td *ngIf=\"col.type !== 'check'\" [nzEllipsis]=\"table.config.tdEllipsis\"\n                        [class.table-col-ellipsis]=\"col.ellipsis\" [nzLeft]=\"col.fixed === 'left'\"\n                        [nzRight]=\"col.fixed === 'right'\" [ngStyle]=\"col.tdStyle\">\n                        <ng-container *ngIf=\"col.type !== 'group'\">\n                            <gk-ceil-type [config]=\"col\" [tr]=\"tr\" [index]=\"index\" [pageIndex]=\"pageIndex\"\n                                [pageSize]=\"pageSize\" [expandTrSet]=\"expandTrSet\"></gk-ceil-type>\n                        </ng-container>\n                        <ng-container *ngIf=\"col.type === 'group'\">\n                            <ng-container *ngFor=\"let config of col.content\">\n                                <gk-ceil-type [config]=\"config\" [tr]=\"tr\" [index]=\"index\" [pageIndex]=\"pageIndex\"\n                                    [pageSize]=\"pageSize\" [expandTrSet]=\"expandTrSet\"></gk-ceil-type>\n                            </ng-container>\n                        </ng-container>\n                    </td>\n\n                </ng-container>\n            </tr>\n            <tr *ngIf=\"expandRenderOut\" [nzExpand]=\"expandTrSet.has(tr)\">\n                <ng-container [ngTemplateOutlet]=\"expandRenderOut\"\n                    [ngTemplateOutletContext]=\"{ data: tr, rowIndex: index }\">\n                </ng-container>\n            </tr>\n        </ng-container>\n    </tbody>\n</nz-table>\n\n\n<ng-template #totalTemplate let-total>\n    <ng-container> \u5171 {{ total }} \u6761 </ng-container>\n</ng-template>\n\n<nz-modal *ngIf=\"modal\" [(nzVisible)]=\"modal.show\" [nzTitle]=\"modal.title\" [nzWidth]=\"modal.width || '500px'\"\n    [nzCentered]=\"modalService.center\" (nzOnCancel)=\"initModal()\" [nzMaskClosable]=\"false\" [nzKeyboard]=\"false\"\n    [nzAutofocus]=\"null\">\n    <ng-container *nzModalContent>\n        <ng-container *ngIf=\"modal.type === 'text'\">\n            {{ modal.text }}\n        </ng-container>\n        <ng-container *ngIf=\"modal.type === 'io'\">\n            <gk-io [control]=\"modal.ioControl\" [data]=\"modal.data\"></gk-io>\n        </ng-container>\n    </ng-container>\n    <div class=\"gk-modal-bottom\" *nzModalFooter>\n        <gk-button *ngIf=\"modal.onCancel\" [type]=\"'default'\" (click)=\"modal.onCancel()\" class=\"gk-btn\">{{ '\u53D6\u6D88'\n            }}</gk-button>\n        <gk-button *ngIf=\"modal.onOk\" [type]=\"'primary'\" [loading]=\"modal.ioControl?.formGroup.pending\"\n            (click)=\"modal.onOk()\" class=\"gk-btn\">{{ '\u786E\u5B9A'\n            }}</gk-button>\n    </div>\n</nz-modal>\n",
-                styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}.ant-modal-footer{border-top:0;padding:8px 24px 32px}.ant-modal-body{padding:16px 24px 0}.gk-modal-bottom .gk-btn{margin-left:8px}.gk-modal-bottom .gk-btn:first-child{margin-left:0}.gk-table-container .ant-table,.gk-table-container .ant-table table{border-radius:0}.gk-table-container .gk-table-hide-header-th{height:1px;padding-bottom:0;padding-top:0}.gk-table-container .ant-table-container table>thead>tr:first-child th:first-child,.gk-table-container .ant-table-container table>thead>tr:first-child th:last-child{border-top-left-radius:0;border-top-right-radius:0}.gk-table-container .table-col-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;word-break:keep-all}::ng-deep .ant-table-pagination.ant-pagination{margin:24px 0 0}::ng-deep .hide-more-page-last-btn .ant-table-pagination>li.ant-pagination-item:nth-last-of-type(2){display:none}"]
+                template: "<nz-table #nzTable [nzData]=\"showList\" [nzLoading]=\"loading\" [nzFrontPagination]=\"false\" [nzTotal]=\"total\"\n    [nzShowPagination]=\"table.config.pageMode !== 'none'\" [nzPageIndex]=\"pageIndex\" [nzPageSize]=\"pageSize\"\n    (nzPageIndexChange)=\"onChangeIndex($event)\" (nzPageSizeChange)=\"onChangeSize($event)\"\n    [nzShowQuickJumper]=\"table.config.showQuickJumper\" [nzShowSizeChanger]=\"table.config.showSizeChanger\"\n    [nzPageSizeOptions]=\"table.config.pageSizeOptions\" [nzShowTotal]=\"totalTemplate\" [nzTableLayout]=\"tableLayout\"\n    [nzScroll]=\"layoutScroll\" class=\"gk-table-container\"\n    [ngClass]=\"{ 'hide-more-page-last-btn': hideMorePageLastBtnClass }\">\n    <thead>\n        <tr>\n            <ng-container *ngFor=\"let col of table.config.columns\">\n                <ng-container *ngIf=\"table.config.header === false\">\n                    <th [nzWidth]=\"col.width\" class=\"gk-table-hide-header-th\"></th>\n                </ng-container>\n                <ng-container *ngIf=\"table.config.header !== false\">\n                    <th *ngIf=\"col.type === 'check'\" [nzShowCheckbox]=\"true\" [nzIndeterminate]=\"checkHalf\"\n                        [nzChecked]=\"checkAll\" (nzCheckedChange)=\"onPageCheckChange($event, col)\" [nzWidth]=\"col.width\"\n                        [nzLeft]=\"col.fixed === 'left'\" [nzRight]=\"col.fixed === 'right'\"></th>\n                    <th *ngIf=\"col.type !== 'check'\" [nzWidth]=\"col.width\" [nzLeft]=\"col.fixed === 'left'\"\n                        [nzRight]=\"col.fixed === 'right'\" [nzShowSort]=\"!!col.sort\"\n                        [nzSortDirections]=\"['ascend', 'descend', null]\"\n                        [nzSortOrder]=\"sortKey === col.sortKey ? sortState : null\"\n                        (nzSortOrderChange)=\"onSortOrderChange(col.sortKey , $any($event))\">{{ col.title }}</th>\n                </ng-container>\n            </ng-container>\n        </tr>\n    </thead>\n\n    <tbody>\n        <ng-container *ngFor=\"let tr of nzTable.data; let index = index\">\n            <tr>\n                <ng-container *ngFor=\"let col of table.config.columns\">\n\n                    <td *ngIf=\"col.type === 'check'\" [nzEllipsis]=\"table.config.tdEllipsis\"\n                        [nzLeft]=\"col.fixed === 'left'\" [nzRight]=\"col.fixed === 'right'\" [ngStyle]=\"col.tdStyle\"\n                        [nzShowCheckbox]=\"!col.hide || !col.hide(tr, index)\"\n                        [nzDisabled]=\"col.disabled && !col.disabled(tr, index)\" [nzChecked]=\"checkTrs.includes(tr)\"\n                        (nzCheckedChange)=\"onTrCheckChange(tr, col)\">\n                    </td>\n\n                    <td *ngIf=\"col.type !== 'check'\" [nzEllipsis]=\"table.config.tdEllipsis\"\n                        [nzLeft]=\"col.fixed === 'left'\" [nzRight]=\"col.fixed === 'right'\" [ngStyle]=\"col.tdStyle\">\n\n                        <ng-container *ngIf=\"col.type !== 'group'\">\n                            <gk-ceil-type [config]=\"col\" [tr]=\"tr\" [index]=\"index\" [pageIndex]=\"pageIndex\"\n                                [pageSize]=\"pageSize\" [expandTrSet]=\"expandTrSet\"></gk-ceil-type>\n                        </ng-container>\n                        <ng-container *ngIf=\"col.type === 'group'\">\n                            <ng-container *ngFor=\"let config of col.content\">\n                                <gk-ceil-type [config]=\"config\" [tr]=\"tr\" [index]=\"index\" [pageIndex]=\"pageIndex\"\n                                    [pageSize]=\"pageSize\" [expandTrSet]=\"expandTrSet\"></gk-ceil-type>\n                            </ng-container>\n                        </ng-container>\n\n                    </td>\n\n                </ng-container>\n            </tr>\n            <tr *ngIf=\"expandRenderOut\" [nzExpand]=\"expandTrSet.has(tr)\">\n                <ng-container [ngTemplateOutlet]=\"expandRenderOut\"\n                    [ngTemplateOutletContext]=\"{ data: tr, rowIndex: index }\">\n                </ng-container>\n            </tr>\n        </ng-container>\n    </tbody>\n</nz-table>\n\n\n<ng-template #totalTemplate let-total>\n    <ng-container> \u5171 {{ total }} \u6761 </ng-container>\n</ng-template>\n\n<nz-modal *ngIf=\"modal\" [(nzVisible)]=\"modal.show\" [nzTitle]=\"modal.title\" [nzWidth]=\"modal.width || '500px'\"\n    [nzCentered]=\"modalService.center\" (nzOnCancel)=\"initModal()\" [nzMaskClosable]=\"false\" [nzKeyboard]=\"false\"\n    [nzAutofocus]=\"null\">\n    <ng-container *nzModalContent>\n        <ng-container *ngIf=\"modal.type === 'text'\">\n            {{ modal.text }}\n        </ng-container>\n        <ng-container *ngIf=\"modal.type === 'io'\">\n            <gk-io [control]=\"modal.ioControl\" [data]=\"modal.data\"></gk-io>\n        </ng-container>\n    </ng-container>\n    <div class=\"gk-modal-bottom\" *nzModalFooter>\n        <gk-button *ngIf=\"modal.onCancel\" [type]=\"'default'\" (click)=\"modal.onCancel()\" class=\"gk-btn\">{{ '\u53D6\u6D88'\n            }}</gk-button>\n        <gk-button *ngIf=\"modal.onOk\" [type]=\"'primary'\" [loading]=\"modal.ioControl?.formGroup.pending\"\n            (click)=\"modal.onOk()\" class=\"gk-btn\">{{ '\u786E\u5B9A'\n            }}</gk-button>\n    </div>\n</nz-modal>\n",
+                styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}.ant-modal-footer{border-top:0;padding:8px 24px 32px}.ant-modal-body{padding:16px 24px 0}.gk-modal-bottom .gk-btn{margin-left:8px}.gk-modal-bottom .gk-btn:first-child{margin-left:0}.gk-table-container .ant-table,.gk-table-container .ant-table table{border-radius:0}.gk-table-container .gk-table-hide-header-th{height:1px;padding-bottom:0;padding-top:0}.gk-table-container .ant-table-container table>thead>tr:first-child th:first-child,.gk-table-container .ant-table-container table>thead>tr:first-child th:last-child{border-top-left-radius:0;border-top-right-radius:0}::ng-deep .ant-table-pagination.ant-pagination{margin:24px 0 0}::ng-deep .hide-more-page-last-btn .ant-table-pagination>li.ant-pagination-item:nth-last-of-type(2){display:none}"]
             },] }
 ];
 Table2Component.ctorParameters = () => [
-    { type: NzModalService },
     { type: GKRequestService },
     { type: GKModalService }
 ];
@@ -5640,7 +5554,7 @@ class CeilTypeComponent {
 CeilTypeComponent.decorators = [
     { type: Component, args: [{
                 selector: 'gk-ceil-type',
-                template: "<span *ngIf=\"!config.hide || !config.hide(tr, config.prop, index)\"\n    [ngClass]=\"['table-ceil', 'table-ceil-' + config.type]\" [ngStyle]=\"config.ceilStyle\" nz-tooltip\n    [nzTooltipTitle]=\"getTipContent(config.ceilTip, config.prop, tr, index) || ''\">\n\n    <ng-container *ngIf=\"config.type === 'default'\">\n        <ng-container\n            *ngTemplateOutlet=\"defaultContent; context: { $implicit: getVal(config.prop, config.format, tr, index)}\">\n        </ng-container>\n        <ng-template #defaultContent let-v=\"$implicit\">\n            <span [title]=\"config.showTextTitle ? v : ''\">{{ v }}</span>\n        </ng-template>\n    </ng-container>\n\n    <ng-container *ngIf=\"config.type === 'operate'\">\n        <ng-container *ngFor=\"let item of config.__renderBtns__\">\n            <gk-button *ngIf=\"!item.hide || !item.hide(tr, index)\" [button]=\"item.btn\" [mode]=\"item.btn.mode || 'text'\"\n                [type]=\"item.btn.type || 'primary'\" [disabled]=\"item.disabled && item.disabled(tr, index)\"\n                (click)=\"item.onClick && item.onClick(tr, index)\"></gk-button>\n        </ng-container>\n    </ng-container>\n\n    <ng-container *ngIf=\"config.type === 'expand'\">\n        <i class=\"expand-button\" [class.disabled]=\"config.disabled && config.disabled(tr, config.prop, index)\"\n            [class.expand-open]=\"expandTrSet.has(tr)\" (click)=\"onExpandClick(config)\"></i>\n    </ng-container>\n\n    <ng-container *ngIf=\"config.type === 'render'\">\n        <ng-container *ngIf=\"config.__renderOut__\" [ngTemplateOutlet]=\"config.__renderOut__\"\n            [ngTemplateOutletContext]=\"{ data: tr, rowIndex: index }\">\n        </ng-container>\n    </ng-container>\n\n    <ng-container *ngIf=\"config.type === 'switch'\">\n        <nz-switch [ngModel]=\"getVal(config.prop, config.format, tr, index)\"\n            [nzDisabled]=\"config.disabled && config.disabled(tr, config.prop, index)\" [nzControl]=\"true\"\n            [nzCheckedChildren]=\"config.checkedText\" [nzUnCheckedChildren]=\"config.unCheckedText\"\n            [nzLoading]=\"switchLoading[config.prop + '-' + index]\" (click)=\"onClickSwitch(config, tr, index)\"\n            [ngClass]=\"['switch-' + config.color]\">\n        </nz-switch>\n    </ng-container>\n\n    <ng-container *ngIf=\"config.type === 'image'\">\n        <img nz-image [nzSrc]=\"getVal(config.prop, config.format, tr, index)\" [ngStyle]=\"getImageStyle(config)\"\n            [ngClass]=\"{ 'image-circle': !!config.image?.circle, 'image-preview': isImagePreview(config) }\"\n            [nzDisablePreview]=\"!isImagePreview(config)\" />\n    </ng-container>\n\n    <ng-container *ngIf=\"config.type === 'status'\">\n        <ng-container *ngTemplateOutlet=\"statusCeil; context: { $implicit: getStatusV(config, tr, index) }\">\n        </ng-container>\n        <ng-template #statusCeil let-v=\"$implicit\">\n            <gk-icon *ngIf=\"v.icon\" [type]=\"v.icon\" class=\"status-icon\"></gk-icon>\n            <span *ngIf=\"v.point\" class=\"status-point\" [ngStyle]=\"v.point.style\" [class]=\"v.point.class\">\n            </span>\n            <span [ngStyle]=\"v.textStyle\">{{ getVal(config.prop, config.format, tr, index) }}</span>\n        </ng-template>\n    </ng-container>\n\n    <ng-container *ngIf=\"config.type === 'tip'\">\n        <gk-tip [tip]=\"getTipContent(config.tip, config.prop, tr, index)\" [trigger]=\"config.trigger || 'hover'\">\n        </gk-tip>\n    </ng-container>\n\n</span>\n",
+                template: "<span *ngIf=\"!config.hide || !config.hide(tr, config.prop, index)\"\n    [ngClass]=\"['table-ceil', 'table-ceil-' + config.type]\" [ngStyle]=\"config.ceilStyle\" nz-tooltip\n    [nzTooltipTitle]=\"getTipContent(config.ceilTip, config.prop, tr, index) || ''\">\n\n    <ng-container *ngIf=\"config.type === 'default'\">{{ getVal(config.prop, config.format, tr, index) }}</ng-container>\n\n    <ng-container *ngIf=\"config.type === 'operate'\">\n        <ng-container *ngFor=\"let item of config.__renderBtns__\">\n            <gk-button *ngIf=\"!item.hide || !item.hide(tr, index)\" [button]=\"item.btn\" [mode]=\"item.btn.mode || 'text'\"\n                [type]=\"item.btn.type || 'primary'\" [disabled]=\"item.disabled && item.disabled(tr, index)\"\n                (click)=\"item.onClick && item.onClick(tr, index)\"></gk-button>\n        </ng-container>\n    </ng-container>\n\n    <ng-container *ngIf=\"config.type === 'expand'\">\n        <i class=\"expand-button\" [class.disabled]=\"config.disabled && config.disabled(tr, config.prop, index)\"\n            [class.expand-open]=\"expandTrSet.has(tr)\" (click)=\"onExpandClick(config)\"></i>\n    </ng-container>\n\n    <ng-container *ngIf=\"config.type === 'render'\">\n        <ng-container *ngIf=\"config.__renderOut__\" [ngTemplateOutlet]=\"config.__renderOut__\"\n            [ngTemplateOutletContext]=\"{ data: tr, rowIndex: index }\">\n        </ng-container>\n    </ng-container>\n\n    <ng-container *ngIf=\"config.type === 'switch'\">\n        <nz-switch [ngModel]=\"getVal(config.prop, config.format, tr, index)\"\n            [nzDisabled]=\"config.disabled && config.disabled(tr, config.prop, index)\" [nzControl]=\"true\"\n            [nzCheckedChildren]=\"config.checkedText\" [nzUnCheckedChildren]=\"config.unCheckedText\"\n            [nzLoading]=\"switchLoading[config.prop + '-' + index]\" (click)=\"onClickSwitch(config, tr, index)\"\n            [ngClass]=\"['switch-' + config.color]\">\n        </nz-switch>\n    </ng-container>\n\n    <ng-container *ngIf=\"config.type === 'image'\">\n        <img nz-image [nzSrc]=\"getVal(config.prop, config.format, tr, index)\" [ngStyle]=\"getImageStyle(config)\"\n            [ngClass]=\"{ 'image-circle': !!config.image?.circle, 'image-preview': isImagePreview(config) }\"\n            [nzDisablePreview]=\"!isImagePreview(config)\" />\n    </ng-container>\n\n    <ng-container *ngIf=\"config.type === 'status'\">\n        <ng-container *ngTemplateOutlet=\"statusCeil; context: { $implicit: getStatusV(config, tr, index) }\">\n        </ng-container>\n        <ng-template #statusCeil let-v=\"$implicit\">\n            <gk-icon *ngIf=\"v.icon\" [type]=\"v.icon\" class=\"status-icon\"></gk-icon>\n            <span *ngIf=\"v.point\" class=\"status-point\" [ngStyle]=\"v.point.style\" [class]=\"v.point.class\">\n            </span>\n            <span [ngStyle]=\"v.textStyle\">{{ getVal(config.prop, config.format, tr, index) }}</span>\n        </ng-template>\n    </ng-container>\n\n    <ng-container *ngIf=\"config.type === 'tip'\">\n        <gk-tip [tip]=\"getTipContent(config.tip, config.prop, tr, index)\" [trigger]=\"config.trigger || 'hover'\">\n        </gk-tip>\n    </ng-container>\n\n</span>\n",
                 styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}.table-ceil-expand .expand-button{display:inline-block;height:16px;vertical-align:middle;width:16px}.table-ceil-expand .expand-button.disabled{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAA1ElEQVQ4jbWTMYuFQAyEx+wJFgsrdqls/P+/SISt7JYsBBQku9cevvc8xLspEybzBZKm1lr3fce6rlBVlFJwJSKC9x7MjK7r0GzbVud5Rt/3CCHAOXc5wMyQc4aIYJomNMuy1LZtMQzDpfGslBKO4wCpKkIIt8wAEEKAqoJKKR+xY4yIMb7tOedQSgHdjj7p8YCvc+Ensoi8GMZx/GeCc8Kn2p8RPF+BiGBmb2/hCt3MQEQg7z1yzreTc87w3oOYGSKClBLM7FejmSGlBBEBM6N5+s7flB9vhhOjUUwAAAAASUVORK5CYII=)}.table-ceil-expand .expand-button:not(.disabled){background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAvElEQVQ4T9VTOwqEMBB9SUDQQojYWtik8Do5p9cR1CKF2ImChUFBZ1HYRUTcIs3ulDPM+wzzGBHRsizoug7TNGHbNjwV5xxBECCOY3ieBzbPMzVNgyiKEIYhhBCPAOu6YhxH9H2PJEnA2rYl3/chpXxcvA6HYYC1Fqyua0rT9CvzFWBXYowBK8uSlFK37HmeH32t9e28qqpfBHjL3jUXRXFIz7LsY+Fs59aCM8D5Wn9yROdHcn5l5zC5xvkFxFq4qeN9LzYAAAAASUVORK5CYII=);cursor:pointer}.table-ceil-expand .expand-button:not(.disabled).expand-open{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAtklEQVQ4T2P8/////4cv/zNMXv+P4dT1/wxffzDgBdwcDAxmmowMuYFMDPLijAyMD178+5/S/ZchxpWJIdCWiYGPC78Bn74xMKw//I9hye5/DHNKmRkYi6f/+a+ryMgQ786EXyea7MKd/xgu3//PwGib9/v/lnYWgjajmw5yiU/lHwZGo7Tf/8/OZCHJdphi4/RBacDMzf/weifdFxHYWL1AsQGkhOYgCUSKExLFSZnizERpdgYA+HaPd2IkVJIAAAAASUVORK5CYII=)}.table-ceil-switch ::ng-deep .switch-green>.ant-switch-checked{background-color:#48bc19}.table-ceil-image ::ng-deep .image-circle{border-radius:50%}.table-ceil-image ::ng-deep .image-preview{cursor:pointer}.table-ceil-status ::ng-deep .status-icon{margin-right:3px}.table-ceil-status ::ng-deep .status-point{border-radius:50%;display:inline-block;margin:2px 5px 2px 2px;vertical-align:middle}.table-ceil-status ::ng-deep .status-point.default{background-color:#999}.table-ceil-status ::ng-deep .status-point.primary{background-color:#3266fb}.table-ceil-status ::ng-deep .status-point.success{background-color:#52c41a}.table-ceil-status ::ng-deep .status-point.warning{background-color:#faad14}.table-ceil-status ::ng-deep .status-point.danger{background-color:#ff4d4f}"]
             },] }
 ];
@@ -5882,6 +5796,9 @@ class GKList2 {
         };
         if (config.search) {
             this.searchFormGroup = config.search.layouts.getFormGroup();
+            if (config.search.layouts.initValue) {
+                this.searchFormGroup.patchValue(config.search.layouts.initValue);
+            }
         }
         else {
             this.searchFormGroup = new FormGroup({});
@@ -6151,9 +6068,8 @@ class UploadService {
             const jobs = new Array(this.config.parallel).fill('').map((_, index) => this.uploadJob(store, index));
             const jobsSttaus = yield Promise.all(jobs);
             const isStop = jobsSttaus.some((v) => v === 3);
-            const isUploadError = jobsSttaus.some((v) => v === 1);
-            const isSliceError = store.status === 'error' && !isUploadError;
-            return [isStop, isUploadError, isSliceError];
+            const isError = jobsSttaus.some((v) => v === 1);
+            return [isStop, isError];
         });
     }
     uploadJob(store, index) {
@@ -6161,7 +6077,7 @@ class UploadService {
             /*
                 0: 线程完成任务退出
                 1: 线程出错退出
-                2: 线程检测到其他地方出错退出
+                2: 线程检测到其他线程出错退出
                 3: 取消动作退出
             */
             while (true) {
@@ -6466,9 +6382,6 @@ class BigUploadComponent {
                 this.store.fileMd5 = fileMd5;
                 this.store.sliceState = 'done';
             }
-            else if (type === 'sliceError') {
-                this.store.status = 'error';
-            }
         };
     }
     onSelect($event, nzUpload) {
@@ -6550,7 +6463,7 @@ class BigUploadComponent {
                 },
             });
             console.info(`开始进行 ${this.config.parallel}线程 分片上传`);
-            const [isUploadStop, isUploadError, isSliceError] = yield this.upload.parallelUpload(this.store);
+            const [isUploadStop, isUploadError] = yield this.upload.parallelUpload(this.store);
             if (isUploadStop) {
                 console.warn(`上传中 因取消动作, 所有线程已退出`);
                 this.initStore();
@@ -6559,17 +6472,12 @@ class BigUploadComponent {
                 }
                 return;
             }
-            if (isUploadError || isSliceError) {
-                if (isUploadError) {
-                    console.warn(`上传中 有上传线程出错, 所有线程已退出`);
-                    this.worker.postMessage({
-                        type: 'someError',
-                    });
-                }
-                else if (isSliceError) {
-                    console.warn(`上传中 检测到分片Worker出错, 所有线程已退出`);
-                }
+            if (isUploadError) {
+                console.warn(`上传中 有线程出错, 所有线程已退出`);
                 this.store.chunks = []; /* 优化内存占用 */
+                this.worker.postMessage({
+                    type: 'someError',
+                });
                 if (this.config.onUploadError) {
                     this.config.onUploadError();
                 }
@@ -6583,6 +6491,9 @@ class BigUploadComponent {
             const [isMergeError, fileId] = yield this.upload.chunkMerge(this.store);
             if (isMergeError) {
                 this.store.chunks = []; /* 优化内存占用 */
+                this.worker.postMessage({
+                    type: 'someError',
+                });
                 if (this.config.onUploadError) {
                     this.config.onUploadError();
                 }
@@ -6599,8 +6510,8 @@ class BigUploadComponent {
 BigUploadComponent.decorators = [
     { type: Component, args: [{
                 selector: 'gk-big-upload',
-                template: "<div class=\"gk-big-upload-container\">\n    <ng-container *ngIf=\"store.status === 'wait'\">\n        <form nz-form>\n            <ng-content></ng-content>\n            <ng-content select=\"#form-before\"></ng-content>\n            <nz-form-item>\n                <nz-form-label [nzSpan]=\"config.spans[0]\" [nzRequired]=\"config.required\">{{ config.label\n                    }}</nz-form-label>\n                <nz-form-control [nzSpan]=\"config.spans[1]\">\n                    <ng-container *ngIf=\"!store.file\">\n                        <nz-upload #nzUpload nzAction=\"\" [nzBeforeUpload]=\"nzBeforeUpload\">\n                            <gk-button [label]=\"config.buttonText\" icon=\"upload\" (click)=\"onSelect($event, nzUpload)\">\n                            </gk-button>\n                        </nz-upload>\n                    </ng-container>\n                    <ng-container *ngIf=\"store.file\">\n                        <div>\n                            <gk-icon type=\"paper-clip\" style=\"margin-right: 6px;\"></gk-icon>\n                            <span>{{ store.file.name }}</span>\n                            <gk-button mode=\"text\" (click)=\"onDelete()\" style=\"margin-left: 3px;\">\n                                <gk-icon type=\"delete\" style=\"color: #ff4d4f;\"></gk-icon>\n                            </gk-button>\n                        </div>\n                    </ng-container>\n                    <div *ngIf=\"config.suffixs.length > 0\" style=\"margin-top: 5px;\">\u6587\u4EF6\u540E\u7F00\u540D: {{\n                        config.suffixs.join('\u3001')\n                        }}</div>\n                </nz-form-control>\n            </nz-form-item>\n            <ng-content select=\"#form-after\"></ng-content>\n        </form>\n        <div style=\"text-align: right;\">\n            <button *ngIf=\"config.onCancelBtn\" nz-button nzSize=\"large\" style=\"padding-left: 24px; padding-right: 24px;\"\n                (click)=\"config.onCancelBtn()\">\u53D6\u6D88</button>\n            <button nz-button nzSize=\"large\" nzType=\"primary\" [disabled]=\"!!config.uploadDisabled\"\n                style=\"margin-left: 10px; padding-left: 24px; padding-right: 24px;\" (click)=\"onUpload()\">\u4E0A\u4F20</button>\n        </div>\n    </ng-container>\n\n    <ng-container *ngIf=\"['uploading', 'merging', 'stopping'].includes(store.status)\">\n        <div class=\"gk-big-upload-modal-content gk-big-upload-pending-wp\">\n            <nz-progress [nzPercent]=\"store.progress\" nzType=\"circle\" [nzWidth]=\"48\"></nz-progress>\n            <div style=\"margin-top: 18px; line-height: 24px; font-size: 16px;\n            font-weight: 500; color: #000000;\">\u6587\u4EF6\u4E0A\u4F20</div>\n            <div style=\"margin-top: 8px; line-height: 22px; font-size: 14px;\n            font-weight: 400; color: #585858;\">{{ config.uploadText }}</div>\n            <button *ngIf=\"config.showUploadCancel\" nz-button nzSize=\"large\" class=\"gk-big-upload-pending-stop-button\"\n                style=\"margin-top: 24px; width: 226px; height: 38px;\" (click)=\"onStopUpload()\">{{\n                $any({ uploading: '\u53D6\u6D88', merging: '\u53D6\u6D88', stopping: '\u6B63\u5728\u53D6\u6D88\u4E2D' })[store.status] }}</button>\n        </div>\n    </ng-container>\n\n    <ng-container *ngIf=\"store.status === 'error'\">\n        <div class=\"gk-big-upload-modal-content gk-big-upload-error-wp\">\n            <nz-progress [nzPercent]=\"store.progress\" nzType=\"circle\" [nzWidth]=\"48\" nzStatus=\"exception\"></nz-progress>\n            <div style=\"margin-top: 18px; line-height: 24px; font-size: 16px;\n            font-weight: 500; color: #000000;\">\u4E0A\u4F20\u5931\u8D25</div>\n            <div style=\"margin-top: 8px; line-height: 22px; font-size: 14px;\n            font-weight: 400; color: #585858;\">{{ config.errorText }}</div>\n            <button nz-button nzSize=\"large\" nzType=\"primary\" class=\"gk-big-upload-error-restry-button\"\n                style=\"margin-top: 24px; width: 226px; height: 38px;\" (click)=\"onRetry()\">\u91CD\u8BD5</button>\n        </div>\n    </ng-container>\n\n    <ng-container *ngIf=\"store.status === 'success'\">\n        <div class=\"gk-big-upload-modal-content gk-big-upload-success-wp\">\n            <nz-progress [nzPercent]=\"store.progress\" nzType=\"circle\" [nzWidth]=\"48\"></nz-progress>\n            <div style=\"margin-top: 18px; line-height: 24px; font-size: 16px;\n            font-weight: 500; color: #000000;\">\u4E0A\u4F20\u5B8C\u6210</div>\n            <div style=\"margin-top: 8px; line-height: 22px; font-size: 14px;\n            font-weight: 400; color: #585858;\">{{ config.successText }}</div>\n            <button nz-button nzSize=\"large\" nzType=\"primary\" class=\"gk-big-upload-success-enter-button\"\n                style=\"margin-top: 24px; width: 226px; height: 38px;\" (click)=\"onSuccess()\">\u786E\u5B9A</button>\n        </div>\n    </ng-container>\n</div>\n",
-                styles: [".gk-big-upload-container{height:100%;min-height:200px;min-width:250px;position:relative;width:100%}.gk-big-upload-container .gk-big-upload-modal-content{left:50%;position:absolute;text-align:center;top:50%;transform:translate(-50%,-50%);width:320px}"]
+                template: "<div class=\"gk-big-upload-container\">\n    <ng-container *ngIf=\"store.status === 'wait'\">\n        <form nz-form>\n            <ng-content></ng-content>\n            <ng-content select=\"#form-before\"></ng-content>\n            <nz-form-item>\n                <nz-form-label [nzSpan]=\"config.spans[0]\" [nzRequired]=\"config.required\">{{ config.label\n                    }}</nz-form-label>\n                <nz-form-control [nzSpan]=\"config.spans[1]\">\n                    <ng-container *ngIf=\"!store.file\">\n                        <nz-upload #nzUpload nzAction=\"\" [nzBeforeUpload]=\"nzBeforeUpload\">\n                            <gk-button [label]=\"config.buttonText\" icon=\"upload\" (click)=\"onSelect($event, nzUpload)\">\n                            </gk-button>\n                        </nz-upload>\n                    </ng-container>\n                    <ng-container *ngIf=\"store.file\">\n                        <div>\n                            <gk-icon type=\"paper-clip\" style=\"margin-right: 6px;\"></gk-icon>\n                            <span>{{ store.file.name }}</span>\n                            <gk-button mode=\"text\" (click)=\"onDelete()\" style=\"margin-left: 3px;\">\n                                <gk-icon type=\"delete\" style=\"color: #ff4d4f;\"></gk-icon>\n                            </gk-button>\n                        </div>\n                    </ng-container>\n                    <div *ngIf=\"config.suffixs.length > 0\" style=\"margin-top: 5px;\">\u6587\u4EF6\u540E\u7F00\u540D: {{\n                        config.suffixs.join('\u3001')\n                        }}</div>\n                </nz-form-control>\n            </nz-form-item>\n            <ng-content select=\"#form-after\"></ng-content>\n        </form>\n        <div style=\"text-align: right;\">\n            <button *ngIf=\"config.onCancelBtn\" nz-button nzSize=\"large\" style=\"padding-left: 24px; padding-right: 24px;\"\n                (click)=\"config.onCancelBtn()\">\u53D6\u6D88</button>\n            <button nz-button nzSize=\"large\" nzType=\"primary\" [disabled]=\"!!config.uploadDisabled\"\n                style=\"margin-left: 10px; padding-left: 24px; padding-right: 24px;\" (click)=\"onUpload()\">\u4E0A\u4F20</button>\n        </div>\n    </ng-container>\n\n    <ng-container class=\"gk-big-upload-pending-wp\" *ngIf=\"['uploading', 'merging', 'stopping'].includes(store.status)\">\n        <div style=\"position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;\">\n            <nz-progress [nzPercent]=\"store.progress\" nzType=\"circle\" [nzWidth]=\"48\"></nz-progress>\n            <div style=\"margin-top: 18px; line-height: 24px; font-size: 16px;\n            font-weight: 500; color: #000000;\">\u6587\u4EF6\u4E0A\u4F20</div>\n            <div style=\"margin-top: 8px; line-height: 22px; font-size: 14px;\n            font-weight: 400; color: #585858;\">{{ config.uploadText }}</div>\n            <button *ngIf=\"config.showUploadCancel\" nz-button nzSize=\"large\" class=\"gk-big-upload-pending-stop-button\"\n                style=\"margin-top: 24px; width: 226px; height: 38px;\" (click)=\"onStopUpload()\">{{\n                $any({ uploading: '\u53D6\u6D88', merging: '\u53D6\u6D88', stopping: '\u6B63\u5728\u53D6\u6D88\u4E2D' })[store.status] }}</button>\n        </div>\n    </ng-container>\n\n    <ng-container *ngIf=\"store.status === 'error'\">\n        <div class=\"gk-big-upload-error-wp\"\n            style=\"position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;\">\n            <nz-progress [nzPercent]=\"store.progress\" nzType=\"circle\" [nzWidth]=\"48\" nzStatus=\"exception\"></nz-progress>\n            <div style=\"margin-top: 18px; line-height: 24px; font-size: 16px;\n            font-weight: 500; color: #000000;\">\u4E0A\u4F20\u5931\u8D25</div>\n            <div style=\"margin-top: 8px; line-height: 22px; font-size: 14px;\n            font-weight: 400; color: #585858;\">{{ config.errorText }}</div>\n            <button nz-button nzSize=\"large\" nzType=\"primary\" class=\"gk-big-upload-error-restry-button\"\n                style=\"margin-top: 24px; width: 226px; height: 38px;\" (click)=\"onRetry()\">\u91CD\u8BD5</button>\n        </div>\n    </ng-container>\n\n    <ng-container *ngIf=\"store.status === 'success'\">\n        <div class=\"gk-big-upload-success-wp\"\n            style=\"position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;\">\n            <nz-progress [nzPercent]=\"store.progress\" nzType=\"circle\" [nzWidth]=\"48\"></nz-progress>\n            <div style=\"margin-top: 18px; line-height: 24px; font-size: 16px;\n            font-weight: 500; color: #000000;\">\u4E0A\u4F20\u5B8C\u6210</div>\n            <div style=\"margin-top: 8px; line-height: 22px; font-size: 14px;\n            font-weight: 400; color: #585858;\">{{ config.successText }}</div>\n            <button nz-button nzSize=\"large\" nzType=\"primary\" class=\"gk-big-upload-success-enter-button\"\n                style=\"margin-top: 24px; width: 226px; height: 38px;\" (click)=\"onSuccess()\">\u786E\u5B9A</button>\n        </div>\n    </ng-container>\n</div>\n",
+                styles: [".gk-big-upload-container{height:100%;min-height:200px;min-width:250px;position:relative;width:100%}"]
             },] }
 ];
 BigUploadComponent.ctorParameters = () => [
@@ -6650,7 +6561,6 @@ class GKBigUpload {
                 uploadSize: 0,
                 progress: 0,
             });
-            this.store.file = undefined;
         };
         this.getStore = () => {
             return this.store;
