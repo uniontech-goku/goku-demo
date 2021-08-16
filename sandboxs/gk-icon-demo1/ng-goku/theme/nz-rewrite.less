@@ -1,0 +1,49 @@
+@import "./golbal-apply.less";
+
+/** 侧边菜单 */
+.ant-menu-inline,
+.ant-menu-vertical,
+.ant-menu-vertical-left {
+    border-right: 0 none;
+}
+.ant-menu-inline .ant-menu-item,
+.ant-menu-inline .ant-menu-submenu-title {
+    width: 100%;
+}
+.gk-search-group-container .ant-input-number-handler-wrap {
+    display: none;
+}
+.ant-checkbox-inner {
+    border-radius: @gk-radius-sm;
+}
+.ant-tree-checkbox-inner {
+    border-radius: @gk-radius-sm;
+}
+.ant-table-thead > tr > th,
+.ant-table-tbody > tr > td,
+.ant-table tfoot > tr > th,
+.ant-table tfoot > tr > td {
+    padding: 10px 16px;
+    height: 54px;
+}
+
+/** 表单元素 */
+.ant-input {
+  height: @gk-line-height;
+}
+.ant-input-affix-wrapper {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+
+/** 下拉 hover 颜色 */
+.ant-dropdown-menu-item:hover {
+    color: #3266FB;
+}
+.ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+    color: #3266FB;
+}
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+    color: #3266FB;
+}

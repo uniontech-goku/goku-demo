@@ -1,0 +1,51 @@
+/**
+ *  样式的全局变量控制
+ */
+
+/** === 全局变量 === **/
+
+/*--- 间距，尺寸 ---*/
+@gk-space: 16px; /* 间距：容器面板，表单控件之间，容器边距等常用间距 */
+@gk-space-brother: @gk-space / 2; /* 兄弟元素水平间距： 按钮之间，label文本和输入控件之间 */
+@gk-line-height: 32px; /* 行高：按钮，表格行，表单输入控件等默认行高及高度 */
+@gk-radius: 8px; /* 圆角半径： 按钮，容器面板，输入框等元素的圆角半径 */
+@gk-radius-sm: 4px; /* 特殊元素圆角半径，比如多选选择框 */
+
+@gk-fz-limit: 2px;/* 文本尺寸递增范围, 次级文本和着重文本均基于该范围进行递增和递减 */
+@gk-font-size: 14px; /* 文本大小： 基准文本大小 */
+@gk-font-size-minor: @gk-font-size - @gk-fz-limit; /* 次级文本大小: 通常用于尺寸较小的容器当中，比如数字标记点或者tag组件*/
+@gk-font-size-stress: @gk-font-size + @gk-fz-limit; /* 着重文本大小： 通常用于普通标题 */
+@gk-font-size-max: @gk-font-size-stress + @gk-fz-limit; /* 最大文本大小： 通常用于一级标题或者网站标题等 */
+
+/*--- 颜色 ---*/
+@gk-color-primary: #3266FB; /* 主色调 */
+@gk-color-primary-hover: tint(@gk-color-primary, 25%);
+@gk-color-primary-active: desaturate(@gk-color-primary, 25%);
+@gk-color-success: #52C41A; /* 成功色 */
+@gk-color-success-hover: tint(@gk-color-success, 25%);
+@gk-color-success-active: desaturate(@gk-color-success, 25%);
+@gk-color-warning: #FAAD14; /* 警告色 */
+@gk-color-warning-hover: tint(@gk-color-warning, 25%);
+@gk-color-warning-active: desaturate(@gk-color-warning, 25%);
+@gk-color-danger:#FF4D4F; /* 危险色 */
+@gk-color-error: @gk-color-danger;
+
+@gk-color-text-stress: #262626; /* 加深文本色 */
+@gk-color-text: #595959; /* 正常文本色 */
+@gk-color-text-minor: #8c8c8c; /* 次要文本色 */
+@gk-color-text-hint: #bfbfbf; /* 提示文本色 */
+
+@gk-color-border: #d9d9d9; /* 边框色： 输入框边框，分隔线等边框色 */
+@gk-color-table-border: #f0f0f0; /* 表格边框 */
+
+
+/** === 单例变量 === **/
+
+/* 整个页面背景色 */
+@gk-background: #f5f5f5;
+
+/* top栏高度 */
+@gk-top-height: 72px;
+
+/* 侧边菜单宽度 */
+@gk-aside-width: 208px;
