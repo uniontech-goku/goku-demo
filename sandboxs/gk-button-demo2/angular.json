@@ -29,7 +29,7 @@
                 "src/app"
               ],
               "styles": [
-                "src/styles.less"
+                "src/styles.css"
               ],
               "scripts": []
             },
@@ -173,7 +173,7 @@
                 "src/assets"
               ],
               "styles": [
-                "src/styles.less"
+                "src/styles.css"
               ],
               "scripts": []
             }
@@ -201,51 +201,6 @@
               "production": {
                 "devServerTarget": "goku-integrated:serve:production"
               }
-            }
-          }
-        }
-      },
-      "ng-goku": {
-        "projectType": "library",
-        "schematics": {
-          "@schematics/angular:component": {
-            "style": "less"
-          }
-        },
-        "root": "projects/ng-goku",
-        "sourceRoot": "projects/ng-goku/src",
-        "prefix": "gk",
-        "architect": {
-          "build": {
-            "builder": "@angular-devkit/build-angular:ng-packagr",
-            "options": {
-              "tsConfig": "projects/ng-goku/tsconfig.lib.json",
-              "project": "projects/ng-goku/ng-package.json"
-            },
-            "configurations": {
-              "production": {
-                "tsConfig": "projects/ng-goku/tsconfig.lib.prod.json"
-              }
-            }
-          },
-          "test": {
-            "builder": "@angular-devkit/build-angular:karma",
-            "options": {
-              "main": "projects/ng-goku/src/test.ts",
-              "tsConfig": "projects/ng-goku/tsconfig.spec.json",
-              "karmaConfig": "projects/ng-goku/karma.conf.js"
-            }
-          },
-          "lint": {
-            "builder": "@angular-devkit/build-angular:tslint",
-            "options": {
-              "tsConfig": [
-                "projects/ng-goku/tsconfig.lib.json",
-                "projects/ng-goku/tsconfig.spec.json"
-              ],
-              "exclude": [
-                "**/node_modules/**"
-              ]
             }
           }
         }
