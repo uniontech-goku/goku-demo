@@ -9,8 +9,8 @@ import { FlagFill } from '@ant-design/icons-angular/icons'
         <span>mode 默认值为 fill，type 默认值为 default </span>
     </div>
     <div>
-        <div>loading: <nz-switch [(ngModel)]="loading" (ngModelChange)="disabled = false"></nz-switch> （loading状态不会传递点击事件）</div>
-        <div>disabled: <nz-switch [(ngModel)]="disabled" (ngModelChange)="loading = false"></nz-switch> （disabled状态不会传递点击事件）<div>
+        <!-- <div>loading: <nz-switch [(ngModel)]="loading" (ngModelChange)="disabled = false"></nz-switch> （loading状态不会传递点击事件）</div>
+        <div>disabled: <nz-switch [(ngModel)]="disabled" (ngModelChange)="loading = false"></nz-switch> （disabled状态不会传递点击事件）<div> -->
     </div>
     <br />
     <div>
