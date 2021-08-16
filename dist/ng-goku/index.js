@@ -32,7 +32,7 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { __awaiter } from 'tslib';
 import Wangeditor from 'wangeditor';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import { Observable, Subject } from 'rxjs';
 import { use, init } from 'echarts/core';
 import { LineChart, PieChart } from 'echarts/charts';
@@ -135,12 +135,14 @@ class AsideMenuComponent {
     }
 }
 AsideMenuComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-aside-menu',
-                template: "<div class=\"gk-aside-menu-container\">\n    <div class=\"gk-aside-fast\" [ngStyle]=\"{ height: fastMenusHeight }\">\n        <ul nz-menu nzMode=\"inline\" *ngIf=\"asideMenus.fastMenus.length > 0\">\n            <li *ngFor=\"let menu of asideMenus.fastMenus\" nz-menu-item nzMatchRouter>\n                <gk-icon [type]=\"menu.icon\"></gk-icon>\n                <a [routerLink]=\"[menu.path]\" [queryParams]=\"menu.queryParams\">{{ menu.label }}</a>\n            </li>\n        </ul>\n    </div>\n\n    <div class=\"gk-aside-main\" [ngStyle]=\"{ bottom: asideMenusBottom }\">\n        <ul nz-menu nzMode=\"inline\">\n            <ng-container *ngFor=\"let group of asideMenus.menuGroups; let m = index\">\n                <li *ngIf=\"group.title\" nz-menu-group [nzTitle]=\"group.title\" class=\"gk-menu-group\"></li>\n                <ng-container *ngFor=\"let firstMenu of group.menus; let n = index\">\n                    <li *ngIf=\"firstMenu.type === 'firtsMenuWp'\" nz-submenu [nzTitle]=\"titleTpl\"\n                        [nzOpen]=\"submenuOpen[0] === m && submenuOpen[1] === n\" (nzOpenChange)=\"clickSubmenu(m, n)\">\n                        <ng-template #titleTpl>\n                            <gk-icon [type]=\"firstMenu.icon\"></gk-icon>\n                            <span>{{ firstMenu.label }}</span>\n                        </ng-template>\n                        <ul>\n                            <li *ngFor=\"let secondMenu of firstMenu.children\" nz-menu-item nzMatchRouter\n                                class=\"child-menu\">\n                                <a [routerLink]=\"[secondMenu.path]\"\n                                    [queryParams]=\"secondMenu.config.queryParams\">{{secondMenu.label}}</a>\n                            </li>\n                        </ul>\n                    </li>\n                    <li *ngIf=\"firstMenu.type === 'firtsMenuLink'\" nz-menu-item nzMatchRouter>\n                        <gk-icon [type]=\"firstMenu.icon\"></gk-icon>\n                        <a [routerLink]=\"[firstMenu.path]\" [queryParams]=\"firstMenu.config.queryParams\">{{\n                            firstMenu.label }}</a>\n                    </li>\n                </ng-container>\n            </ng-container>\n        </ul>\n\n        <ng-container *ngIf=\"router$ | async\"></ng-container>\n    </div>\n</div>\n",
-                encapsulation: ViewEncapsulation.None,
-                styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}.gk-aside-menu-container{background:#fff;box-sizing:border-box;height:100%;padding-bottom:8px;padding-top:8px;position:relative}.gk-aside-menu-container .gk-aside-main{left:0;margin-bottom:8px;overflow-x:visible;overflow-y:auto;position:absolute;right:0;top:8px}.gk-aside-menu-container .gk-aside-main .gk-menu-group{margin-top:16px}.gk-aside-menu-container .gk-aside-main .gk-menu-group .ant-menu-item-group-title{color:#262626;font-size:16px;font-weight:500}.gk-aside-menu-container .ant-menu-sub.ant-menu-inline{background:#fff}.gk-aside-menu-container .gk-aside-fast{bottom:8px;left:0;overflow-x:visible;overflow-y:auto;position:absolute;right:0}"]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-aside-menu',
+            template: "<div class=\"gk-aside-menu-container\">\n    <div class=\"gk-aside-fast\" [ngStyle]=\"{ height: fastMenusHeight }\">\n        <ul nz-menu nzMode=\"inline\" *ngIf=\"asideMenus.fastMenus.length > 0\">\n            <li *ngFor=\"let menu of asideMenus.fastMenus\" nz-menu-item nzMatchRouter>\n                <gk-icon [type]=\"menu.icon\"></gk-icon>\n                <a [routerLink]=\"[menu.path]\" [queryParams]=\"menu.queryParams\">{{ menu.label }}</a>\n            </li>\n        </ul>\n    </div>\n\n    <div class=\"gk-aside-main\" [ngStyle]=\"{ bottom: asideMenusBottom }\">\n        <ul nz-menu nzMode=\"inline\">\n            <ng-container *ngFor=\"let group of asideMenus.menuGroups; let m = index\">\n                <li *ngIf=\"group.title\" nz-menu-group [nzTitle]=\"group.title\" class=\"gk-menu-group\"></li>\n                <ng-container *ngFor=\"let firstMenu of group.menus; let n = index\">\n                    <li *ngIf=\"firstMenu.type === 'firtsMenuWp'\" nz-submenu [nzTitle]=\"titleTpl\"\n                        [nzOpen]=\"submenuOpen[0] === m && submenuOpen[1] === n\" (nzOpenChange)=\"clickSubmenu(m, n)\">\n                        <ng-template #titleTpl>\n                            <gk-icon [type]=\"firstMenu.icon\"></gk-icon>\n                            <span>{{ firstMenu.label }}</span>\n                        </ng-template>\n                        <ul>\n                            <li *ngFor=\"let secondMenu of firstMenu.children\" nz-menu-item nzMatchRouter\n                                class=\"child-menu\">\n                                <a [routerLink]=\"[secondMenu.path]\"\n                                    [queryParams]=\"secondMenu.config.queryParams\">{{secondMenu.label}}</a>\n                            </li>\n                        </ul>\n                    </li>\n                    <li *ngIf=\"firstMenu.type === 'firtsMenuLink'\" nz-menu-item nzMatchRouter>\n                        <gk-icon [type]=\"firstMenu.icon\"></gk-icon>\n                        <a [routerLink]=\"[firstMenu.path]\" [queryParams]=\"firstMenu.config.queryParams\">{{\n                            firstMenu.label }}</a>\n                    </li>\n                </ng-container>\n            </ng-container>\n        </ul>\n\n        <ng-container *ngIf=\"router$ | async\"></ng-container>\n    </div>\n</div>\n",
+            encapsulation: ViewEncapsulation.None,
+            styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}.gk-aside-menu-container{background:#fff;box-sizing:border-box;height:100%;padding-bottom:8px;padding-top:8px;position:relative}.gk-aside-menu-container .gk-aside-main{left:0;margin-bottom:8px;overflow-x:visible;overflow-y:auto;position:absolute;right:0;top:8px}.gk-aside-menu-container .gk-aside-main .gk-menu-group{margin-top:16px}.gk-aside-menu-container .gk-aside-main .gk-menu-group .ant-menu-item-group-title{color:#262626;font-size:16px;font-weight:500}.gk-aside-menu-container .ant-menu-sub.ant-menu-inline{background:#fff}.gk-aside-menu-container .gk-aside-fast{bottom:8px;left:0;overflow-x:visible;overflow-y:auto;position:absolute;right:0}"]
+        },]
+    }
 ];
 AsideMenuComponent.ctorParameters = () => [
     { type: Router },
@@ -207,12 +209,14 @@ class TopBarComponent {
     }
 }
 TopBarComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-top-bar',
-                template: "<div class=\"gk-top-bar-container\">\n    <div class=\"gk-topbar-left-container clearfix\">\n        <div class=\"gk-topbar-logo-container\">\n            <ng-container *ngIf=\"logo_content.childNodes.length == 0\">\n                <div class=\"gk-logo-default\">\n                    <img class=\"gk-logo-img\" [src]=\"logoSrc || logoBase64\" alt=\"\" />\n                    <a class=\"gk-logo-link\" *ngIf=\"logoHref\" [routerLink]=\"[logoHref]\"></a>\n                </div>\n            </ng-container>\n\n            <div #logo_content class=\"gk-topbar-logo-content\">\n                <ng-content select=\"#logo\"></ng-content>\n            </div>\n        </div>\n        <div class=\"gk-topbar-menu-container\" *ngIf='topMenus && topMenus.length'>\n            <div class=\"menu\">\n                <ul class=\"gk-title-stress\">\n                    <ng-container *ngFor=\"let firstMenu of topMenus\">\n                        <li *ngIf=\"$any(firstMenu).children\">\n                            <a nz-dropdown class=\"gk-title\" [nzDropdownMenu]=\"childMenu\">\n                                <gk-icon [type]=\"firstMenu.icon\" style=\"margin-right: 3px;\"></gk-icon>\n                                <span>{{ firstMenu.label }}</span>\n                                <gk-icon type=\"down\"></gk-icon>\n                            </a>\n                            <nz-dropdown-menu #childMenu=\"nzDropdownMenu\">\n                                <ul nz-menu nzSelectable class=\"gk-top-bar-dropdown\">\n                                    <li *ngFor=\"let secondMenu of $any(firstMenu).children\" nz-menu-item>\n                                        <a [routerLink]=\"[secondMenu.path]\" [queryParams]=\"secondMenu.queryParams\"\n                                            class=\"gk-title-minor\">{{ secondMenu.label }}</a>\n                                    </li>\n                                </ul>\n                            </nz-dropdown-menu>\n                        </li>\n                        <li *ngIf=\"!$any(firstMenu).children\">\n                            <a class=\"gk-title\" [routerLink]=\"[$any(firstMenu).path]\"\n                                [queryParams]=\"$any(firstMenu).queryParams\">\n                                <gk-icon [type]=\"firstMenu.icon\" style=\"margin-right: 3px;\"></gk-icon>\n                                <span>{{ firstMenu.label }}</span>\n                            </a>\n                        </li>\n                    </ng-container>\n\n                </ul>\n            </div>\n        </div>\n\n        <gk-top-search *ngIf='searchLeft' [control]='searchContorl' [searchPlaceholder]=\"searchPlaceholder\"\n            (doSearch)='searchEvent.emit(searchContorl.value)'></gk-top-search>\n\n        <div class=\"gk-topbar-left-content\">\n            <ng-content select=\"#left\"></ng-content>\n        </div>\n    </div>\n\n    <div class=\"gk-topbar-right-container clearfix\">\n        <div class=\"gk-topbar-right-content\">\n            <ng-content select=\"#right\"></ng-content>\n        </div>\n\n        <gk-top-search *ngIf='searchRight' [control]='searchContorl' [searchPlaceholder]=\"searchPlaceholder\"\n            (doSearch)='searchEvent.emit(searchContorl.value)'></gk-top-search>\n\n        <div class=\"gk-topbar-fastbtns-container\" *ngIf='topFast?.length'>\n            <div class=\"fastbtns\">\n                <ng-container *ngFor=\"let child of topFast\">\n                    <a class=\"gk-title-minor gk-topbar-fastbtns-item\" [routerLink]='[child.path]'>\n                        <gk-icon [type]=\"child.icon\" style=\"margin-right: 3px;\"></gk-icon>\n                        <span>{{ child.label }}</span>\n                    </a>\n                </ng-container>\n            </div>\n        </div>\n        <div *ngIf=\"user\" class=\"gk-topbar-user-container\">\n            <ng-container *ngIf=\"!(userActions && userActions.length)\">\n                <div class=\"user\">\n                    <nz-avatar nzIcon=\"user\" [nzSize]=\"32\" [nzSrc]=\"userAvatar || defaultUserBase64\"></nz-avatar>\n                    <span *ngIf=\"userText\" style=\"margin-left: 5px;\">{{ userText }}</span>\n                </div>\n            </ng-container>\n            <ng-container *ngIf=\"userActions && userActions.length\">\n                <div class=\"user\" nz-dropdown [nzDropdownMenu]=\"menu\">\n                    <nz-avatar nzIcon=\"user\" [nzSize]=\"32\" [nzSrc]=\"userAvatar || defaultUserBase64\"></nz-avatar>\n                    <span *ngIf=\"userText\" style=\"margin-left: 5px;\">{{ userText }}</span>\n                    <gk-icon type=\"down\" style=\"margin-left: 5px;\"></gk-icon>\n                </div>\n                <nz-dropdown-menu #menu=\"nzDropdownMenu\">\n                    <ul nz-menu>\n                        <li nz-menu-item *ngFor=\"let item of userActions\" (click)=\"userEvent.emit(item)\">\n                            <gk-icon [type]=\"item.icon\" style=\"margin-right: 3px;\"></gk-icon>\n                            <span>{{ item.label }}</span>\n                        </li>\n                    </ul>\n                </nz-dropdown-menu>\n            </ng-container>\n        </div>\n    </div>\n</div>\n",
-                encapsulation: ViewEncapsulation.None,
-                styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled),.gk-top-bar-dropdown a:hover{color:#3266fb}.gk-top-bar-dropdown i{margin-right:4px}.gk-top-bar-dropdown .gk-topbar-no-icon a,.gk-top-bar-dropdown .gk-topbar-no-icon span{margin-left:19px;padding-left:0}.gk-top-bar-container{background:#fff;height:72px;overflow-y:hidden;width:100%}.gk-top-bar-container .clearfix:after{clear:both;content:\"\";display:block;height:0;visibility:hidden}.gk-top-bar-container .cursor-default{cursor:default}.gk-top-bar-container .gk-topbar-search-container{float:left;height:72px;line-height:72px;margin-right:71px}.gk-top-bar-container .gk-topbar-search-container .ant-input-affix-wrapper{background:#f7f8fa;color:#000;outline:none;vertical-align:middle;width:168px}.gk-top-bar-container .gk-topbar-search-container .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-focused){border:1px solid transparent}.gk-top-bar-container .gk-topbar-search-container .ant-input-affix-wrapper input{background:#f7f8fa;color:#000}.gk-top-bar-container .gk-topbar-left-container{float:left}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-logo-container{float:left;height:72px;min-width:208px;position:relative}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-logo-container .gk-logo-default{display:inline-block;height:100%;width:208px}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-logo-container .gk-logo-default .gk-logo-img{border:none;left:50%;max-height:100%;max-width:100%;position:absolute;top:50%;transform:translate(-50%,-50%)}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-logo-container .gk-logo-default .gk-logo-link{height:100%;position:absolute;width:100%}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container{align-items:center;display:flex;float:left;height:72px;justify-content:center;margin-left:16px}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu>ul>li{float:left;list-style:none;margin-right:46px}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu>ul>li .submenu li{list-style:none;width:100%}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu ul{margin:0;padding:0}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu ul:after,.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu ul:before{clear:both;content:\"\";display:block}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu ul li{list-style:none}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu ul li a{color:#595959}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu ul li a:hover{color:#3266fb}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu ul li .anticon-down{font-size:10px;margin-left:4px}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-left-content{float:left;height:100%;overflow:hidden}.gk-top-bar-container .gk-topbar-right-container{float:right;height:72px;line-height:72px;margin-right:28px}.gk-top-bar-container .gk-topbar-right-container .gk-topbar-right-content{float:left;height:100%;line-height:normal;margin-right:28px;overflow:hidden}.gk-top-bar-container .gk-topbar-right-container .gk-topbar-fastbtns-container{color:#333;float:left;margin-right:34px}.gk-top-bar-container .gk-topbar-right-container .gk-topbar-fastbtns-container .gk-topbar-fastbtns-item{margin-left:10px}.gk-top-bar-container .gk-topbar-right-container .gk-topbar-user-container{float:left}"]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-top-bar',
+            template: "<div class=\"gk-top-bar-container\">\n    <div class=\"gk-topbar-left-container clearfix\">\n        <div class=\"gk-topbar-logo-container\">\n            <ng-container *ngIf=\"logo_content.childNodes.length == 0\">\n                <div class=\"gk-logo-default\">\n                    <img class=\"gk-logo-img\" [src]=\"logoSrc || logoBase64\" alt=\"\" />\n                    <a class=\"gk-logo-link\" *ngIf=\"logoHref\" [routerLink]=\"[logoHref]\"></a>\n                </div>\n            </ng-container>\n\n            <div #logo_content class=\"gk-topbar-logo-content\">\n                <ng-content select=\"#logo\"></ng-content>\n            </div>\n        </div>\n        <div class=\"gk-topbar-menu-container\" *ngIf='topMenus && topMenus.length'>\n            <div class=\"menu\">\n                <ul class=\"gk-title-stress\">\n                    <ng-container *ngFor=\"let firstMenu of topMenus\">\n                        <li *ngIf=\"$any(firstMenu).children\">\n                            <a nz-dropdown class=\"gk-title\" [nzDropdownMenu]=\"childMenu\">\n                                <gk-icon [type]=\"firstMenu.icon\" style=\"margin-right: 3px;\"></gk-icon>\n                                <span>{{ firstMenu.label }}</span>\n                                <gk-icon type=\"down\"></gk-icon>\n                            </a>\n                            <nz-dropdown-menu #childMenu=\"nzDropdownMenu\">\n                                <ul nz-menu nzSelectable class=\"gk-top-bar-dropdown\">\n                                    <li *ngFor=\"let secondMenu of $any(firstMenu).children\" nz-menu-item>\n                                        <a [routerLink]=\"[secondMenu.path]\" [queryParams]=\"secondMenu.queryParams\"\n                                            class=\"gk-title-minor\">{{ secondMenu.label }}</a>\n                                    </li>\n                                </ul>\n                            </nz-dropdown-menu>\n                        </li>\n                        <li *ngIf=\"!$any(firstMenu).children\">\n                            <a class=\"gk-title\" [routerLink]=\"[$any(firstMenu).path]\"\n                                [queryParams]=\"$any(firstMenu).queryParams\">\n                                <gk-icon [type]=\"firstMenu.icon\" style=\"margin-right: 3px;\"></gk-icon>\n                                <span>{{ firstMenu.label }}</span>\n                            </a>\n                        </li>\n                    </ng-container>\n\n                </ul>\n            </div>\n        </div>\n\n        <gk-top-search *ngIf='searchLeft' [control]='searchContorl' [searchPlaceholder]=\"searchPlaceholder\"\n            (doSearch)='searchEvent.emit(searchContorl.value)'></gk-top-search>\n\n        <div class=\"gk-topbar-left-content\">\n            <ng-content select=\"#left\"></ng-content>\n        </div>\n    </div>\n\n    <div class=\"gk-topbar-right-container clearfix\">\n        <div class=\"gk-topbar-right-content\">\n            <ng-content select=\"#right\"></ng-content>\n        </div>\n\n        <gk-top-search *ngIf='searchRight' [control]='searchContorl' [searchPlaceholder]=\"searchPlaceholder\"\n            (doSearch)='searchEvent.emit(searchContorl.value)'></gk-top-search>\n\n        <div class=\"gk-topbar-fastbtns-container\" *ngIf='topFast?.length'>\n            <div class=\"fastbtns\">\n                <ng-container *ngFor=\"let child of topFast\">\n                    <a class=\"gk-title-minor gk-topbar-fastbtns-item\" [routerLink]='[child.path]'>\n                        <gk-icon [type]=\"child.icon\" style=\"margin-right: 3px;\"></gk-icon>\n                        <span>{{ child.label }}</span>\n                    </a>\n                </ng-container>\n            </div>\n        </div>\n        <div *ngIf=\"user\" class=\"gk-topbar-user-container\">\n            <ng-container *ngIf=\"!(userActions && userActions.length)\">\n                <div class=\"user\">\n                    <nz-avatar nzIcon=\"user\" [nzSize]=\"32\" [nzSrc]=\"userAvatar || defaultUserBase64\"></nz-avatar>\n                    <span *ngIf=\"userText\" style=\"margin-left: 5px;\">{{ userText }}</span>\n                </div>\n            </ng-container>\n            <ng-container *ngIf=\"userActions && userActions.length\">\n                <div class=\"user\" nz-dropdown [nzDropdownMenu]=\"menu\">\n                    <nz-avatar nzIcon=\"user\" [nzSize]=\"32\" [nzSrc]=\"userAvatar || defaultUserBase64\"></nz-avatar>\n                    <span *ngIf=\"userText\" style=\"margin-left: 5px;\">{{ userText }}</span>\n                    <gk-icon type=\"down\" style=\"margin-left: 5px;\"></gk-icon>\n                </div>\n                <nz-dropdown-menu #menu=\"nzDropdownMenu\">\n                    <ul nz-menu>\n                        <li nz-menu-item *ngFor=\"let item of userActions\" (click)=\"userEvent.emit(item)\">\n                            <gk-icon [type]=\"item.icon\" style=\"margin-right: 3px;\"></gk-icon>\n                            <span>{{ item.label }}</span>\n                        </li>\n                    </ul>\n                </nz-dropdown-menu>\n            </ng-container>\n        </div>\n    </div>\n</div>\n",
+            encapsulation: ViewEncapsulation.None,
+            styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled),.gk-top-bar-dropdown a:hover{color:#3266fb}.gk-top-bar-dropdown i{margin-right:4px}.gk-top-bar-dropdown .gk-topbar-no-icon a,.gk-top-bar-dropdown .gk-topbar-no-icon span{margin-left:19px;padding-left:0}.gk-top-bar-container{background:#fff;height:72px;overflow-y:hidden;width:100%}.gk-top-bar-container .clearfix:after{clear:both;content:\"\";display:block;height:0;visibility:hidden}.gk-top-bar-container .cursor-default{cursor:default}.gk-top-bar-container .gk-topbar-search-container{float:left;height:72px;line-height:72px;margin-right:71px}.gk-top-bar-container .gk-topbar-search-container .ant-input-affix-wrapper{background:#f7f8fa;color:#000;outline:none;vertical-align:middle;width:168px}.gk-top-bar-container .gk-topbar-search-container .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-focused){border:1px solid transparent}.gk-top-bar-container .gk-topbar-search-container .ant-input-affix-wrapper input{background:#f7f8fa;color:#000}.gk-top-bar-container .gk-topbar-left-container{float:left}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-logo-container{float:left;height:72px;min-width:208px;position:relative}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-logo-container .gk-logo-default{display:inline-block;height:100%;width:208px}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-logo-container .gk-logo-default .gk-logo-img{border:none;left:50%;max-height:100%;max-width:100%;position:absolute;top:50%;transform:translate(-50%,-50%)}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-logo-container .gk-logo-default .gk-logo-link{height:100%;position:absolute;width:100%}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container{align-items:center;display:flex;float:left;height:72px;justify-content:center;margin-left:16px}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu>ul>li{float:left;list-style:none;margin-right:46px}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu>ul>li .submenu li{list-style:none;width:100%}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu ul{margin:0;padding:0}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu ul:after,.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu ul:before{clear:both;content:\"\";display:block}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu ul li{list-style:none}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu ul li a{color:#595959}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu ul li a:hover{color:#3266fb}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-menu-container .menu ul li .anticon-down{font-size:10px;margin-left:4px}.gk-top-bar-container .gk-topbar-left-container .gk-topbar-left-content{float:left;height:100%;overflow:hidden}.gk-top-bar-container .gk-topbar-right-container{float:right;height:72px;line-height:72px;margin-right:28px}.gk-top-bar-container .gk-topbar-right-container .gk-topbar-right-content{float:left;height:100%;line-height:normal;margin-right:28px;overflow:hidden}.gk-top-bar-container .gk-topbar-right-container .gk-topbar-fastbtns-container{color:#333;float:left;margin-right:34px}.gk-top-bar-container .gk-topbar-right-container .gk-topbar-fastbtns-container .gk-topbar-fastbtns-item{margin-left:10px}.gk-top-bar-container .gk-topbar-right-container .gk-topbar-user-container{float:left}"]
+        },]
+    }
 ];
 TopBarComponent.ctorParameters = () => [
     { type: DomSanitizer },
@@ -347,9 +351,11 @@ class GKBreadCrumbsService {
 }
 GKBreadCrumbsService.ɵprov = ɵɵdefineInjectable({ factory: function GKBreadCrumbsService_Factory() { return new GKBreadCrumbsService(); }, token: GKBreadCrumbsService, providedIn: "root" });
 GKBreadCrumbsService.decorators = [
-    { type: Injectable, args: [{
-                providedIn: 'root',
-            },] }
+    {
+        type: Injectable, args: [{
+            providedIn: 'root',
+        },]
+    }
 ];
 GKBreadCrumbsService.ctorParameters = () => [];
 
@@ -379,12 +385,14 @@ class HomeComponent {
     }
 }
 HomeComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-home',
-                template: "<div class=\"gk-home-container\">\n    <div class=\"gk-top\">\n        <gk-top-bar [logoSrc]=\"logoSrc\" [logoHref]=\"logoHref\" [topMenus]=\"topMenus\" [topFast]=\"topFast\"\n            [user]=\"userConf.user !== false\" [userAvatar]=\"userConf.userAvatar\" [userText]=\"userConf.userText\"\n            [userActions]=\"userConf.userActions\" [search]=\"search\" [searchPlaceholder]=\"searchPlaceholder\"\n            [searchPosition]=\"searchPosition\" (searchEvent)=\"searchEvent.emit($event)\"\n            (userEvent)=\"userEvent.emit($event)\" (searchInput)=\"searchInput.emit($event)\">\n            <ng-content id=\"logo\" select=\"#logo\"></ng-content>\n            <ng-content id=\"left\" select=\"#left\"></ng-content>\n            <ng-content id='right' select=\"#right\"></ng-content>\n        </gk-top-bar>\n    </div>\n    <main class=\"gk-content\">\n        <div class=\"gk-aside\">\n            <gk-aside-menu [asideMenus]=\"asideMenusClass\"></gk-aside-menu>\n        </div>\n        <div class=\"gk-inner-page\" [ngClass]=\"{ 'has-bread-crumbs': showBcs }\">\n            <gk-bread-crumbs *ngIf=\"bcs.enable\" [asideMenus]=\"asideMenusClass\" class=\"gk-bread-crumbs\">\n            </gk-bread-crumbs>\n            <div class=\"gk-inner-body\">\n                <ng-content select=\"#inner-page\"> </ng-content>\n                <router-outlet></router-outlet>\n            </div>\n        </div>\n    </main>\n</div>\n",
-                encapsulation: ViewEncapsulation.None,
-                styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}body,html{height:100%}.gk-home-container{box-sizing:border-box;height:100%;padding-top:72px;position:relative}.gk-home-container .gk-top{box-shadow:0 3px 10px rgba(0,0,0,.05);height:72px;left:0;position:fixed;top:0;width:100%;z-index:900}.gk-home-container .gk-content{box-sizing:border-box;height:100%;padding-left:208px;position:relative}.gk-home-container .gk-content .gk-aside{bottom:0;box-shadow:0 0 2px rgba(0,0,0,.05);left:0;overflow:hidden;position:fixed;top:72px;width:208px;z-index:899}.gk-home-container .gk-content .gk-inner-page{box-sizing:border-box;height:100%;padding-top:24px;position:relative}.gk-home-container .gk-content .gk-inner-page.has-bread-crumbs{padding-top:70px}.gk-home-container .gk-content .gk-inner-page .gk-inner-body{box-sizing:border-box;padding:0 24px 24px}.gk-home-container .gk-content .gk-inner-page .gk-bread-crumbs{height:22px;line-height:22px;padding-left:24px;padding-right:24px;position:absolute;top:24px}"]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-home',
+            template: "<div class=\"gk-home-container\">\n    <div class=\"gk-top\">\n        <gk-top-bar [logoSrc]=\"logoSrc\" [logoHref]=\"logoHref\" [topMenus]=\"topMenus\" [topFast]=\"topFast\"\n            [user]=\"userConf.user !== false\" [userAvatar]=\"userConf.userAvatar\" [userText]=\"userConf.userText\"\n            [userActions]=\"userConf.userActions\" [search]=\"search\" [searchPlaceholder]=\"searchPlaceholder\"\n            [searchPosition]=\"searchPosition\" (searchEvent)=\"searchEvent.emit($event)\"\n            (userEvent)=\"userEvent.emit($event)\" (searchInput)=\"searchInput.emit($event)\">\n            <ng-content id=\"logo\" select=\"#logo\"></ng-content>\n            <ng-content id=\"left\" select=\"#left\"></ng-content>\n            <ng-content id='right' select=\"#right\"></ng-content>\n        </gk-top-bar>\n    </div>\n    <main class=\"gk-content\">\n        <div class=\"gk-aside\">\n            <gk-aside-menu [asideMenus]=\"asideMenusClass\"></gk-aside-menu>\n        </div>\n        <div class=\"gk-inner-page\" [ngClass]=\"{ 'has-bread-crumbs': showBcs }\">\n            <gk-bread-crumbs *ngIf=\"bcs.enable\" [asideMenus]=\"asideMenusClass\" class=\"gk-bread-crumbs\">\n            </gk-bread-crumbs>\n            <div class=\"gk-inner-body\">\n                <ng-content select=\"#inner-page\"> </ng-content>\n                <router-outlet></router-outlet>\n            </div>\n        </div>\n    </main>\n</div>\n",
+            encapsulation: ViewEncapsulation.None,
+            styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}body,html{height:100%}.gk-home-container{box-sizing:border-box;height:100%;padding-top:72px;position:relative}.gk-home-container .gk-top{box-shadow:0 3px 10px rgba(0,0,0,.05);height:72px;left:0;position:fixed;top:0;width:100%;z-index:900}.gk-home-container .gk-content{box-sizing:border-box;height:100%;padding-left:208px;position:relative}.gk-home-container .gk-content .gk-aside{bottom:0;box-shadow:0 0 2px rgba(0,0,0,.05);left:0;overflow:hidden;position:fixed;top:72px;width:208px;z-index:899}.gk-home-container .gk-content .gk-inner-page{box-sizing:border-box;height:100%;padding-top:24px;position:relative}.gk-home-container .gk-content .gk-inner-page.has-bread-crumbs{padding-top:70px}.gk-home-container .gk-content .gk-inner-page .gk-inner-body{box-sizing:border-box;padding:0 24px 24px}.gk-home-container .gk-content .gk-inner-page .gk-bread-crumbs{height:22px;line-height:22px;padding-left:24px;padding-right:24px;position:absolute;top:24px}"]
+        },]
+    }
 ];
 HomeComponent.ctorParameters = () => [
     { type: GKBreadCrumbsService }
@@ -462,11 +470,13 @@ class BreadCrumbsComponent {
     }
 }
 BreadCrumbsComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-bread-crumbs',
-                template: "<nz-breadcrumb class=\"gk-bread-crumbs-container\">\n    <nz-breadcrumb-item *ngFor=\"let nav of bcs.get()\">\n        <a *ngIf=\"!!nav.path\" [routerLink]=\"[nav.path]\" class=\"gk-nav\">{{ nav.label }}</a>\n        <ng-container *ngIf=\"!nav.path\">{{ nav.label }}</ng-container>\n    </nz-breadcrumb-item>\n</nz-breadcrumb>\n\n<ng-container *ngIf=\"router$ | async\"></ng-container>\n",
-                styles: ["::ng-deep .ant-breadcrumb-separator{margin:0 6px}"]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-bread-crumbs',
+            template: "<nz-breadcrumb class=\"gk-bread-crumbs-container\">\n    <nz-breadcrumb-item *ngFor=\"let nav of bcs.get()\">\n        <a *ngIf=\"!!nav.path\" [routerLink]=\"[nav.path]\" class=\"gk-nav\">{{ nav.label }}</a>\n        <ng-container *ngIf=\"!nav.path\">{{ nav.label }}</ng-container>\n    </nz-breadcrumb-item>\n</nz-breadcrumb>\n\n<ng-container *ngIf=\"router$ | async\"></ng-container>\n",
+            styles: ["::ng-deep .ant-breadcrumb-separator{margin:0 6px}"]
+        },]
+    }
 ];
 BreadCrumbsComponent.ctorParameters = () => [
     { type: Router },
@@ -492,12 +502,14 @@ class TopSearchComponent {
     }
 }
 TopSearchComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-top-search',
-                template: "<div class=\"gk-topbar-search-container\">\n    <nz-input-group [nzSuffix]=\"suffixIconSearch\">\n        <input type=\"text\" [formControl]='control' nz-input [placeholder]=\"searchPlaceholder\" (keyup)=\"keyup($event)\" />\n    </nz-input-group>\n    <ng-template #suffixIconSearch>\n        <gk-icon type=\"search\" (click)=\"doSearch.emit()\"></gk-icon>\n    </ng-template>\n</div>\n",
-                encapsulation: ViewEncapsulation.None,
-                styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}.gk-topbar-search-container .ant-input-suffix{cursor:pointer}.gk-topbar-search-container .ant-input-suffix:hover{color:#3266fb}"]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-top-search',
+            template: "<div class=\"gk-topbar-search-container\">\n    <nz-input-group [nzSuffix]=\"suffixIconSearch\">\n        <input type=\"text\" [formControl]='control' nz-input [placeholder]=\"searchPlaceholder\" (keyup)=\"keyup($event)\" />\n    </nz-input-group>\n    <ng-template #suffixIconSearch>\n        <gk-icon type=\"search\" (click)=\"doSearch.emit()\"></gk-icon>\n    </ng-template>\n</div>\n",
+            encapsulation: ViewEncapsulation.None,
+            styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}.gk-topbar-search-container .ant-input-suffix{cursor:pointer}.gk-topbar-search-container .ant-input-suffix:hover{color:#3266fb}"]
+        },]
+    }
 ];
 TopSearchComponent.ctorParameters = () => [
     { type: NzIconService }
@@ -548,11 +560,13 @@ class IconComponent {
     }
 }
 IconComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-icon',
-                template: "<i nz-icon *ngIf=\"mode === 'nzType'\" [nzType]=\"nzType\" [nzTheme]=\"nzTheme\" class=\"gk-icon-container\"></i>\n<i nz-icon *ngIf=\"mode === 'nzIconfont'\" [nzIconfont]=\"type || ''\" class=\"gk-icon-container\"></i>\n",
-                styles: [":host{display:inline-block;line-height:0}:host.gk-icon-is-hide{display:none}"]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-icon',
+            template: "<i nz-icon *ngIf=\"mode === 'nzType'\" [nzType]=\"nzType\" [nzTheme]=\"nzTheme\" class=\"gk-icon-container\"></i>\n<i nz-icon *ngIf=\"mode === 'nzIconfont'\" [nzIconfont]=\"type || ''\" class=\"gk-icon-container\"></i>\n",
+            styles: [":host{display:inline-block;line-height:0}:host.gk-icon-is-hide{display:none}"]
+        },]
+    }
 ];
 IconComponent.ctorParameters = () => [];
 IconComponent.propDecorators = {
@@ -563,52 +577,56 @@ IconComponent.propDecorators = {
 class GKIconModule {
 }
 GKIconModule.decorators = [
-    { type: NgModule, args: [{
-                declarations: [
-                    IconComponent,
-                ],
-                imports: [
-                    CommonModule,
-                    NzIconModule,
-                ],
-                exports: [
-                    IconComponent,
-                ],
-            },] }
+    {
+        type: NgModule, args: [{
+            declarations: [
+                IconComponent,
+            ],
+            imports: [
+                CommonModule,
+                NzIconModule,
+            ],
+            exports: [
+                IconComponent,
+            ],
+        },]
+    }
 ];
 
 class GKHomeModule {
 }
 GKHomeModule.decorators = [
-    { type: NgModule, args: [{
-                declarations: [
-                    AsideMenuComponent,
-                    TopBarComponent,
-                    HomeComponent,
-                    BreadCrumbsComponent,
-                    TopSearchComponent,
-                ],
-                imports: [
-                    CommonModule,
-                    FormsModule,
-                    ReactiveFormsModule,
-                    RouterModule,
-                    NzBreadCrumbModule,
-                    NzDropDownModule,
-                    NzInputModule,
-                    NzAvatarModule,
-                    NzFormModule,
-                    NzInputNumberModule,
-                    NzDatePickerModule,
-                    NzSelectModule,
-                    GKIconModule,
-                ],
-                exports: [
-                    AsideMenuComponent,
-                    TopBarComponent,
-                    HomeComponent,
-                ],
-            },] }
+    {
+        type: NgModule, args: [{
+            declarations: [
+                AsideMenuComponent,
+                TopBarComponent,
+                HomeComponent,
+                BreadCrumbsComponent,
+                TopSearchComponent,
+            ],
+            imports: [
+                CommonModule,
+                FormsModule,
+                ReactiveFormsModule,
+                RouterModule,
+                NzBreadCrumbModule,
+                NzDropDownModule,
+                NzInputModule,
+                NzAvatarModule,
+                NzFormModule,
+                NzInputNumberModule,
+                NzDatePickerModule,
+                NzSelectModule,
+                GKIconModule,
+            ],
+            exports: [
+                AsideMenuComponent,
+                TopBarComponent,
+                HomeComponent,
+            ],
+        },]
+    }
 ];
 
 const GK_TABLE_CONF = new InjectionToken('table.conf');
@@ -742,9 +760,11 @@ class CheckService extends BaseService {
 }
 CheckService.ɵprov = ɵɵdefineInjectable({ factory: function CheckService_Factory() { return new CheckService(); }, token: CheckService, providedIn: "root" });
 CheckService.decorators = [
-    { type: Injectable, args: [{
-                providedIn: 'root'
-            },] }
+    {
+        type: Injectable, args: [{
+            providedIn: 'root'
+        },]
+    }
 ];
 
 class SortService extends BaseService {
@@ -804,9 +824,11 @@ class SortService extends BaseService {
 }
 SortService.ɵprov = ɵɵdefineInjectable({ factory: function SortService_Factory() { return new SortService(); }, token: SortService, providedIn: "root" });
 SortService.decorators = [
-    { type: Injectable, args: [{
-                providedIn: 'root'
-            },] }
+    {
+        type: Injectable, args: [{
+            providedIn: 'root'
+        },]
+    }
 ];
 
 class TableService {
@@ -887,9 +909,11 @@ class TableService {
 }
 TableService.ɵprov = ɵɵdefineInjectable({ factory: function TableService_Factory() { return new TableService(ɵɵinject(CheckService)); }, token: TableService, providedIn: "root" });
 TableService.decorators = [
-    { type: Injectable, args: [{
-                providedIn: 'root',
-            },] }
+    {
+        type: Injectable, args: [{
+            providedIn: 'root',
+        },]
+    }
 ];
 TableService.ctorParameters = () => [
     { type: CheckService }
@@ -1141,12 +1165,14 @@ class TableComponent {
     }
 }
 TableComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-table',
-                template: "<nz-table #table class=\"gk-table-container\" [nzData]=\"data\" (nzPageIndexChange)=\"changeIndex($event)\"\n    (nzPageSizeChange)=\"changeSize($event)\" [nzPageIndex]=\"pageIndex\" [nzPageSize]=\"pageSize\" [nzLoading]=\"loading\"\n    [nzShowSizeChanger]=\"showPageSizeChange\" [nzTotal]=\"total\" [nzFrontPagination]=\"false\"\n    [nzShowQuickJumper]=\"hasQuickJumper\" [nzShowTotal]=\"totalTemplate\" [nzShowPagination]=\"showPagination\"\n    [nzScroll]='scroll' [nzPageSizeOptions]='pageSizeOptions' [nzTableLayout]='tbs.tableLayout()'>\n    <thead>\n        <tr>\n            <th *ngIf=\"hasCheck\" [(nzChecked)]=\"checkAll\" [nzIndeterminate]=\"indeterminate\" nzWidth=\"90px\"></th>\n            <ng-container *ngFor=\"let col of columns\">\n                <th *ngIf=\"!col.type || col.type === 'default'\" [nzShowSort]='!!col.sort'\n                    [nzSortDirections]=\"['ascend', 'descend', null]\" [nzSortOrder]='sts.getSortState(col)'\n                    (nzSortOrderChange)='sts.sortChange($event,col)' [nzWidth]=\"$any(col).width\"\n                    [nzLeft]=\"col.fixed === 'left'\" [nzRight]=\"col.fixed === 'right'\">{{ col.label }}\n                </th>\n\n                <th *ngIf=\"col.type === 'operate'\" [nzWidth]=\"$any(col).width\" [nzLeft]=\"col.fixed === 'left'\"\n                    [nzRight]=\"col.fixed === 'right'\">{{ col.label\n                    }}</th>\n            </ng-container>\n        </tr>\n    </thead>\n    <tbody>\n        <tr *ngFor=\"let data of table.data; let i = index\">\n            <td *ngIf=\"hasCheck\" [nzChecked]=\"cks.isCheck(data)\" [nzDisabled]=\"data.disabled\"\n                [nzShowCheckbox]=\"cks.showCheck(data,i)\" (nzCheckedChange)=\"cks.onItemChecked(data, $event)\"></td>\n            <ng-container *ngFor=\"let col of columns\">\n                <td *ngIf=\"getUnitInfo(col, data, i).mode === 'operate'\" [nzEllipsis]=\"ellipsis\"\n                    [nzLeft]=\"col.fixed === 'left'\" [nzRight]=\"col.fixed === 'right'\" class=\"opera-col\">\n                    <ng-container *ngFor=\"let item of tbs.btnFilter($any(col).btns, data, i) \">\n                        <gk-button [disabled]='item.disabled' *ngIf=\"item.filter\" (click)=\"doOpera(item.value, data, i)\"\n                            mode=\"text\" [type]=\"item.type || 'primary'\" [icon]=\"item.icon\" [class]=\"item.type\">\n                            <span>{{ item.label }}</span>\n                        </gk-button>\n                    </ng-container>\n                </td>\n                <td *ngIf=\"getUnitInfo(col, data, i).mode === 'render'\" [nzEllipsis]=\"ellipsis\"\n                    [nzLeft]=\"col.fixed === 'left'\" [nzRight]=\"col.fixed === 'right'\">\n                    <ng-container [ngTemplateOutlet]=\"$any(col).render\"\n                        [ngTemplateOutletContext]=\"{ data: data, rowIndex: i }\">\n                    </ng-container>\n                </td>\n                <td *ngIf=\"getUnitInfo(col, data, i).mode === 'point'\" [nzEllipsis]=\"ellipsis\"\n                    [nzLeft]=\"col.fixed === 'left'\" [nzRight]=\"col.fixed === 'right'\">\n                    <span class=\"state-point\" style=\"width: 8px; height: 8px;\" [class]=\"getUnitInfo(col, data, i).type\">\n                    </span>\n                    {{ getUnitInfo(col, data, i).text }}\n                </td>\n                <td *ngIf=\"getUnitInfo(col, data, i).mode === 'image'\" [nzEllipsis]=\"ellipsis\"\n                    [nzLeft]=\"col.fixed === 'left'\" [nzRight]=\"col.fixed === 'right'\"\n                    style=\"padding: 0; text-align: center;\">\n                    <img [src]=\"getUnitInfo(col, data, i).url\" [ngStyle]=\"getUnitInfo(col, data, i).style || null\" />\n                </td>\n                <td *ngIf=\"getUnitInfo(col, data, i).mode === 'switch'\" [nzEllipsis]=\"ellipsis\"\n                    [nzLeft]=\"col.fixed === 'left'\" [nzRight]=\"col.fixed === 'right'\">\n                    <nz-switch [ngModel]=\"getUnitInfo(col, data, i).config?.value\"\n                        [nzCheckedChildren]=\"getUnitInfo(col, data, i).config?.checkedText || null\"\n                        [nzUnCheckedChildren]=\"getUnitInfo(col, data, i).config?.unCheckedText || null\"\n                        [nzDisabled]=\"getUnitInfo(col, data, i).config?.disabled\"\n                        (click)=\"onSwitchChange(getUnitInfo(col, data, i).config, data, i)\" [nzControl]=\"true\">\n                    </nz-switch>\n                </td>\n                <td *ngIf=\"getUnitInfo(col, data, i).mode === 'format'\" [nzEllipsis]=\"ellipsis\"\n                    [nzLeft]=\"col.fixed === 'left'\" [nzRight]=\"col.fixed === 'right'\"\n                    [title]=\"ellipsis ? getUnitInfo(col, data, i).text : undefined\">\n                    {{ getUnitInfo(col, data, i).text }}\n                </td>\n                <td *ngIf=\"getUnitInfo(col, data, i).mode === 'default'\" [nzEllipsis]=\"ellipsis\"\n                    [nzLeft]=\"col.fixed === 'left'\" [nzRight]=\"col.fixed === 'right'\"\n                    [title]=\"ellipsis ? data[$any(col).prop] : undefined\">\n                    {{ data[$any(col).prop] }}\n                </td>\n            </ng-container>\n        </tr>\n    </tbody>\n</nz-table>\n\n<ng-template #totalTemplate let-total>\n    <ng-container *ngIf=\"showTotal\"> \u5171 {{ total }} \u6761 </ng-container>\n</ng-template>\n",
-                encapsulation: ViewEncapsulation.None,
-                styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}.gk-table-container .ant-table,.gk-table-container .ant-table table{border-radius:0}.gk-table-container .ant-table .state-point,.gk-table-container .ant-table table .state-point{border-radius:50%;display:inline-block;margin:0 5px 3px 0;vertical-align:middle}.gk-table-container .ant-table .state-point.primary,.gk-table-container .ant-table table .state-point.primary{background-color:#3266fb}.gk-table-container .ant-table .state-point.success,.gk-table-container .ant-table table .state-point.success{background-color:#52c41a}.gk-table-container .ant-table .state-point.warning,.gk-table-container .ant-table table .state-point.warning{background-color:#faad14}.gk-table-container .ant-table .state-point.danger,.gk-table-container .ant-table table .state-point.danger{background-color:#ff4d4f}.gk-table-container .ant-table-container table>thead>tr:first-child th:first-child,.gk-table-container .ant-table-container table>thead>tr:first-child th:last-child{border-top-left-radius:0;border-top-right-radius:0}.gk-table-container .opera-col .ant-btn-link.warning{color:#faad14}.gk-table-container .opera-col .ant-btn-link.danger{color:#ff4d4f}"]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-table',
+            template: "<nz-table #table class=\"gk-table-container\" [nzData]=\"data\" (nzPageIndexChange)=\"changeIndex($event)\"\n    (nzPageSizeChange)=\"changeSize($event)\" [nzPageIndex]=\"pageIndex\" [nzPageSize]=\"pageSize\" [nzLoading]=\"loading\"\n    [nzShowSizeChanger]=\"showPageSizeChange\" [nzTotal]=\"total\" [nzFrontPagination]=\"false\"\n    [nzShowQuickJumper]=\"hasQuickJumper\" [nzShowTotal]=\"totalTemplate\" [nzShowPagination]=\"showPagination\"\n    [nzScroll]='scroll' [nzPageSizeOptions]='pageSizeOptions' [nzTableLayout]='tbs.tableLayout()'>\n    <thead>\n        <tr>\n            <th *ngIf=\"hasCheck\" [(nzChecked)]=\"checkAll\" [nzIndeterminate]=\"indeterminate\" nzWidth=\"90px\"></th>\n            <ng-container *ngFor=\"let col of columns\">\n                <th *ngIf=\"!col.type || col.type === 'default'\" [nzShowSort]='!!col.sort'\n                    [nzSortDirections]=\"['ascend', 'descend', null]\" [nzSortOrder]='sts.getSortState(col)'\n                    (nzSortOrderChange)='sts.sortChange($event,col)' [nzWidth]=\"$any(col).width\"\n                    [nzLeft]=\"col.fixed === 'left'\" [nzRight]=\"col.fixed === 'right'\">{{ col.label }}\n                </th>\n\n                <th *ngIf=\"col.type === 'operate'\" [nzWidth]=\"$any(col).width\" [nzLeft]=\"col.fixed === 'left'\"\n                    [nzRight]=\"col.fixed === 'right'\">{{ col.label\n                    }}</th>\n            </ng-container>\n        </tr>\n    </thead>\n    <tbody>\n        <tr *ngFor=\"let data of table.data; let i = index\">\n            <td *ngIf=\"hasCheck\" [nzChecked]=\"cks.isCheck(data)\" [nzDisabled]=\"data.disabled\"\n                [nzShowCheckbox]=\"cks.showCheck(data,i)\" (nzCheckedChange)=\"cks.onItemChecked(data, $event)\"></td>\n            <ng-container *ngFor=\"let col of columns\">\n                <td *ngIf=\"getUnitInfo(col, data, i).mode === 'operate'\" [nzEllipsis]=\"ellipsis\"\n                    [nzLeft]=\"col.fixed === 'left'\" [nzRight]=\"col.fixed === 'right'\" class=\"opera-col\">\n                    <ng-container *ngFor=\"let item of tbs.btnFilter($any(col).btns, data, i) \">\n                        <gk-button [disabled]='item.disabled' *ngIf=\"item.filter\" (click)=\"doOpera(item.value, data, i)\"\n                            mode=\"text\" [type]=\"item.type || 'primary'\" [icon]=\"item.icon\" [class]=\"item.type\">\n                            <span>{{ item.label }}</span>\n                        </gk-button>\n                    </ng-container>\n                </td>\n                <td *ngIf=\"getUnitInfo(col, data, i).mode === 'render'\" [nzEllipsis]=\"ellipsis\"\n                    [nzLeft]=\"col.fixed === 'left'\" [nzRight]=\"col.fixed === 'right'\">\n                    <ng-container [ngTemplateOutlet]=\"$any(col).render\"\n                        [ngTemplateOutletContext]=\"{ data: data, rowIndex: i }\">\n                    </ng-container>\n                </td>\n                <td *ngIf=\"getUnitInfo(col, data, i).mode === 'point'\" [nzEllipsis]=\"ellipsis\"\n                    [nzLeft]=\"col.fixed === 'left'\" [nzRight]=\"col.fixed === 'right'\">\n                    <span class=\"state-point\" style=\"width: 8px; height: 8px;\" [class]=\"getUnitInfo(col, data, i).type\">\n                    </span>\n                    {{ getUnitInfo(col, data, i).text }}\n                </td>\n                <td *ngIf=\"getUnitInfo(col, data, i).mode === 'image'\" [nzEllipsis]=\"ellipsis\"\n                    [nzLeft]=\"col.fixed === 'left'\" [nzRight]=\"col.fixed === 'right'\"\n                    style=\"padding: 0; text-align: center;\">\n                    <img [src]=\"getUnitInfo(col, data, i).url\" [ngStyle]=\"getUnitInfo(col, data, i).style || null\" />\n                </td>\n                <td *ngIf=\"getUnitInfo(col, data, i).mode === 'switch'\" [nzEllipsis]=\"ellipsis\"\n                    [nzLeft]=\"col.fixed === 'left'\" [nzRight]=\"col.fixed === 'right'\">\n                    <nz-switch [ngModel]=\"getUnitInfo(col, data, i).config?.value\"\n                        [nzCheckedChildren]=\"getUnitInfo(col, data, i).config?.checkedText || null\"\n                        [nzUnCheckedChildren]=\"getUnitInfo(col, data, i).config?.unCheckedText || null\"\n                        [nzDisabled]=\"getUnitInfo(col, data, i).config?.disabled\"\n                        (click)=\"onSwitchChange(getUnitInfo(col, data, i).config, data, i)\" [nzControl]=\"true\">\n                    </nz-switch>\n                </td>\n                <td *ngIf=\"getUnitInfo(col, data, i).mode === 'format'\" [nzEllipsis]=\"ellipsis\"\n                    [nzLeft]=\"col.fixed === 'left'\" [nzRight]=\"col.fixed === 'right'\"\n                    [title]=\"ellipsis ? getUnitInfo(col, data, i).text : undefined\">\n                    {{ getUnitInfo(col, data, i).text }}\n                </td>\n                <td *ngIf=\"getUnitInfo(col, data, i).mode === 'default'\" [nzEllipsis]=\"ellipsis\"\n                    [nzLeft]=\"col.fixed === 'left'\" [nzRight]=\"col.fixed === 'right'\"\n                    [title]=\"ellipsis ? data[$any(col).prop] : undefined\">\n                    {{ data[$any(col).prop] }}\n                </td>\n            </ng-container>\n        </tr>\n    </tbody>\n</nz-table>\n\n<ng-template #totalTemplate let-total>\n    <ng-container *ngIf=\"showTotal\"> \u5171 {{ total }} \u6761 </ng-container>\n</ng-template>\n",
+            encapsulation: ViewEncapsulation.None,
+            styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}.gk-table-container .ant-table,.gk-table-container .ant-table table{border-radius:0}.gk-table-container .ant-table .state-point,.gk-table-container .ant-table table .state-point{border-radius:50%;display:inline-block;margin:0 5px 3px 0;vertical-align:middle}.gk-table-container .ant-table .state-point.primary,.gk-table-container .ant-table table .state-point.primary{background-color:#3266fb}.gk-table-container .ant-table .state-point.success,.gk-table-container .ant-table table .state-point.success{background-color:#52c41a}.gk-table-container .ant-table .state-point.warning,.gk-table-container .ant-table table .state-point.warning{background-color:#faad14}.gk-table-container .ant-table .state-point.danger,.gk-table-container .ant-table table .state-point.danger{background-color:#ff4d4f}.gk-table-container .ant-table-container table>thead>tr:first-child th:first-child,.gk-table-container .ant-table-container table>thead>tr:first-child th:last-child{border-top-left-radius:0;border-top-right-radius:0}.gk-table-container .opera-col .ant-btn-link.warning{color:#faad14}.gk-table-container .opera-col .ant-btn-link.danger{color:#ff4d4f}"]
+        },]
+    }
 ];
 TableComponent.ctorParameters = () => [
     { type: undefined, decorators: [{ type: Inject, args: [GK_TABLE_CONF,] }] },
@@ -1304,9 +1330,11 @@ class GKDataService {
 }
 GKDataService.ɵprov = ɵɵdefineInjectable({ factory: function GKDataService_Factory() { return new GKDataService(ɵɵinject(HttpClient)); }, token: GKDataService, providedIn: "root" });
 GKDataService.decorators = [
-    { type: Injectable, args: [{
-                providedIn: 'root',
-            },] }
+    {
+        type: Injectable, args: [{
+            providedIn: 'root',
+        },]
+    }
 ];
 GKDataService.ctorParameters = () => [
     { type: HttpClient }
@@ -1345,9 +1373,11 @@ class UpdateService {
 }
 UpdateService.ɵprov = ɵɵdefineInjectable({ factory: function UpdateService_Factory() { return new UpdateService(); }, token: UpdateService, providedIn: "root" });
 UpdateService.decorators = [
-    { type: Injectable, args: [{
-                providedIn: 'root'
-            },] }
+    {
+        type: Injectable, args: [{
+            providedIn: 'root'
+        },]
+    }
 ];
 UpdateService.ctorParameters = () => [];
 
@@ -2007,12 +2037,14 @@ class ListComponent {
     }
 }
 ListComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-list',
-                template: "<gk-panel *ngIf='hasSearch' [title]='searchConf?.title'>\n    <gk-search (searchEvent)='doSearch()' [searchs]='searchConf?.layouts'>\n    </gk-search>\n</gk-panel>\n<div class=\"gk-m-t\">\n    <gk-panel *ngIf='hasTable' [title]='tableConf?.title' [action]='fastValus' [leftBtns]='fastSearchBtns'\n        (btnsEvent)=\"fastHandler($event)\">\n        <div id='title-right' class=\"gk-operate-box\">\n            <gk-button *ngIf='hasAdd' (click)='addRecord()' type='primary'>\n                <gk-icon type=\"plus\"></gk-icon>\n                <span>{{ addBtnText }}</span>\n            </gk-button>\n            <gk-button *ngIf='hasUpdateBat && showBat' (click)=\"updateBatRecord()\">\u6279\u91CF\u7F16\u8F91</gk-button>\n            <gk-button *ngIf='hasRemoveBat && showBat' (click)='removeRecord()'>\u6279\u91CF\u5220\u9664</gk-button>\n            <ng-container *ngFor='let batItem of otherBats'>\n                <gk-button *ngIf='showBat' (click)='operateBatHandler(batItem)'>{{batItem.label}}</gk-button>\n            </ng-container>\n            <ng-container *ngIf='operateConf && operateConf.otherRightBtns'>\n                <gk-button *ngFor='let btn of operateConf.otherRightBtns' [type]=\"btn.type\" [icon]='btn.icon'\n                    (click)=\"otherOperate.emit(btn.value)\">{{btn.label}}</gk-button>\n            </ng-container>\n        </div>\n        <div id='title-left'>\n            <ng-container *ngIf='operateConf && operateConf.otherLeftBtns'>\n                <gk-button *ngFor='let btn of operateConf.otherLeftBtns' [type]=\"btn.type\" [icon]='btn.icon'\n                    (click)=\"otherOperate.emit(btn.value)\">{{btn.label}}</gk-button>\n            </ng-container>\n        </div>\n        <gk-table #table [source]='tableSource' [columns]='columns' (opera)='operateHandler($event)' [(checks)]='checks'\n            [conf]='listTableConf' [requestData]='searchQuery'></gk-table>\n    </gk-panel>\n</div>\n<gk-modal [(isVisible)]='updateVisible' titleText='\u7F16\u8F91' (afterClose)='updateReset()' (ok)='updateHandler()'>\n    <ng-container *ngIf='hasUpdateForm'>\n        <gk-form [data]=\"currentRecord\" [controls]='updateControls'></gk-form>\n    </ng-container>\n</gk-modal>\n<gk-modal [(isVisible)]='updateBatVisible' titleText='\u6279\u91CF\u7F16\u8F91' (afterClose)='updateReset()' (ok)='updateBatHandler()'>\n    <ng-container *ngIf='hasUpdateBatForm'>\n        <gk-form [controls]='updateBatControls'></gk-form>\n    </ng-container>\n</gk-modal>\n<gk-modal [(isVisible)]='addVisible' [titleText]='addModelTitle' (afterClose)='addReset()' (ok)='addHandler()'>\n    <ng-container *ngIf='hasAddForm'>\n        <gk-form [controls]='addControls'></gk-form>\n    </ng-container>\n</gk-modal>\n<gk-modal [(isVisible)]='detailVisible' titleText='\u8BE6\u60C5' (afterClose)='detailReset()'\n    (btnAction)='detailBtnHandler($event)' [btns]='detailModalBtns'>\n    <ng-container *ngIf='hasDetailInfo'>\n        <gk-info [data]='currentRecord' [structure]='detailControls'></gk-info>\n    </ng-container>\n</gk-modal>\n\n<gk-modal [(isVisible)]=\"tableModal.show\" [titleText]=\"tableModal.title\" (ok)='tableModal.onOk && tableModal.onOk()'>\n    <ng-container *ngIf=\"tableModal.show\">\n        <gk-io [control]=\"tableModal.control\"></gk-io>\n    </ng-container>\n</gk-modal>\n",
-                encapsulation: ViewEncapsulation.None,
-                styles: [""]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-list',
+            template: "<gk-panel *ngIf='hasSearch' [title]='searchConf?.title'>\n    <gk-search (searchEvent)='doSearch()' [searchs]='searchConf?.layouts'>\n    </gk-search>\n</gk-panel>\n<div class=\"gk-m-t\">\n    <gk-panel *ngIf='hasTable' [title]='tableConf?.title' [action]='fastValus' [leftBtns]='fastSearchBtns'\n        (btnsEvent)=\"fastHandler($event)\">\n        <div id='title-right' class=\"gk-operate-box\">\n            <gk-button *ngIf='hasAdd' (click)='addRecord()' type='primary'>\n                <gk-icon type=\"plus\"></gk-icon>\n                <span>{{ addBtnText }}</span>\n            </gk-button>\n            <gk-button *ngIf='hasUpdateBat && showBat' (click)=\"updateBatRecord()\">\u6279\u91CF\u7F16\u8F91</gk-button>\n            <gk-button *ngIf='hasRemoveBat && showBat' (click)='removeRecord()'>\u6279\u91CF\u5220\u9664</gk-button>\n            <ng-container *ngFor='let batItem of otherBats'>\n                <gk-button *ngIf='showBat' (click)='operateBatHandler(batItem)'>{{batItem.label}}</gk-button>\n            </ng-container>\n            <ng-container *ngIf='operateConf && operateConf.otherRightBtns'>\n                <gk-button *ngFor='let btn of operateConf.otherRightBtns' [type]=\"btn.type\" [icon]='btn.icon'\n                    (click)=\"otherOperate.emit(btn.value)\">{{btn.label}}</gk-button>\n            </ng-container>\n        </div>\n        <div id='title-left'>\n            <ng-container *ngIf='operateConf && operateConf.otherLeftBtns'>\n                <gk-button *ngFor='let btn of operateConf.otherLeftBtns' [type]=\"btn.type\" [icon]='btn.icon'\n                    (click)=\"otherOperate.emit(btn.value)\">{{btn.label}}</gk-button>\n            </ng-container>\n        </div>\n        <gk-table #table [source]='tableSource' [columns]='columns' (opera)='operateHandler($event)' [(checks)]='checks'\n            [conf]='listTableConf' [requestData]='searchQuery'></gk-table>\n    </gk-panel>\n</div>\n<gk-modal [(isVisible)]='updateVisible' titleText='\u7F16\u8F91' (afterClose)='updateReset()' (ok)='updateHandler()'>\n    <ng-container *ngIf='hasUpdateForm'>\n        <gk-form [data]=\"currentRecord\" [controls]='updateControls'></gk-form>\n    </ng-container>\n</gk-modal>\n<gk-modal [(isVisible)]='updateBatVisible' titleText='\u6279\u91CF\u7F16\u8F91' (afterClose)='updateReset()' (ok)='updateBatHandler()'>\n    <ng-container *ngIf='hasUpdateBatForm'>\n        <gk-form [controls]='updateBatControls'></gk-form>\n    </ng-container>\n</gk-modal>\n<gk-modal [(isVisible)]='addVisible' [titleText]='addModelTitle' (afterClose)='addReset()' (ok)='addHandler()'>\n    <ng-container *ngIf='hasAddForm'>\n        <gk-form [controls]='addControls'></gk-form>\n    </ng-container>\n</gk-modal>\n<gk-modal [(isVisible)]='detailVisible' titleText='\u8BE6\u60C5' (afterClose)='detailReset()'\n    (btnAction)='detailBtnHandler($event)' [btns]='detailModalBtns'>\n    <ng-container *ngIf='hasDetailInfo'>\n        <gk-info [data]='currentRecord' [structure]='detailControls'></gk-info>\n    </ng-container>\n</gk-modal>\n\n<gk-modal [(isVisible)]=\"tableModal.show\" [titleText]=\"tableModal.title\" (ok)='tableModal.onOk && tableModal.onOk()'>\n    <ng-container *ngIf=\"tableModal.show\">\n        <gk-io [control]=\"tableModal.control\"></gk-io>\n    </ng-container>\n</gk-modal>\n",
+            encapsulation: ViewEncapsulation.None,
+            styles: [""]
+        },]
+    }
 ];
 ListComponent.ctorParameters = () => [
     { type: GKDataService },
@@ -2091,11 +2123,13 @@ class ButtonComponent {
     }
 }
 ButtonComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-button',
-                template: "<button nz-button [nzType]=\"$any(nzType)\" [nzSize]=\"props.size\" [nzLoading]=\"props.loading\" [disabled]=\"props.disabled\"\n    [nzDanger]=\"props.type === 'danger'\" class=\"gk-button-container\" [class.gk-button-disable]=\"props.disabled\"\n    [ngClass]=\"['gk-button-mode-' + props.mode, 'gk-button-status-' + props.type ]\" (click)=\"handlerClick()\">\n    <gk-icon [type]=\"props.icon\" style=\"margin-right: 3px;\"></gk-icon>\n    <span *ngIf=\"props.label\">{{ props.label }}</span>\n    <ng-content *ngIf=\"!props.label\"></ng-content>\n</button>\n",
-                styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}:host{display:inline-block}:host.is-loading{pointer-events:none}:host.is-active ::ng-deep .ant-btn{border-color:#3266fb;color:#3266fb}.gk-button-container ::ng-deep .anticon-loading{float:right;margin:4px 0 4px 6px}.gk-button-container:not(.gk-button-disable).gk-button-mode-fill.gk-button-status-primary{background:#3266fb;border-color:#3266fb}.gk-button-container:not(.gk-button-disable).gk-button-mode-fill.gk-button-status-primary:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-fill.gk-button-status-primary:hover{background:#658cfc;border-color:#658cfc}.gk-button-container:not(.gk-button-disable).gk-button-mode-fill.gk-button-status-primary:active{background:#4c73e1;border-color:#4c73e1}.gk-button-container:not(.gk-button-disable).gk-button-mode-fill.gk-button-status-success{background:#52c41a;border-color:#52c41a}.gk-button-container:not(.gk-button-disable).gk-button-mode-fill.gk-button-status-success:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-fill.gk-button-status-success:hover{background:#7dd353;border-color:#7dd353}.gk-button-container:not(.gk-button-disable).gk-button-mode-fill.gk-button-status-success:active{background:#5ba836;border-color:#5ba836}.gk-button-container:not(.gk-button-disable).gk-button-mode-fill.gk-button-status-warning{background:#faad14;border-color:#faad14}.gk-button-container:not(.gk-button-disable).gk-button-mode-fill.gk-button-status-warning:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-fill.gk-button-status-warning:hover{background:#fbc24f;border-color:#fbc24f}.gk-button-container:not(.gk-button-disable).gk-button-mode-fill.gk-button-status-warning:active{background:#dca332;border-color:#dca332}.gk-button-container:not(.gk-button-disable).gk-button-mode-dashed.gk-button-status-primary,.gk-button-container:not(.gk-button-disable).gk-button-mode-outline.gk-button-status-primary,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-primary{border-color:#3266fb;color:#3266fb}.gk-button-container:not(.gk-button-disable).gk-button-mode-dashed.gk-button-status-primary:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-dashed.gk-button-status-primary:hover,.gk-button-container:not(.gk-button-disable).gk-button-mode-outline.gk-button-status-primary:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-outline.gk-button-status-primary:hover,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-primary:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-primary:hover{border-color:#658cfc;color:#658cfc}.gk-button-container:not(.gk-button-disable).gk-button-mode-dashed.gk-button-status-primary:active,.gk-button-container:not(.gk-button-disable).gk-button-mode-outline.gk-button-status-primary:active,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-primary:active{border-color:#4c73e1;color:#4c73e1}.gk-button-container:not(.gk-button-disable).gk-button-mode-dashed.gk-button-status-success,.gk-button-container:not(.gk-button-disable).gk-button-mode-outline.gk-button-status-success,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-success{border-color:#52c41a;color:#52c41a}.gk-button-container:not(.gk-button-disable).gk-button-mode-dashed.gk-button-status-success:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-dashed.gk-button-status-success:hover,.gk-button-container:not(.gk-button-disable).gk-button-mode-outline.gk-button-status-success:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-outline.gk-button-status-success:hover,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-success:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-success:hover{border-color:#5ba836;color:#7dd353}.gk-button-container:not(.gk-button-disable).gk-button-mode-dashed.gk-button-status-success:active,.gk-button-container:not(.gk-button-disable).gk-button-mode-outline.gk-button-status-success:active,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-success:active{border-color:#5ba836;color:#5ba836}.gk-button-container:not(.gk-button-disable).gk-button-mode-dashed.gk-button-status-warning,.gk-button-container:not(.gk-button-disable).gk-button-mode-outline.gk-button-status-warning,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-warning{border-color:#faad14;color:#faad14}.gk-button-container:not(.gk-button-disable).gk-button-mode-dashed.gk-button-status-warning:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-dashed.gk-button-status-warning:hover,.gk-button-container:not(.gk-button-disable).gk-button-mode-outline.gk-button-status-warning:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-outline.gk-button-status-warning:hover,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-warning:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-warning:hover{border-color:#dca332;color:#fbc24f}.gk-button-container:not(.gk-button-disable).gk-button-mode-dashed.gk-button-status-warning:active,.gk-button-container:not(.gk-button-disable).gk-button-mode-outline.gk-button-status-warning:active,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-warning:active{border-color:#dca332;color:#dca332}.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-primary,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-primary:active,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-primary:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-primary:hover,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-success,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-success:active,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-success:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-success:hover,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-warning,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-warning:active,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-warning:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-warning:hover{border-color:transparent}"]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-button',
+            template: "<button nz-button [nzType]=\"$any(nzType)\" [nzSize]=\"props.size\" [nzLoading]=\"props.loading\" [disabled]=\"props.disabled\"\n    [nzDanger]=\"props.type === 'danger'\" class=\"gk-button-container\" [class.gk-button-disable]=\"props.disabled\"\n    [ngClass]=\"['gk-button-mode-' + props.mode, 'gk-button-status-' + props.type ]\" (click)=\"handlerClick()\">\n    <gk-icon [type]=\"props.icon\" style=\"margin-right: 3px;\"></gk-icon>\n    <span *ngIf=\"props.label\">{{ props.label }}</span>\n    <ng-content *ngIf=\"!props.label\"></ng-content>\n</button>\n",
+            styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}:host{display:inline-block}:host.is-loading{pointer-events:none}:host.is-active ::ng-deep .ant-btn{border-color:#3266fb;color:#3266fb}.gk-button-container ::ng-deep .anticon-loading{float:right;margin:4px 0 4px 6px}.gk-button-container:not(.gk-button-disable).gk-button-mode-fill.gk-button-status-primary{background:#3266fb;border-color:#3266fb}.gk-button-container:not(.gk-button-disable).gk-button-mode-fill.gk-button-status-primary:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-fill.gk-button-status-primary:hover{background:#658cfc;border-color:#658cfc}.gk-button-container:not(.gk-button-disable).gk-button-mode-fill.gk-button-status-primary:active{background:#4c73e1;border-color:#4c73e1}.gk-button-container:not(.gk-button-disable).gk-button-mode-fill.gk-button-status-success{background:#52c41a;border-color:#52c41a}.gk-button-container:not(.gk-button-disable).gk-button-mode-fill.gk-button-status-success:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-fill.gk-button-status-success:hover{background:#7dd353;border-color:#7dd353}.gk-button-container:not(.gk-button-disable).gk-button-mode-fill.gk-button-status-success:active{background:#5ba836;border-color:#5ba836}.gk-button-container:not(.gk-button-disable).gk-button-mode-fill.gk-button-status-warning{background:#faad14;border-color:#faad14}.gk-button-container:not(.gk-button-disable).gk-button-mode-fill.gk-button-status-warning:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-fill.gk-button-status-warning:hover{background:#fbc24f;border-color:#fbc24f}.gk-button-container:not(.gk-button-disable).gk-button-mode-fill.gk-button-status-warning:active{background:#dca332;border-color:#dca332}.gk-button-container:not(.gk-button-disable).gk-button-mode-dashed.gk-button-status-primary,.gk-button-container:not(.gk-button-disable).gk-button-mode-outline.gk-button-status-primary,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-primary{border-color:#3266fb;color:#3266fb}.gk-button-container:not(.gk-button-disable).gk-button-mode-dashed.gk-button-status-primary:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-dashed.gk-button-status-primary:hover,.gk-button-container:not(.gk-button-disable).gk-button-mode-outline.gk-button-status-primary:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-outline.gk-button-status-primary:hover,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-primary:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-primary:hover{border-color:#658cfc;color:#658cfc}.gk-button-container:not(.gk-button-disable).gk-button-mode-dashed.gk-button-status-primary:active,.gk-button-container:not(.gk-button-disable).gk-button-mode-outline.gk-button-status-primary:active,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-primary:active{border-color:#4c73e1;color:#4c73e1}.gk-button-container:not(.gk-button-disable).gk-button-mode-dashed.gk-button-status-success,.gk-button-container:not(.gk-button-disable).gk-button-mode-outline.gk-button-status-success,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-success{border-color:#52c41a;color:#52c41a}.gk-button-container:not(.gk-button-disable).gk-button-mode-dashed.gk-button-status-success:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-dashed.gk-button-status-success:hover,.gk-button-container:not(.gk-button-disable).gk-button-mode-outline.gk-button-status-success:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-outline.gk-button-status-success:hover,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-success:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-success:hover{border-color:#5ba836;color:#7dd353}.gk-button-container:not(.gk-button-disable).gk-button-mode-dashed.gk-button-status-success:active,.gk-button-container:not(.gk-button-disable).gk-button-mode-outline.gk-button-status-success:active,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-success:active{border-color:#5ba836;color:#5ba836}.gk-button-container:not(.gk-button-disable).gk-button-mode-dashed.gk-button-status-warning,.gk-button-container:not(.gk-button-disable).gk-button-mode-outline.gk-button-status-warning,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-warning{border-color:#faad14;color:#faad14}.gk-button-container:not(.gk-button-disable).gk-button-mode-dashed.gk-button-status-warning:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-dashed.gk-button-status-warning:hover,.gk-button-container:not(.gk-button-disable).gk-button-mode-outline.gk-button-status-warning:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-outline.gk-button-status-warning:hover,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-warning:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-warning:hover{border-color:#dca332;color:#fbc24f}.gk-button-container:not(.gk-button-disable).gk-button-mode-dashed.gk-button-status-warning:active,.gk-button-container:not(.gk-button-disable).gk-button-mode-outline.gk-button-status-warning:active,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-warning:active{border-color:#dca332;color:#dca332}.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-primary,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-primary:active,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-primary:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-primary:hover,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-success,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-success:active,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-success:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-success:hover,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-warning,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-warning:active,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-warning:focus,.gk-button-container:not(.gk-button-disable).gk-button-mode-text.gk-button-status-warning:hover{border-color:transparent}"]
+        },]
+    }
 ];
 ButtonComponent.ctorParameters = () => [];
 ButtonComponent.propDecorators = {
@@ -2118,19 +2152,21 @@ ButtonComponent.propDecorators = {
 class GKButtonModule {
 }
 GKButtonModule.decorators = [
-    { type: NgModule, args: [{
-                declarations: [
-                    ButtonComponent,
-                ],
-                imports: [
-                    CommonModule,
-                    NzButtonModule,
-                    GKIconModule,
-                ],
-                exports: [
-                    ButtonComponent,
-                ],
-            },] }
+    {
+        type: NgModule, args: [{
+            declarations: [
+                ButtonComponent,
+            ],
+            imports: [
+                CommonModule,
+                NzButtonModule,
+                GKIconModule,
+            ],
+            exports: [
+                ButtonComponent,
+            ],
+        },]
+    }
 ];
 
 class GKModalService {
@@ -2141,9 +2177,11 @@ class GKModalService {
 }
 GKModalService.ɵprov = ɵɵdefineInjectable({ factory: function GKModalService_Factory() { return new GKModalService(); }, token: GKModalService, providedIn: "root" });
 GKModalService.decorators = [
-    { type: Injectable, args: [{
-                providedIn: 'root',
-            },] }
+    {
+        type: Injectable, args: [{
+            providedIn: 'root',
+        },]
+    }
 ];
 GKModalService.ctorParameters = () => [];
 
@@ -2213,12 +2251,14 @@ class ModalComponent {
     }
 }
 ModalComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-modal',
-                template: "<nz-modal [(nzVisible)]=\"isVisible\" [nzTitle]=\"titleText\" [nzWidth]=\"modalWidth\" [nzClosable]=\"closable\"\n    [nzCentered]=\"modalService.center\" (nzOnCancel)=\"handleCancel()\" (nzOnOk)=\"handleOk()\"\n    (nzAfterClose)=\"afterClose.emit()\" class=\"gk-modal-container\" [nzMaskClosable]=\"false\" [nzKeyboard]=\"false\"\n    [nzAutofocus]=\"null\">\n    <ng-container *nzModalContent>\n        <ng-content></ng-content>\n    </ng-container>\n    <div *nzModalFooter class=\"gk-modal-bottom\">\n        <div #modalFooterSlot>\n            <ng-content select=\"#modal-footer\"></ng-content>\n        </div>\n        <ng-container *ngIf=\"modalFooterSlot.childNodes.length === 0\">\n            <ng-container *ngFor=\"let btn of showBtns\">\n                <gk-button [button]=\"btn\" (valueClick)=\"btnAction.emit($event)\" class=\"gk-btn\"></gk-button>\n            </ng-container>\n        </ng-container>\n    </div>\n</nz-modal>\n",
-                encapsulation: ViewEncapsulation.None,
-                styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}.ant-modal-footer{border-top:0;padding:8px 24px 32px}.ant-modal-body{padding:16px 24px 0}.gk-modal-bottom .gk-btn{margin-left:8px}.gk-modal-bottom .gk-btn:first-child{margin-left:0}"]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-modal',
+            template: "<nz-modal [(nzVisible)]=\"isVisible\" [nzTitle]=\"titleText\" [nzWidth]=\"modalWidth\" [nzClosable]=\"closable\"\n    [nzCentered]=\"modalService.center\" (nzOnCancel)=\"handleCancel()\" (nzOnOk)=\"handleOk()\"\n    (nzAfterClose)=\"afterClose.emit()\" class=\"gk-modal-container\" [nzMaskClosable]=\"false\" [nzKeyboard]=\"false\"\n    [nzAutofocus]=\"null\">\n    <ng-container *nzModalContent>\n        <ng-content></ng-content>\n    </ng-container>\n    <div *nzModalFooter class=\"gk-modal-bottom\">\n        <div #modalFooterSlot>\n            <ng-content select=\"#modal-footer\"></ng-content>\n        </div>\n        <ng-container *ngIf=\"modalFooterSlot.childNodes.length === 0\">\n            <ng-container *ngFor=\"let btn of showBtns\">\n                <gk-button [button]=\"btn\" (valueClick)=\"btnAction.emit($event)\" class=\"gk-btn\"></gk-button>\n            </ng-container>\n        </ng-container>\n    </div>\n</nz-modal>\n",
+            encapsulation: ViewEncapsulation.None,
+            styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}.ant-modal-footer{border-top:0;padding:8px 24px 32px}.ant-modal-body{padding:16px 24px 0}.gk-modal-bottom .gk-btn{margin-left:8px}.gk-modal-bottom .gk-btn:first-child{margin-left:0}"]
+        },]
+    }
 ];
 ModalComponent.ctorParameters = () => [
     { type: GKModalService }
@@ -2240,19 +2280,21 @@ ModalComponent.propDecorators = {
 class GKModalModule {
 }
 GKModalModule.decorators = [
-    { type: NgModule, args: [{
-                declarations: [
-                    ModalComponent,
-                ],
-                imports: [
-                    CommonModule,
-                    NzModalModule,
-                    GKButtonModule,
-                ],
-                exports: [
-                    ModalComponent,
-                ],
-            },] }
+    {
+        type: NgModule, args: [{
+            declarations: [
+                ModalComponent,
+            ],
+            imports: [
+                CommonModule,
+                NzModalModule,
+                GKButtonModule,
+            ],
+            exports: [
+                ModalComponent,
+            ],
+        },]
+    }
 ];
 
 class GKTabs {
@@ -2270,11 +2312,13 @@ class TabComponent {
     }
 }
 TabComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-tab',
-                template: "<div [ngStyle]=\"{ display: show ? 'block' : 'none' }\">\n    <ng-content></ng-content>\n</div>\n",
-                styles: [""]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-tab',
+            template: "<div [ngStyle]=\"{ display: show ? 'block' : 'none' }\">\n    <ng-content></ng-content>\n</div>\n",
+            styles: [""]
+        },]
+    }
 ];
 TabComponent.ctorParameters = () => [];
 TabComponent.propDecorators = {
@@ -2335,12 +2379,14 @@ class PanelComponent {
     }
 }
 PanelComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-panel',
-                template: "<div class=\"gk-panel-container\">\n    <div *ngIf=\"isShowTitleBar\" class=\"gk-panel-title gk-clr\">\n        <h3 *ngIf=\"title\" class=\"gk-title gk-flt\">{{ title }}</h3>\n\n        <div *ngIf=\"tabs.list.length > 0\" class=\"gk-panel-tabs-wp gk-flt\" [ngClass]=\"{ 'title-none': !title }\">\n            <span *ngFor=\"let tab of tabs.list\" class=\"gk-tab-item\" [class]=\"{ action: tab.value === tabs.action }\"\n                (click)=\"onTabClick(tab)\">{{ tab.label }}</span>\n        </div>\n\n        <div class=\"gk-panel-title-left-bntns gk-flt\">\n            <ng-container *ngFor=\"let btn of leftButtons\">\n                <gk-button [button]=\"btn\" [active]=\"isActive(btn.value)\" (valueClick)=\"btnsEvent.emit(btn)\"></gk-button>\n            </ng-container>\n\n            <ng-content select=\"#title-left\"></ng-content>\n        </div>\n\n        <div class=\"gk-panel-title-right-bntns gk-frt\">\n            <ng-content select=\"#title-right\"></ng-content>\n\n            <ng-container *ngFor=\"let btn of rightButtons\">\n                <gk-button [button]=\"btn\" [active]=\"isActive(btn.value)\" (valueClick)=\"btnsEvent.emit(btn)\"></gk-button>\n            </ng-container>\n        </div>\n    </div>\n\n    <div class=\"gk-panel-content-container\">\n        <ng-content></ng-content>\n    </div>\n</div>\n",
-                encapsulation: ViewEncapsulation.None,
-                styles: ["body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}.gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}.gk-panel-container{background-color:#fff;border-radius:8px}.gk-panel-title{border-bottom:1px solid #d9d9d9;padding:14px 16px}.gk-panel-title .gk-title{height:32px;line-height:34px;margin:0 8px}.gk-panel-title .gk-panel-tabs-wp{display:inline-block;height:46px;margin:0 12px -14px}.gk-panel-title .gk-panel-tabs-wp.title-none{margin-left:-8px}.gk-panel-title .gk-panel-tabs-wp .gk-tab-item{border-bottom:2px solid transparent;color:rgba(0,0,0,.65);cursor:pointer;display:inline-block;font-size:14px;font-weight:400;height:100%;line-height:22px;margin:0 16px;padding:4px 2px 10px}.gk-panel-title .gk-panel-tabs-wp .gk-tab-item.action{border-bottom-color:#3266fb;color:#3266fb;font-weight:500}.gk-panel-title .ant-btn{margin:0 0 0 8px}.gk-panel-title .ant-btn:last-child{margin-right:8px}.gk-panel-content-container{background-color:#fff;border-radius:8px;padding:24px}"]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-panel',
+            template: "<div class=\"gk-panel-container\">\n    <div *ngIf=\"isShowTitleBar\" class=\"gk-panel-title gk-clr\">\n        <h3 *ngIf=\"title\" class=\"gk-title gk-flt\">{{ title }}</h3>\n\n        <div *ngIf=\"tabs.list.length > 0\" class=\"gk-panel-tabs-wp gk-flt\" [ngClass]=\"{ 'title-none': !title }\">\n            <span *ngFor=\"let tab of tabs.list\" class=\"gk-tab-item\" [class]=\"{ action: tab.value === tabs.action }\"\n                (click)=\"onTabClick(tab)\">{{ tab.label }}</span>\n        </div>\n\n        <div class=\"gk-panel-title-left-bntns gk-flt\">\n            <ng-container *ngFor=\"let btn of leftButtons\">\n                <gk-button [button]=\"btn\" [active]=\"isActive(btn.value)\" (valueClick)=\"btnsEvent.emit(btn)\"></gk-button>\n            </ng-container>\n\n            <ng-content select=\"#title-left\"></ng-content>\n        </div>\n\n        <div class=\"gk-panel-title-right-bntns gk-frt\">\n            <ng-content select=\"#title-right\"></ng-content>\n\n            <ng-container *ngFor=\"let btn of rightButtons\">\n                <gk-button [button]=\"btn\" [active]=\"isActive(btn.value)\" (valueClick)=\"btnsEvent.emit(btn)\"></gk-button>\n            </ng-container>\n        </div>\n    </div>\n\n    <div class=\"gk-panel-content-container\">\n        <ng-content></ng-content>\n    </div>\n</div>\n",
+            encapsulation: ViewEncapsulation.None,
+            styles: ["body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}.gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}.gk-panel-container{background-color:#fff;border-radius:8px}.gk-panel-title{border-bottom:1px solid #d9d9d9;padding:14px 16px}.gk-panel-title .gk-title{height:32px;line-height:34px;margin:0 8px}.gk-panel-title .gk-panel-tabs-wp{display:inline-block;height:46px;margin:0 12px -14px}.gk-panel-title .gk-panel-tabs-wp.title-none{margin-left:-8px}.gk-panel-title .gk-panel-tabs-wp .gk-tab-item{border-bottom:2px solid transparent;color:rgba(0,0,0,.65);cursor:pointer;display:inline-block;font-size:14px;font-weight:400;height:100%;line-height:22px;margin:0 16px;padding:4px 2px 10px}.gk-panel-title .gk-panel-tabs-wp .gk-tab-item.action{border-bottom-color:#3266fb;color:#3266fb;font-weight:500}.gk-panel-title .ant-btn{margin:0 0 0 8px}.gk-panel-title .ant-btn:last-child{margin-right:8px}.gk-panel-content-container{background-color:#fff;border-radius:8px;padding:24px}"]
+        },]
+    }
 ];
 PanelComponent.ctorParameters = () => [];
 PanelComponent.propDecorators = {
@@ -2357,20 +2403,22 @@ PanelComponent.propDecorators = {
 class GKPanelModule {
 }
 GKPanelModule.decorators = [
-    { type: NgModule, args: [{
-                declarations: [
-                    PanelComponent,
-                    TabComponent,
-                ],
-                imports: [
-                    CommonModule,
-                    GKButtonModule,
-                ],
-                exports: [
-                    PanelComponent,
-                    TabComponent,
-                ],
-            },] }
+    {
+        type: NgModule, args: [{
+            declarations: [
+                PanelComponent,
+                TabComponent,
+            ],
+            imports: [
+                CommonModule,
+                GKButtonModule,
+            ],
+            exports: [
+                PanelComponent,
+                TabComponent,
+            ],
+        },]
+    }
 ];
 
 const GK_EDITOR_VALUE_ACCESSOR = {
@@ -2477,12 +2525,14 @@ class EditorComponent {
     }
 }
 EditorComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-editor',
-                template: "<div class=\"gk-editor-container\">\n    <div #toolbar [hidden]=\"!showNativeBar\" class=\"tool-bar\"></div>\n    <div [hidden]=\"!showPreview\" class=\"w-e-toolbar tool-bar preview-bar\">\n        <div nzTooltipTitle=\"\u53D6\u6D88\u9884\u89C8\" nzTooltipPlacement=\"top\" nz-tooltip class=\"w-e-menu\" (click)=\"cancelPreview()\">\n            <i class=\"w-e-icon-invisible eye-invisible\"></i>\n        </div>\n    </div>\n    <div #editor class=\"editor-box\" [class.view-box]=\"viewMode\"\n        [ngStyle]=\"{ 'height.px': viewMode?'auto':gkEditor.config.height }\">\n    </div>\n</div>\n",
-                providers: [GK_EDITOR_VALUE_ACCESSOR],
-                styles: [".gk-editor-container{position:relative;z-index:0}.tool-bar{background-color:#fff;border:1px solid #c9d8db;border-bottom-color:#eee;height:42px;padding:0 12px;z-index:1}.preview-bar{padding:0 18px}.editor-box{border:1px solid #c9d8db;border-top:none;overflow-y:auto;width:100%}.view-box{border:transparent}::ng-deep .eye-svg{background-image:url(\"data:image/svg+xml,%3C%3Fxml version%3D%221.0%22 standalone%3D%22no%22%3F%3E%3C!DOCTYPE svg PUBLIC %22-%2F%2FW3C%2F%2FDTD SVG 1.1%2F%2FEN%22 %22http%3A%2F%2Fwww.w3.org%2FGraphics%2FSVG%2F1.1%2FDTD%2Fsvg11.dtd%22%3E%3Csvg class%3D%22icon%22 width%3D%2218px%22 height%3D%2218.00px%22 viewBox%3D%220 0 1024 1024%22 version%3D%221.1%22 xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath fill%3D%22%23999999%22 d%3D%22M942.2 486.2C847.4 286.5 704.1 186 512 186c-192.2 0-335.4 100.5-430.2 300.3-7.7 16.2-7.7 35.2 0 51.5C176.6 737.5 319.9 838 512 838c192.2 0 335.4-100.5 430.2-300.3 7.7-16.2 7.7-35 0-51.5zM512 766c-161.3 0-279.4-81.8-362.7-254C232.6 339.8 350.7 258 512 258c161.3 0 279.4 81.8 362.7 254C791.5 684.2 673.4 766 512 766zM508 336c-97.2 0-176 78.8-176 176s78.8 176 176 176 176-78.8 176-176-78.8-176-176-176z m0 288c-61.9 0-112-50.1-112-112s50.1-112 112-112 112 50.1 112 112-50.1 112-112 112z%22 %2F%3E%3C%2Fsvg%3E\");color:#999;height:18px;width:18px}.eye-invisible{background-image:url(\"data:image/svg+xml,%3C%3Fxml version%3D%221.0%22 standalone%3D%22no%22%3F%3E%3C!DOCTYPE svg PUBLIC %22-%2F%2FW3C%2F%2FDTD SVG 1.1%2F%2FEN%22 %22http%3A%2F%2Fwww.w3.org%2FGraphics%2FSVG%2F1.1%2FDTD%2Fsvg11.dtd%22%3E%3Csvg class%3D%22icon%22 width%3D%2218px%22 height%3D%2218.00px%22 viewBox%3D%220 0 1024 1024%22 version%3D%221.1%22 xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath fill%3D%22%23999999%22 d%3D%22M933.12 505.429333l-0.213333-0.213333c-35.626667-75.093333-78.293333-135.722667-127.914667-182.016L755.370667 372.906667c42.794667 39.338667 79.786667 91.733333 111.658666 157.44-81.493333 168.661333-197.12 248.704-355.029333 248.704-50.218667 0-96.213333-8.106667-138.197333-24.576l-53.504 53.546666c57.216 27.562667 121.045333 41.472 191.701333 41.472 188.074667 0 328.234667-98.346667 420.992-293.888a58.88 58.88 0 0 0 0.085333-50.176z m-62.634667-325.12l-41.514666-41.472a7.850667 7.850667 0 0 0-11.093334 0L703.658667 253.013333c-57.173333-27.690667-120.96-41.6-191.616-41.6-188.117333 0-328.234667 98.389333-421.034667 293.888v0.128a59.008 59.008 0 0 0 0 50.346667c35.626667 75.093333 78.293333 135.765333 127.914667 182.186667L120.32 836.266667a7.850667 7.850667 0 0 0 0 11.050666l41.514667 41.472a7.850667 7.850667 0 0 0 11.093333 0l697.557333-697.6a7.722667 7.722667 0 0 0 0-10.922666z m-469.162666 375.04A109.568 109.568 0 0 1 532.906667 423.68l-131.626667 131.584z m180.522666-180.565333a172.373333 172.373333 0 0 0-229.461333 229.461333l-83.797333 83.797334c-42.752-39.338667-79.744-91.733333-111.658667-157.44C238.549333 361.898667 354.133333 281.813333 512 281.813333c50.218667 0 96.213333 8.149333 138.197333 24.618667l-68.352 68.266667zM508.074667 640.085333c-6.272 0-12.416-0.512-18.389334-1.578666l-50.005333 50.005333a172.245333 172.245333 0 0 0 226.56-226.56L616.234667 512a109.696 109.696 0 0 1-108.16 128.085333z%22 %2F%3E%3C%2Fsvg%3E\");color:#999;height:18px;width:18px}"]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-editor',
+            template: "<div class=\"gk-editor-container\">\n    <div #toolbar [hidden]=\"!showNativeBar\" class=\"tool-bar\"></div>\n    <div [hidden]=\"!showPreview\" class=\"w-e-toolbar tool-bar preview-bar\">\n        <div nzTooltipTitle=\"\u53D6\u6D88\u9884\u89C8\" nzTooltipPlacement=\"top\" nz-tooltip class=\"w-e-menu\" (click)=\"cancelPreview()\">\n            <i class=\"w-e-icon-invisible eye-invisible\"></i>\n        </div>\n    </div>\n    <div #editor class=\"editor-box\" [class.view-box]=\"viewMode\"\n        [ngStyle]=\"{ 'height.px': viewMode?'auto':gkEditor.config.height }\">\n    </div>\n</div>\n",
+            providers: [GK_EDITOR_VALUE_ACCESSOR],
+            styles: [".gk-editor-container{position:relative;z-index:0}.tool-bar{background-color:#fff;border:1px solid #c9d8db;border-bottom-color:#eee;height:42px;padding:0 12px;z-index:1}.preview-bar{padding:0 18px}.editor-box{border:1px solid #c9d8db;border-top:none;overflow-y:auto;width:100%}.view-box{border:transparent}::ng-deep .eye-svg{background-image:url(\"data:image/svg+xml,%3C%3Fxml version%3D%221.0%22 standalone%3D%22no%22%3F%3E%3C!DOCTYPE svg PUBLIC %22-%2F%2FW3C%2F%2FDTD SVG 1.1%2F%2FEN%22 %22http%3A%2F%2Fwww.w3.org%2FGraphics%2FSVG%2F1.1%2FDTD%2Fsvg11.dtd%22%3E%3Csvg class%3D%22icon%22 width%3D%2218px%22 height%3D%2218.00px%22 viewBox%3D%220 0 1024 1024%22 version%3D%221.1%22 xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath fill%3D%22%23999999%22 d%3D%22M942.2 486.2C847.4 286.5 704.1 186 512 186c-192.2 0-335.4 100.5-430.2 300.3-7.7 16.2-7.7 35.2 0 51.5C176.6 737.5 319.9 838 512 838c192.2 0 335.4-100.5 430.2-300.3 7.7-16.2 7.7-35 0-51.5zM512 766c-161.3 0-279.4-81.8-362.7-254C232.6 339.8 350.7 258 512 258c161.3 0 279.4 81.8 362.7 254C791.5 684.2 673.4 766 512 766zM508 336c-97.2 0-176 78.8-176 176s78.8 176 176 176 176-78.8 176-176-78.8-176-176-176z m0 288c-61.9 0-112-50.1-112-112s50.1-112 112-112 112 50.1 112 112-50.1 112-112 112z%22 %2F%3E%3C%2Fsvg%3E\");color:#999;height:18px;width:18px}.eye-invisible{background-image:url(\"data:image/svg+xml,%3C%3Fxml version%3D%221.0%22 standalone%3D%22no%22%3F%3E%3C!DOCTYPE svg PUBLIC %22-%2F%2FW3C%2F%2FDTD SVG 1.1%2F%2FEN%22 %22http%3A%2F%2Fwww.w3.org%2FGraphics%2FSVG%2F1.1%2FDTD%2Fsvg11.dtd%22%3E%3Csvg class%3D%22icon%22 width%3D%2218px%22 height%3D%2218.00px%22 viewBox%3D%220 0 1024 1024%22 version%3D%221.1%22 xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath fill%3D%22%23999999%22 d%3D%22M933.12 505.429333l-0.213333-0.213333c-35.626667-75.093333-78.293333-135.722667-127.914667-182.016L755.370667 372.906667c42.794667 39.338667 79.786667 91.733333 111.658666 157.44-81.493333 168.661333-197.12 248.704-355.029333 248.704-50.218667 0-96.213333-8.106667-138.197333-24.576l-53.504 53.546666c57.216 27.562667 121.045333 41.472 191.701333 41.472 188.074667 0 328.234667-98.346667 420.992-293.888a58.88 58.88 0 0 0 0.085333-50.176z m-62.634667-325.12l-41.514666-41.472a7.850667 7.850667 0 0 0-11.093334 0L703.658667 253.013333c-57.173333-27.690667-120.96-41.6-191.616-41.6-188.117333 0-328.234667 98.389333-421.034667 293.888v0.128a59.008 59.008 0 0 0 0 50.346667c35.626667 75.093333 78.293333 135.765333 127.914667 182.186667L120.32 836.266667a7.850667 7.850667 0 0 0 0 11.050666l41.514667 41.472a7.850667 7.850667 0 0 0 11.093333 0l697.557333-697.6a7.722667 7.722667 0 0 0 0-10.922666z m-469.162666 375.04A109.568 109.568 0 0 1 532.906667 423.68l-131.626667 131.584z m180.522666-180.565333a172.373333 172.373333 0 0 0-229.461333 229.461333l-83.797333 83.797334c-42.752-39.338667-79.744-91.733333-111.658667-157.44C238.549333 361.898667 354.133333 281.813333 512 281.813333c50.218667 0 96.213333 8.149333 138.197333 24.618667l-68.352 68.266667zM508.074667 640.085333c-6.272 0-12.416-0.512-18.389334-1.578666l-50.005333 50.005333a172.245333 172.245333 0 0 0 226.56-226.56L616.234667 512a109.696 109.696 0 0 1-108.16 128.085333z%22 %2F%3E%3C%2Fsvg%3E\");color:#999;height:18px;width:18px}"]
+        },]
+    }
 ];
 EditorComponent.ctorParameters = () => [
     { type: GKDataService },
@@ -2498,18 +2548,20 @@ EditorComponent.propDecorators = {
 class GKEditorModule {
 }
 GKEditorModule.decorators = [
-    { type: NgModule, args: [{
-                declarations: [
-                    EditorComponent,
-                ],
-                imports: [
-                    CommonModule,
-                    NzToolTipModule,
-                ],
-                exports: [
-                    EditorComponent,
-                ],
-            },] }
+    {
+        type: NgModule, args: [{
+            declarations: [
+                EditorComponent,
+            ],
+            imports: [
+                CommonModule,
+                NzToolTipModule,
+            ],
+            exports: [
+                EditorComponent,
+            ],
+        },]
+    }
 ];
 
 class IOService {
@@ -2545,10 +2597,10 @@ class IOService {
             control.source()
                 .pipe(tap(() => control.loading = false))
                 .subscribe(({ code, data }) => {
-                if (code === 0) {
-                    control.list = data;
-                }
-            });
+                    if (code === 0) {
+                        control.list = data;
+                    }
+                });
         }
         else {
             const linkProps = this.getLinkProps(control.config.link);
@@ -2586,14 +2638,14 @@ class IOService {
         control.source(query)
             .pipe(tap(() => control.loading = false))
             .subscribe(({ code, data }) => {
-            if (code === 0) {
-                control.list = data;
-                const isEmpty = !this.ds.hasOptions(formGroup.get(selfProp).value, data);
-                if (isEmpty) {
-                    formGroup.get(selfProp).reset();
+                if (code === 0) {
+                    control.list = data;
+                    const isEmpty = !this.ds.hasOptions(formGroup.get(selfProp).value, data);
+                    if (isEmpty) {
+                        formGroup.get(selfProp).reset();
+                    }
                 }
-            }
-        });
+            });
     }
     propsHandler(selfProp, linkProps, control, formGroup) {
         for (const prop of linkProps) {
@@ -2617,9 +2669,11 @@ class IOService {
 }
 IOService.ɵprov = ɵɵdefineInjectable({ factory: function IOService_Factory() { return new IOService(ɵɵinject(GKRequestService), ɵɵinject(GKDataService)); }, token: IOService, providedIn: "root" });
 IOService.decorators = [
-    { type: Injectable, args: [{
-                providedIn: 'root',
-            },] }
+    {
+        type: Injectable, args: [{
+            providedIn: 'root',
+        },]
+    }
 ];
 IOService.ctorParameters = () => [
     { type: GKRequestService },
@@ -2861,11 +2915,13 @@ class IOComponent {
     }
 }
 IOComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-io',
-                template: "<form nz-form [formGroup]=\"formGroup\" class=\"gk-io-container\">\n    <div nz-row [nzGutter]=\"24\" class=\"row\">\n        <ng-container *ngFor=\"let labelBlock of control.labelBlocks\">\n            <div *ngIf=\"showBlockLabel(labelBlock)\" nz-col\n                [nzSpan]=\"labelBlock.options.grid / control.options.gridCount * 24\">\n                <nz-form-item class=\"gk-block-label\"\n                    [class.gk-block-label-first-info]=\"getItemMode(labelBlock.propItems[0]) === 'info'\">\n                    <nz-form-label [nzRequired]=\"true\" [class.gk-text-minor]=\"control.mode === 'info'\"\n                        [class.hide-required]=\"!showBlockRequired(labelBlock.propItems)\"\n                        [style.width]=\"getBlockWidth(labelBlock).label\">{{ labelBlock.label }}</nz-form-label>\n                </nz-form-item>\n\n                <ng-container *ngFor=\"let item of labelBlock.propItems; let index = index\">\n                    <nz-form-item *ngIf=\"showPropItem(item)\">\n                        <nz-form-label style=\"visibility: hidden; height: 1px;\"\n                            [style.width]=\"getBlockWidth(labelBlock).label\">\n                        </nz-form-label>\n\n                        <nz-form-control *ngIf=\"getItemMode(item) === 'info' && item.infoControl\"\n                            class=\"gk-info-item-control\" [class]=\"item.infoControl.controlType\"\n                            [style.width]=\"getBlockWidth(labelBlock).control\">\n                            <div class=\"gk-info-item-control-content\">\n                                <ng-container *ngTemplateOutlet=\"infoContent; context: { $implicit: item }\">\n                                </ng-container>\n                            </div>\n                        </nz-form-control>\n\n                        <nz-form-control *ngIf=\"getItemMode(item) === 'form' && item.formControl\"\n                            [nzErrorTip]=\"getErrorTip(item)\" class=\"gk-form-item-control\"\n                            [class]=\"item.formControl.controlType\" [style.width]=\"getBlockWidth(labelBlock).control\">\n                            <div class=\"gk-form-item-control-content\">\n                                <ng-container *ngIf=\"item.formControl.controlType === 'formText'\">\n                                    <ng-container *ngIf=\"!service.hasAddOn(item.formControl)\">\n                                        <input nz-input [formControlName]=\"item.prop\"\n                                            [placeholder]=\"item.formControl.config.placeholder\" />\n                                    </ng-container>\n                                    <nz-input-group *ngIf=\"service.hasAddOn(item.formControl)\"\n                                        [nzAddOnBefore]=\"service.getAddOn(item.formControl.config.addOnBefore)\"\n                                        [nzAddOnAfter]=\"service.getAddOn(item.formControl.config.addOnAfter)\">\n                                        <input nz-input [formControlName]=\"item.prop\"\n                                            [placeholder]=\"item.formControl.config.placeholder\" />\n                                    </nz-input-group>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.formControl.controlType === 'formTextarea'\">\n                                    <ng-container *ngIf=\"!item.formControl.config.maxCharacterCount\">\n                                        <textarea nz-input [formControlName]=\"item.prop\"\n                                            [rows]=\"item.formControl.config.rows\"\n                                            [class.resize]=\"item.formControl.config.noResize\"\n                                            [nzAutosize]=\"item.formControl.config.autoSize\"\n                                            [placeholder]=\"item.formControl.config.placeholder\"></textarea>\n                                    </ng-container>\n                                    <nz-textarea-count *ngIf=\"item.formControl.config.maxCharacterCount\"\n                                        [nzMaxCharacterCount]=\"item.formControl.config.maxCharacterCount\">\n                                        <textarea nz-input [formControlName]=\"item.prop\"\n                                            [rows]=\"item.formControl.config.rows\"\n                                            [class.resize]=\"item.formControl.config.noResize\"\n                                            [nzAutosize]=\"item.formControl.config.autoSize\"\n                                            [placeholder]=\"item.formControl.config.placeholder\"></textarea>\n                                    </nz-textarea-count>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.formControl.controlType === 'formNumber'\">\n                                    <gk-number [formControlName]=\"item.prop\" [xFormControl]=\"item.formControl\">\n                                    </gk-number>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.formControl.controlType === 'formPassword'\">\n                                    <nz-input-group [nzSuffix]=\"suffixTemplate\">\n                                        <input nz-input [formControlName]=\"item.prop\"\n                                            [type]=\"item.formControl.showPassword ? 'text' : 'password'\"\n                                            [placeholder]=\"item.formControl.config.placeholder\" />\n                                    </nz-input-group>\n                                    <ng-template #suffixTemplate>\n                                        <gk-icon [type]=\"item.formControl.showPassword ? 'eye-invisible' : 'eye'\"\n                                            style=\"cursor: pointer;\"\n                                            (click)=\"item.formControl.showPassword = !item.formControl.showPassword\">\n                                        </gk-icon>\n                                    </ng-template>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.formControl.controlType === 'formSwitch'\">\n                                    <nz-switch [formControlName]=\"item.prop\"\n                                        [nzDisabled]=\"item.formControl.config.disabled\"></nz-switch>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.formControl.controlType === 'formRadio'\">\n                                    <nz-radio-group [formControlName]=\"item.prop\">\n                                        <label *ngFor=\"let option of item.formControl.config.options\" nz-radio\n                                            [nzValue]=\"option.value\" [nzDisabled]=\"\n                                            option.disabled\">{{ option.label }}</label>\n                                    </nz-radio-group>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.formControl.controlType === 'formCheckbox'\">\n                                    <gk-checkbox [formControlName]=\"item.prop\"\n                                        [options]=\"item.formControl.config.options\"></gk-checkbox>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.formControl.controlType === 'formSelect'\">\n                                    <nz-select [formControlName]=\"item.prop\" [nzMode]=\"item.formControl.config.mode\"\n                                        [nzDisabled]=\"item.formControl.config.disabled\"\n                                        [nzShowSearch]=\"item.formControl.config.search\"\n                                        [nzLoading]=\"item.formControl.loading\" nzAllowClear\n                                        [nzPlaceHolder]=\"item.formControl.config.placeholder || '\u8BF7\u9009\u62E9'\">\n                                        <nz-option *ngFor=\"let option of item.formControl.list\" [nzLabel]=\"option.label\"\n                                            [nzValue]=\"option.value\">\n                                        </nz-option>\n                                    </nz-select>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.formControl.controlType === 'formRate'\">\n                                    <nz-rate [formControlName]=\"item.prop\"\n                                        [nzAllowHalf]=\"item.formControl.config.allowHalf\"\n                                        [nzTooltips]=\"item.formControl.config.tooltips\"></nz-rate>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.formControl.controlType === 'formDate'\">\n                                    <gk-time-picker [formControlName]=\"item.prop\" [xFormControl]=\"item.formControl\">\n                                    </gk-time-picker>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.formControl.controlType === 'formDateRange'\">\n                                    <gk-time-picker [formControlName]=\"item.prop\" [xFormControl]=\"item.formControl\">\n                                    </gk-time-picker>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.formControl.controlType === 'formAgree'\">\n                                    <label nz-checkbox [formControlName]=\"item.prop\"\n                                        [nzDisabled]=\"getAgreeDisabled(item)\" style=\"margin-right: 8px;\"></label>\n                                    <span>\n                                        <ng-container *ngFor=\"let node of item.formControl.config.content\">\n                                            <span *ngIf=\"!$any(node).text\">{{ node }}</span>\n                                            <a *ngIf=\"$any(node).text\" [href]=\"$any(node).href\" target=\"_blank\"\n                                                rel=\"noopener norefferrer\" style=\"margin: 0 2px;\">{{ $any(node).text\n                                                }}</a>\n                                        </ng-container>\n                                    </span>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.formControl.controlType === 'formUpload'\">\n                                    <gk-upload [formControlName]=\"item.prop\" [xFormControl]=\"item.formControl\">\n                                    </gk-upload>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.formControl.controlType === 'formEditor'\">\n                                    <gk-editor [formControlName]=\"item.prop\" [edit]=\"item.formControl.edit\">\n                                    </gk-editor>\n                                </ng-container>\n                            </div>\n                        </nz-form-control>\n\n                    </nz-form-item>\n                </ng-container>\n            </div>\n        </ng-container>\n    </div>\n</form>\n\n\n\n<ng-template #infoContent let-item=\"$implicit\">\n    <ng-template [ngIf]=\"isPropItem(item)\" let-item=\"ngIf\">\n\n        <ng-container *ngIf=\"item.infoControl.controlType === 'infoText'\">\n            <ng-container *ngTemplateOutlet=\"infoTextContent; context: { $implicit: getTextContent(item) }\">\n            </ng-container>\n            <ng-template #infoTextContent let-v=\"$implicit\">\n                <div [ngClass]=\"{ 'gk-text-singel': item.infoControl.config.textType === 'singel'}\">\n                    <span nz-tooltip nzTooltipPlacement=\"topCenter\" [nzTooltipTitle]=\"v.tips\" class=\"gk-text-content\"\n                        [style.color]=\"getTextColor(item)\">\n                        <ng-container *ngIf=\"!v.statusMode\">{{\n                            v.plainText }}</ng-container>\n                        <ng-container *ngIf=\"v.statusMode\">\n                            <span *ngFor=\"let node of v.statusTexts\"\n                                [ngClass]=\"{ 'gk-text-status': !!$any(node).status }\" [class]=\"$any(node).status\">{{\n                                $any(node).text || node }}</span>\n                        </ng-container>\n                    </span>\n\n                    <gk-button *ngIf=\"item.infoControl.config.copyBtn\" size=\"small\" class=\"copy-btn\"\n                        (click)=\"onCopyClick(v.plainText)\">\u590D\u5236</gk-button>\n                </div>\n            </ng-template>\n        </ng-container>\n\n        <ng-container *ngIf=\"item.infoControl.controlType === 'infoRate'\">\n            <nz-rate [ngModel]=\"getInfoValue(item)\" [nzDisabled]=\"true\" [nzTooltips]=\"\n        item.infoControl.config.tooltips\"></nz-rate>\n        </ng-container>\n\n        <ng-container *ngIf=\"item.infoControl.controlType === 'infoTags'\">\n            <nz-tag *ngFor=\"let tag of getInfoValue(item); let index = index\" [nzColor]=\"getTagColor(item, index)\">\n                <span>{{ tag }}</span>\n            </nz-tag>\n        </ng-container>\n\n        <ng-container *ngIf=\"item.infoControl.controlType === 'infoLink'\">\n            <a [href]=\"getLinkHref(item)\" target=\"_blank\">{{ getInfoValue(item) }}</a>\n            <gk-button *ngIf=\"item.infoControl.config.copyBtn\" size=\"small\" class=\"copy-btn\"\n                (click)=\"onCopyClick(getLinkHref(item))\">\u590D\u5236</gk-button>\n        </ng-container>\n\n        <ng-container *ngIf=\"item.infoControl.controlType === 'infoImg'\">\n            <div class=\"gk-clr\">\n                <div class=\"img-wrap\" *ngFor=\"let img of getImgList(getInfoValue(item))\">\n                    <img [src]=\"img\" alt=\"\">\n                </div>\n            </div>\n        </ng-container>\n\n        <ng-container *ngIf=\"item.infoControl.controlType === 'infoEditor'\">\n            <gk-editor [ngModel]=\"getInfoValue(item)\" [edit]=\"item.infoControl.edit\" [viewMode]=\"true\">\n            </gk-editor>\n        </ng-container>\n\n        <ng-container *ngIf=\"item.infoControl.controlType === 'infoCustom'\">\n            <ng-container *ngIf=\"service.isTemplateRef(item.infoControl.config.render)\"\n                [ngTemplateOutlet]=\"item.infoControl.config.render\"\n                [ngTemplateOutletContext]=\"{ data: data, prop: item.prop, value: getInfoValue(item) }\">\n            </ng-container>\n        </ng-container>\n\n    </ng-template>\n</ng-template>\n",
-                styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}.gk-io-container{margin-top:8px}.gk-io-container .gk-block-label{margin-bottom:-32px}.gk-io-container .gk-block-label .ant-form-item-label{text-align:left}.gk-io-container .gk-block-label .ant-form-item-label.hide-required ::ng-deep .ant-form-item-required:before{opacity:0}.gk-io-container .gk-block-label.gk-block-label-first-info{margin-bottom:-20px}.gk-io-container .gk-block-label.gk-block-label-first-info .ant-form-item-label,.gk-io-container .gk-block-label.gk-block-label-first-info .ant-form-item-label ::ng-deep label{height:20px;line-height:20px}.gk-io-container .gk-info-item-control ::ng-deep .ant-form-item-control-input{line-height:20px;min-height:20px}.gk-io-container .gk-info-item-control.infoText .gk-text-content .gk-text-status{margin:0 2px}.gk-io-container .gk-info-item-control.infoText .gk-text-content .gk-text-status.primary{color:#3266fb}.gk-io-container .gk-info-item-control.infoText .gk-text-content .gk-text-status.success{color:#52c41a}.gk-io-container .gk-info-item-control.infoText .gk-text-content .gk-text-status.warning{color:#faad14}.gk-io-container .gk-info-item-control.infoText .gk-text-content .gk-text-status.danger{color:#ff4d4f}.gk-io-container .gk-info-item-control.infoText .gk-text-singel{align-items:center;display:flex}.gk-io-container .gk-info-item-control.infoText .gk-text-singel .gk-text-content{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.gk-io-container .gk-info-item-control.infoRate ::ng-deep .ant-form-item-control-input-content{height:20px}.gk-io-container .gk-info-item-control.infoTags ::ng-deep .ant-form-item-control-input-content>.gk-info-item-control-content{margin:-4px 0}.gk-io-container .gk-info-item-control.infoTags ::ng-deep .ant-form-item-control-input-content>.gk-info-item-control-content .ant-tag{margin-bottom:3px;margin-top:3px}.gk-io-container .gk-info-item-control.infoImg .img-wrap{border:1px solid #d9d9d9;border-radius:8px;float:left;height:104px;margin-bottom:8px;margin-right:8px;max-width:100%;overflow:hidden;overflow-x:auto;padding:8px}.gk-io-container .gk-info-item-control.infoImg .img-wrap img{height:100%}.gk-io-container .gk-info-item-control .copy-btn{margin-left:24px}.gk-io-container .gk-form-item-control .ant-input,.gk-io-container .gk-form-item-control .ant-input-number,.gk-io-container .gk-form-item-control .ant-picker{width:100%}.gk-io-container .gk-form-item-control .resize{resize:none}::ng-deep .preview-modal .ant-modal-body{padding:28px 40px}"]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-io',
+            template: "<form nz-form [formGroup]=\"formGroup\" class=\"gk-io-container\">\n    <div nz-row [nzGutter]=\"24\" class=\"row\">\n        <ng-container *ngFor=\"let labelBlock of control.labelBlocks\">\n            <div *ngIf=\"showBlockLabel(labelBlock)\" nz-col\n                [nzSpan]=\"labelBlock.options.grid / control.options.gridCount * 24\">\n                <nz-form-item class=\"gk-block-label\"\n                    [class.gk-block-label-first-info]=\"getItemMode(labelBlock.propItems[0]) === 'info'\">\n                    <nz-form-label [nzRequired]=\"true\" [class.gk-text-minor]=\"control.mode === 'info'\"\n                        [class.hide-required]=\"!showBlockRequired(labelBlock.propItems)\"\n                        [style.width]=\"getBlockWidth(labelBlock).label\">{{ labelBlock.label }}</nz-form-label>\n                </nz-form-item>\n\n                <ng-container *ngFor=\"let item of labelBlock.propItems; let index = index\">\n                    <nz-form-item *ngIf=\"showPropItem(item)\">\n                        <nz-form-label style=\"visibility: hidden; height: 1px;\"\n                            [style.width]=\"getBlockWidth(labelBlock).label\">\n                        </nz-form-label>\n\n                        <nz-form-control *ngIf=\"getItemMode(item) === 'info' && item.infoControl\"\n                            class=\"gk-info-item-control\" [class]=\"item.infoControl.controlType\"\n                            [style.width]=\"getBlockWidth(labelBlock).control\">\n                            <div class=\"gk-info-item-control-content\">\n                                <ng-container *ngTemplateOutlet=\"infoContent; context: { $implicit: item }\">\n                                </ng-container>\n                            </div>\n                        </nz-form-control>\n\n                        <nz-form-control *ngIf=\"getItemMode(item) === 'form' && item.formControl\"\n                            [nzErrorTip]=\"getErrorTip(item)\" class=\"gk-form-item-control\"\n                            [class]=\"item.formControl.controlType\" [style.width]=\"getBlockWidth(labelBlock).control\">\n                            <div class=\"gk-form-item-control-content\">\n                                <ng-container *ngIf=\"item.formControl.controlType === 'formText'\">\n                                    <ng-container *ngIf=\"!service.hasAddOn(item.formControl)\">\n                                        <input nz-input [formControlName]=\"item.prop\"\n                                            [placeholder]=\"item.formControl.config.placeholder\" />\n                                    </ng-container>\n                                    <nz-input-group *ngIf=\"service.hasAddOn(item.formControl)\"\n                                        [nzAddOnBefore]=\"service.getAddOn(item.formControl.config.addOnBefore)\"\n                                        [nzAddOnAfter]=\"service.getAddOn(item.formControl.config.addOnAfter)\">\n                                        <input nz-input [formControlName]=\"item.prop\"\n                                            [placeholder]=\"item.formControl.config.placeholder\" />\n                                    </nz-input-group>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.formControl.controlType === 'formTextarea'\">\n                                    <ng-container *ngIf=\"!item.formControl.config.maxCharacterCount\">\n                                        <textarea nz-input [formControlName]=\"item.prop\"\n                                            [rows]=\"item.formControl.config.rows\"\n                                            [class.resize]=\"item.formControl.config.noResize\"\n                                            [nzAutosize]=\"item.formControl.config.autoSize\"\n                                            [placeholder]=\"item.formControl.config.placeholder\"></textarea>\n                                    </ng-container>\n                                    <nz-textarea-count *ngIf=\"item.formControl.config.maxCharacterCount\"\n                                        [nzMaxCharacterCount]=\"item.formControl.config.maxCharacterCount\">\n                                        <textarea nz-input [formControlName]=\"item.prop\"\n                                            [rows]=\"item.formControl.config.rows\"\n                                            [class.resize]=\"item.formControl.config.noResize\"\n                                            [nzAutosize]=\"item.formControl.config.autoSize\"\n                                            [placeholder]=\"item.formControl.config.placeholder\"></textarea>\n                                    </nz-textarea-count>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.formControl.controlType === 'formNumber'\">\n                                    <gk-number [formControlName]=\"item.prop\" [xFormControl]=\"item.formControl\">\n                                    </gk-number>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.formControl.controlType === 'formPassword'\">\n                                    <nz-input-group [nzSuffix]=\"suffixTemplate\">\n                                        <input nz-input [formControlName]=\"item.prop\"\n                                            [type]=\"item.formControl.showPassword ? 'text' : 'password'\"\n                                            [placeholder]=\"item.formControl.config.placeholder\" />\n                                    </nz-input-group>\n                                    <ng-template #suffixTemplate>\n                                        <gk-icon [type]=\"item.formControl.showPassword ? 'eye-invisible' : 'eye'\"\n                                            style=\"cursor: pointer;\"\n                                            (click)=\"item.formControl.showPassword = !item.formControl.showPassword\">\n                                        </gk-icon>\n                                    </ng-template>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.formControl.controlType === 'formSwitch'\">\n                                    <nz-switch [formControlName]=\"item.prop\"\n                                        [nzDisabled]=\"item.formControl.config.disabled\"></nz-switch>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.formControl.controlType === 'formRadio'\">\n                                    <nz-radio-group [formControlName]=\"item.prop\">\n                                        <label *ngFor=\"let option of item.formControl.config.options\" nz-radio\n                                            [nzValue]=\"option.value\" [nzDisabled]=\"\n                                            option.disabled\">{{ option.label }}</label>\n                                    </nz-radio-group>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.formControl.controlType === 'formCheckbox'\">\n                                    <gk-checkbox [formControlName]=\"item.prop\"\n                                        [options]=\"item.formControl.config.options\"></gk-checkbox>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.formControl.controlType === 'formSelect'\">\n                                    <nz-select [formControlName]=\"item.prop\" [nzMode]=\"item.formControl.config.mode\"\n                                        [nzDisabled]=\"item.formControl.config.disabled\"\n                                        [nzShowSearch]=\"item.formControl.config.search\"\n                                        [nzLoading]=\"item.formControl.loading\" nzAllowClear\n                                        [nzPlaceHolder]=\"item.formControl.config.placeholder || '\u8BF7\u9009\u62E9'\">\n                                        <nz-option *ngFor=\"let option of item.formControl.list\" [nzLabel]=\"option.label\"\n                                            [nzValue]=\"option.value\">\n                                        </nz-option>\n                                    </nz-select>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.formControl.controlType === 'formRate'\">\n                                    <nz-rate [formControlName]=\"item.prop\"\n                                        [nzAllowHalf]=\"item.formControl.config.allowHalf\"\n                                        [nzTooltips]=\"item.formControl.config.tooltips\"></nz-rate>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.formControl.controlType === 'formDate'\">\n                                    <gk-time-picker [formControlName]=\"item.prop\" [xFormControl]=\"item.formControl\">\n                                    </gk-time-picker>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.formControl.controlType === 'formDateRange'\">\n                                    <gk-time-picker [formControlName]=\"item.prop\" [xFormControl]=\"item.formControl\">\n                                    </gk-time-picker>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.formControl.controlType === 'formAgree'\">\n                                    <label nz-checkbox [formControlName]=\"item.prop\"\n                                        [nzDisabled]=\"getAgreeDisabled(item)\" style=\"margin-right: 8px;\"></label>\n                                    <span>\n                                        <ng-container *ngFor=\"let node of item.formControl.config.content\">\n                                            <span *ngIf=\"!$any(node).text\">{{ node }}</span>\n                                            <a *ngIf=\"$any(node).text\" [href]=\"$any(node).href\" target=\"_blank\"\n                                                rel=\"noopener norefferrer\" style=\"margin: 0 2px;\">{{ $any(node).text\n                                                }}</a>\n                                        </ng-container>\n                                    </span>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.formControl.controlType === 'formUpload'\">\n                                    <gk-upload [formControlName]=\"item.prop\" [xFormControl]=\"item.formControl\">\n                                    </gk-upload>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.formControl.controlType === 'formEditor'\">\n                                    <gk-editor [formControlName]=\"item.prop\" [edit]=\"item.formControl.edit\">\n                                    </gk-editor>\n                                </ng-container>\n                            </div>\n                        </nz-form-control>\n\n                    </nz-form-item>\n                </ng-container>\n            </div>\n        </ng-container>\n    </div>\n</form>\n\n\n\n<ng-template #infoContent let-item=\"$implicit\">\n    <ng-template [ngIf]=\"isPropItem(item)\" let-item=\"ngIf\">\n\n        <ng-container *ngIf=\"item.infoControl.controlType === 'infoText'\">\n            <ng-container *ngTemplateOutlet=\"infoTextContent; context: { $implicit: getTextContent(item) }\">\n            </ng-container>\n            <ng-template #infoTextContent let-v=\"$implicit\">\n                <div [ngClass]=\"{ 'gk-text-singel': item.infoControl.config.textType === 'singel'}\">\n                    <span nz-tooltip nzTooltipPlacement=\"topCenter\" [nzTooltipTitle]=\"v.tips\" class=\"gk-text-content\"\n                        [style.color]=\"getTextColor(item)\">\n                        <ng-container *ngIf=\"!v.statusMode\">{{\n                            v.plainText }}</ng-container>\n                        <ng-container *ngIf=\"v.statusMode\">\n                            <span *ngFor=\"let node of v.statusTexts\"\n                                [ngClass]=\"{ 'gk-text-status': !!$any(node).status }\" [class]=\"$any(node).status\">{{\n                                $any(node).text || node }}</span>\n                        </ng-container>\n                    </span>\n\n                    <gk-button *ngIf=\"item.infoControl.config.copyBtn\" size=\"small\" class=\"copy-btn\"\n                        (click)=\"onCopyClick(v.plainText)\">\u590D\u5236</gk-button>\n                </div>\n            </ng-template>\n        </ng-container>\n\n        <ng-container *ngIf=\"item.infoControl.controlType === 'infoRate'\">\n            <nz-rate [ngModel]=\"getInfoValue(item)\" [nzDisabled]=\"true\" [nzTooltips]=\"\n        item.infoControl.config.tooltips\"></nz-rate>\n        </ng-container>\n\n        <ng-container *ngIf=\"item.infoControl.controlType === 'infoTags'\">\n            <nz-tag *ngFor=\"let tag of getInfoValue(item); let index = index\" [nzColor]=\"getTagColor(item, index)\">\n                <span>{{ tag }}</span>\n            </nz-tag>\n        </ng-container>\n\n        <ng-container *ngIf=\"item.infoControl.controlType === 'infoLink'\">\n            <a [href]=\"getLinkHref(item)\" target=\"_blank\">{{ getInfoValue(item) }}</a>\n            <gk-button *ngIf=\"item.infoControl.config.copyBtn\" size=\"small\" class=\"copy-btn\"\n                (click)=\"onCopyClick(getLinkHref(item))\">\u590D\u5236</gk-button>\n        </ng-container>\n\n        <ng-container *ngIf=\"item.infoControl.controlType === 'infoImg'\">\n            <div class=\"gk-clr\">\n                <div class=\"img-wrap\" *ngFor=\"let img of getImgList(getInfoValue(item))\">\n                    <img [src]=\"img\" alt=\"\">\n                </div>\n            </div>\n        </ng-container>\n\n        <ng-container *ngIf=\"item.infoControl.controlType === 'infoEditor'\">\n            <gk-editor [ngModel]=\"getInfoValue(item)\" [edit]=\"item.infoControl.edit\" [viewMode]=\"true\">\n            </gk-editor>\n        </ng-container>\n\n        <ng-container *ngIf=\"item.infoControl.controlType === 'infoCustom'\">\n            <ng-container *ngIf=\"service.isTemplateRef(item.infoControl.config.render)\"\n                [ngTemplateOutlet]=\"item.infoControl.config.render\"\n                [ngTemplateOutletContext]=\"{ data: data, prop: item.prop, value: getInfoValue(item) }\">\n            </ng-container>\n        </ng-container>\n\n    </ng-template>\n</ng-template>\n",
+            styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}.gk-io-container{margin-top:8px}.gk-io-container .gk-block-label{margin-bottom:-32px}.gk-io-container .gk-block-label .ant-form-item-label{text-align:left}.gk-io-container .gk-block-label .ant-form-item-label.hide-required ::ng-deep .ant-form-item-required:before{opacity:0}.gk-io-container .gk-block-label.gk-block-label-first-info{margin-bottom:-20px}.gk-io-container .gk-block-label.gk-block-label-first-info .ant-form-item-label,.gk-io-container .gk-block-label.gk-block-label-first-info .ant-form-item-label ::ng-deep label{height:20px;line-height:20px}.gk-io-container .gk-info-item-control ::ng-deep .ant-form-item-control-input{line-height:20px;min-height:20px}.gk-io-container .gk-info-item-control.infoText .gk-text-content .gk-text-status{margin:0 2px}.gk-io-container .gk-info-item-control.infoText .gk-text-content .gk-text-status.primary{color:#3266fb}.gk-io-container .gk-info-item-control.infoText .gk-text-content .gk-text-status.success{color:#52c41a}.gk-io-container .gk-info-item-control.infoText .gk-text-content .gk-text-status.warning{color:#faad14}.gk-io-container .gk-info-item-control.infoText .gk-text-content .gk-text-status.danger{color:#ff4d4f}.gk-io-container .gk-info-item-control.infoText .gk-text-singel{align-items:center;display:flex}.gk-io-container .gk-info-item-control.infoText .gk-text-singel .gk-text-content{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.gk-io-container .gk-info-item-control.infoRate ::ng-deep .ant-form-item-control-input-content{height:20px}.gk-io-container .gk-info-item-control.infoTags ::ng-deep .ant-form-item-control-input-content>.gk-info-item-control-content{margin:-4px 0}.gk-io-container .gk-info-item-control.infoTags ::ng-deep .ant-form-item-control-input-content>.gk-info-item-control-content .ant-tag{margin-bottom:3px;margin-top:3px}.gk-io-container .gk-info-item-control.infoImg .img-wrap{border:1px solid #d9d9d9;border-radius:8px;float:left;height:104px;margin-bottom:8px;margin-right:8px;max-width:100%;overflow:hidden;overflow-x:auto;padding:8px}.gk-io-container .gk-info-item-control.infoImg .img-wrap img{height:100%}.gk-io-container .gk-info-item-control .copy-btn{margin-left:24px}.gk-io-container .gk-form-item-control .ant-input,.gk-io-container .gk-form-item-control .ant-input-number,.gk-io-container .gk-form-item-control .ant-picker{width:100%}.gk-io-container .gk-form-item-control .resize{resize:none}::ng-deep .preview-modal .ant-modal-body{padding:28px 40px}"]
+        },]
+    }
 ];
 IOComponent.ctorParameters = () => [
     { type: NzIconService },
@@ -2990,12 +3046,14 @@ class NumberComponent {
     }
 }
 NumberComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-number',
-                template: "<ng-container *ngIf=\"!service.hasAddOn(xFormControl)\">\n    <input nz-input [(ngModel)]=\"inputValue\" #inputNumber [placeholder]=\"xFormControl.config.placeholder\"\n        (ngModelChange)=\"onModelChange( )\" (blur)=\"onBlur( )\" />\n</ng-container>\n<nz-input-group *ngIf=\"service.hasAddOn(xFormControl)\"\n    [nzAddOnBefore]=\"service.getAddOn(xFormControl.config.addOnBefore)\"\n    [nzAddOnAfter]=\"service.getAddOn(xFormControl.config.addOnAfter)\">\n    <input nz-input [(ngModel)]=\"inputValue\" #inputNumber [placeholder]=\"xFormControl.config.placeholder\"\n        (ngModelChange)=\"onModelChange( )\" (blur)=\"onBlur( )\" />\n</nz-input-group>\n",
-                providers: [UEDITOR_VALUE_ACCESSOR],
-                styles: [""]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-number',
+            template: "<ng-container *ngIf=\"!service.hasAddOn(xFormControl)\">\n    <input nz-input [(ngModel)]=\"inputValue\" #inputNumber [placeholder]=\"xFormControl.config.placeholder\"\n        (ngModelChange)=\"onModelChange( )\" (blur)=\"onBlur( )\" />\n</ng-container>\n<nz-input-group *ngIf=\"service.hasAddOn(xFormControl)\"\n    [nzAddOnBefore]=\"service.getAddOn(xFormControl.config.addOnBefore)\"\n    [nzAddOnAfter]=\"service.getAddOn(xFormControl.config.addOnAfter)\">\n    <input nz-input [(ngModel)]=\"inputValue\" #inputNumber [placeholder]=\"xFormControl.config.placeholder\"\n        (ngModelChange)=\"onModelChange( )\" (blur)=\"onBlur( )\" />\n</nz-input-group>\n",
+            providers: [UEDITOR_VALUE_ACCESSOR],
+            styles: [""]
+        },]
+    }
 ];
 NumberComponent.ctorParameters = () => [
     { type: IOService }
@@ -3066,12 +3124,14 @@ class CheckboxComponent {
     }
 }
 CheckboxComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-checkbox',
-                template: "<nz-checkbox-group [(ngModel)]=\"checkOptions\" (ngModelChange)=\"onModelChange()\"></nz-checkbox-group>\n",
-                providers: [UEDITOR_VALUE_ACCESSOR$1],
-                styles: [""]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-checkbox',
+            template: "<nz-checkbox-group [(ngModel)]=\"checkOptions\" (ngModelChange)=\"onModelChange()\"></nz-checkbox-group>\n",
+            providers: [UEDITOR_VALUE_ACCESSOR$1],
+            styles: [""]
+        },]
+    }
 ];
 CheckboxComponent.ctorParameters = () => [];
 CheckboxComponent.propDecorators = {
@@ -3185,12 +3245,14 @@ class TimePickerComponent {
     }
 }
 TimePickerComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-time-picker',
-                template: "<ng-container *ngIf=\"xFormControl.controlType === 'formDate'\">\n    <nz-date-picker [(ngModel)]=\"dateValue\" (ngModelChange)=\"onModelChange()\" [nzMode]=\"xFormControl.config.mode\"\n        [nzShowTime]=\"xFormControl.config.showTime\" [nzFormat]=\"xFormControl.config.format\"\n        [nzDisabledDate]=\"xFormControl.disabledDateFunc\" [nzShowToday]=\"xFormControl.config.showToday\"\n        [nzPlaceHolder]=\"xFormControl.config.placeholder || '\u8BF7\u9009\u62E9'\" style=\"width: 100%;\">\n    </nz-date-picker>\n</ng-container>\n\n<ng-container *ngIf=\"xFormControl.controlType === 'formDateRange'\">\n    <nz-range-picker [(ngModel)]=\"dateValue\" (ngModelChange)=\"onModelChange()\" [nzMode]=\"xFormControl.config.mode\"\n        [nzShowTime]=\"xFormControl.config.showTime\" [nzFormat]=\"xFormControl.config.format\" #nzRangePicker\n        [nzDisabledDate]=\"xFormControl.disabledAndMaxDateFunc(nzRangePicker)\" [nzRanges]=\"xFormControl.fastRanges\"\n        style=\"width: 100%;\">\n    </nz-range-picker>\n</ng-container>\n",
-                providers: [UEDITOR_VALUE_ACCESSOR$2],
-                styles: [""]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-time-picker',
+            template: "<ng-container *ngIf=\"xFormControl.controlType === 'formDate'\">\n    <nz-date-picker [(ngModel)]=\"dateValue\" (ngModelChange)=\"onModelChange()\" [nzMode]=\"xFormControl.config.mode\"\n        [nzShowTime]=\"xFormControl.config.showTime\" [nzFormat]=\"xFormControl.config.format\"\n        [nzDisabledDate]=\"xFormControl.disabledDateFunc\" [nzShowToday]=\"xFormControl.config.showToday\"\n        [nzPlaceHolder]=\"xFormControl.config.placeholder || '\u8BF7\u9009\u62E9'\" style=\"width: 100%;\">\n    </nz-date-picker>\n</ng-container>\n\n<ng-container *ngIf=\"xFormControl.controlType === 'formDateRange'\">\n    <nz-range-picker [(ngModel)]=\"dateValue\" (ngModelChange)=\"onModelChange()\" [nzMode]=\"xFormControl.config.mode\"\n        [nzShowTime]=\"xFormControl.config.showTime\" [nzFormat]=\"xFormControl.config.format\" #nzRangePicker\n        [nzDisabledDate]=\"xFormControl.disabledAndMaxDateFunc(nzRangePicker)\" [nzRanges]=\"xFormControl.fastRanges\"\n        style=\"width: 100%;\">\n    </nz-range-picker>\n</ng-container>\n",
+            providers: [UEDITOR_VALUE_ACCESSOR$2],
+            styles: [""]
+        },]
+    }
 ];
 TimePickerComponent.ctorParameters = () => [];
 TimePickerComponent.propDecorators = {
@@ -3404,12 +3466,14 @@ class UploadComponent {
     }
 }
 UploadComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-upload',
-                template: "<nz-upload [nzBeforeUpload]=\"getNzBeforeUpload(xFormControl)\" [(nzFileList)]=\"xFormControl.nzFileList\"\n    [nzListType]=\"xFormControl.config.fileType === 'image' ? 'picture-card' : 'text'\"\n    [nzShowButton]=\"getShwoButton(xFormControl)\" [nzPreview]=\"getHandlePreview(xFormControl)\"\n    [nzRemove]=\"getRemove(xFormControl)\">\n    <gk-button *ngIf=\"xFormControl.config.fileType === 'default'\" icon=\"upload\">\u4E0A\u4F20\u6587\u4EF6</gk-button>\n\n    <ng-container *ngIf=\"xFormControl.config.fileType === 'image'\">\n        <div>\n            <gk-icon type=\"plus\"></gk-icon>\n            <div style=\"margin-top: 8px\">\u4E0A\u4F20\u56FE\u7247</div>\n        </div>\n        <nz-modal [nzVisible]=\"!!xFormControl.previewImage\" [nzCentered]=\"modalService.center\"\n            [nzContent]=\"modalContent\" [nzFooter]=\"null\" nzWrapClassName=\"preview-modal\"\n            (nzOnCancel)=\"xFormControl.previewImage = ''\">\n            <ng-template #modalContent>\n                <img [src]=\"xFormControl.previewImage\" style=\"width: 100%;\" />\n            </ng-template>\n        </nz-modal>\n    </ng-container>\n</nz-upload>\n<div *ngIf=\"xFormControl.config.fileTip\">{{ xFormControl.config.fileTip }}</div>\n",
-                providers: [UEDITOR_VALUE_ACCESSOR$3],
-                styles: [""]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-upload',
+            template: "<nz-upload [nzBeforeUpload]=\"getNzBeforeUpload(xFormControl)\" [(nzFileList)]=\"xFormControl.nzFileList\"\n    [nzListType]=\"xFormControl.config.fileType === 'image' ? 'picture-card' : 'text'\"\n    [nzShowButton]=\"getShwoButton(xFormControl)\" [nzPreview]=\"getHandlePreview(xFormControl)\"\n    [nzRemove]=\"getRemove(xFormControl)\">\n    <gk-button *ngIf=\"xFormControl.config.fileType === 'default'\" icon=\"upload\">\u4E0A\u4F20\u6587\u4EF6</gk-button>\n\n    <ng-container *ngIf=\"xFormControl.config.fileType === 'image'\">\n        <div>\n            <gk-icon type=\"plus\"></gk-icon>\n            <div style=\"margin-top: 8px\">\u4E0A\u4F20\u56FE\u7247</div>\n        </div>\n        <nz-modal [nzVisible]=\"!!xFormControl.previewImage\" [nzCentered]=\"modalService.center\"\n            [nzContent]=\"modalContent\" [nzFooter]=\"null\" nzWrapClassName=\"preview-modal\"\n            (nzOnCancel)=\"xFormControl.previewImage = ''\">\n            <ng-template #modalContent>\n                <img [src]=\"xFormControl.previewImage\" style=\"width: 100%;\" />\n            </ng-template>\n        </nz-modal>\n    </ng-container>\n</nz-upload>\n<div *ngIf=\"xFormControl.config.fileTip\">{{ xFormControl.config.fileTip }}</div>\n",
+            providers: [UEDITOR_VALUE_ACCESSOR$3],
+            styles: [""]
+        },]
+    }
 ];
 UploadComponent.ctorParameters = () => [
     { type: HttpClient },
@@ -3424,43 +3488,45 @@ UploadComponent.propDecorators = {
 class GKIOModule {
 }
 GKIOModule.decorators = [
-    { type: NgModule, args: [{
-                declarations: [
-                    IOComponent,
-                    NumberComponent,
-                    CheckboxComponent,
-                    TimePickerComponent,
-                    UploadComponent,
-                ],
-                imports: [
-                    CommonModule,
-                    BrowserModule,
-                    FormsModule,
-                    ReactiveFormsModule,
-                    NzModalModule,
-                    NzToolTipModule,
-                    NzGridModule,
-                    NzFormModule,
-                    NzTagModule,
-                    NzInputModule,
-                    NzInputNumberModule,
-                    NzSelectModule,
-                    NzRateModule,
-                    NzDatePickerModule,
-                    NzUploadModule,
-                    NzRadioModule,
-                    NzCheckboxModule,
-                    NzSwitchModule,
-                    GKIconModule,
-                    GKButtonModule,
-                    GKEditorModule,
-                ],
-                exports: [
-                    NumberComponent,
-                    TimePickerComponent,
-                    IOComponent,
-                ],
-            },] }
+    {
+        type: NgModule, args: [{
+            declarations: [
+                IOComponent,
+                NumberComponent,
+                CheckboxComponent,
+                TimePickerComponent,
+                UploadComponent,
+            ],
+            imports: [
+                CommonModule,
+                BrowserModule,
+                FormsModule,
+                ReactiveFormsModule,
+                NzModalModule,
+                NzToolTipModule,
+                NzGridModule,
+                NzFormModule,
+                NzTagModule,
+                NzInputModule,
+                NzInputNumberModule,
+                NzSelectModule,
+                NzRateModule,
+                NzDatePickerModule,
+                NzUploadModule,
+                NzRadioModule,
+                NzCheckboxModule,
+                NzSwitchModule,
+                GKIconModule,
+                GKButtonModule,
+                GKEditorModule,
+            ],
+            exports: [
+                NumberComponent,
+                TimePickerComponent,
+                IOComponent,
+            ],
+        },]
+    }
 ];
 
 class GKEditor {
@@ -3983,17 +4049,17 @@ class GKIOControl {
                 }
                 const validas = util.array(propItem.formControl.config.validas || [])
                     .map((v, index) => {
-                    if (typeof v === 'object') {
-                        return (control) => {
-                            if (!this.formGroup) {
-                                return null;
-                            }
-                            const isError = v.handler(control, this.formGroup);
-                            return isError ? { [`valida-${index}`]: v.tip } : null;
-                        };
-                    }
-                    return v;
-                });
+                        if (typeof v === 'object') {
+                            return (control) => {
+                                if (!this.formGroup) {
+                                    return null;
+                                }
+                                const isError = v.handler(control, this.formGroup);
+                                return isError ? { [`valida-${index}`]: v.tip } : null;
+                            };
+                        }
+                        return v;
+                    });
                 if (propItem.formControl.config.required) {
                     const required = propItem.formControl.config.required;
                     if (typeof required === 'boolean') {
@@ -4013,23 +4079,23 @@ class GKIOControl {
                 }
                 const asyncValidas = util.array(((_a = propItem.formControl) === null || _a === void 0 ? void 0 : _a.config.asyncValidas) || [])
                     .map((v, index) => {
-                    if (typeof v === 'object') {
-                        return ((control) => {
-                            if (!this.formGroup) {
-                                return Promise.resolve(null);
-                            }
-                            return new Promise((resolve) => __awaiter(this, void 0, void 0, function* () {
-                                let asyncFunc = v.handler(control, this.formGroup);
-                                if (asyncFunc instanceof Observable) {
-                                    asyncFunc = asyncFunc.toPromise();
+                        if (typeof v === 'object') {
+                            return ((control) => {
+                                if (!this.formGroup) {
+                                    return Promise.resolve(null);
                                 }
-                                const isError = yield asyncFunc;
-                                resolve(isError ? { [`valida-async-${index}`]: v.tip } : null);
-                            }));
-                        });
-                    }
-                    return v;
-                });
+                                return new Promise((resolve) => __awaiter(this, void 0, void 0, function* () {
+                                    let asyncFunc = v.handler(control, this.formGroup);
+                                    if (asyncFunc instanceof Observable) {
+                                        asyncFunc = asyncFunc.toPromise();
+                                    }
+                                    const isError = yield asyncFunc;
+                                    resolve(isError ? { [`valida-async-${index}`]: v.tip } : null);
+                                }));
+                            });
+                        }
+                        return v;
+                    });
                 group[propItem.prop] = fb.control(null, validas, asyncValidas);
                 propItem.formControl.showFlag = true;
                 propItem.formControl.validas = { sync: validas, async: asyncValidas };
@@ -4108,8 +4174,10 @@ class GKInfoImg {
 class GKInfoCustom {
     constructor(label, props, render, grid = 1, config = {}, options = {}) {
         const { prop, format } = formatProp(props);
-        this.ioItem = new GKIOItem(label, prop, new GKInfoCustomBase(Object.assign(Object.assign({}, config), { format,
-            render })), {
+        this.ioItem = new GKIOItem(label, prop, new GKInfoCustomBase(Object.assign(Object.assign({}, config), {
+            format,
+            render
+        })), {
             grid,
             filter: options.filter ? (formGroup, data) => options.filter(data) : undefined,
         });
@@ -4158,8 +4226,10 @@ class GKInfoGroupImg {
 class GKInfoGroupCustom {
     constructor(props, render, config = {}, options = {}) {
         const { prop, format } = formatProp(props);
-        this.ioGroupItem = new GKIOGroupItem(prop, new GKInfoCustomBase(Object.assign(Object.assign({}, config), { format,
-            render })), {
+        this.ioGroupItem = new GKIOGroupItem(prop, new GKInfoCustomBase(Object.assign(Object.assign({}, config), {
+            format,
+            render
+        })), {
             filter: options.filter ? (formGroup, data) => options.filter(data) : undefined,
         });
     }
@@ -4195,11 +4265,13 @@ class InfoComponent {
     }
 }
 InfoComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-info',
-                template: "<gk-io [control]=\"infoFormControl\" [data]=\"data\"></gk-io>\n",
-                styles: [""]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-info',
+            template: "<gk-io [control]=\"infoFormControl\" [data]=\"data\"></gk-io>\n",
+            styles: [""]
+        },]
+    }
 ];
 InfoComponent.ctorParameters = () => [];
 InfoComponent.propDecorators = {
@@ -4210,17 +4282,19 @@ InfoComponent.propDecorators = {
 class GKInfoModule {
 }
 GKInfoModule.decorators = [
-    { type: NgModule, args: [{
-                declarations: [
-                    InfoComponent,
-                ],
-                imports: [
-                    GKIOModule,
-                ],
-                exports: [
-                    InfoComponent,
-                ],
-            },] }
+    {
+        type: NgModule, args: [{
+            declarations: [
+                InfoComponent,
+            ],
+            imports: [
+                GKIOModule,
+            ],
+            exports: [
+                InfoComponent,
+            ],
+        },]
+    }
 ];
 
 class FormComponent {
@@ -4239,11 +4313,13 @@ class FormComponent {
     }
 }
 FormComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-form',
-                template: "<gk-io [control]=\"infoFormControl\" [data]=\"data\"></gk-io>\n",
-                styles: [""]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-form',
+            template: "<gk-io [control]=\"infoFormControl\" [data]=\"data\"></gk-io>\n",
+            styles: [""]
+        },]
+    }
 ];
 FormComponent.ctorParameters = () => [];
 FormComponent.propDecorators = {
@@ -4254,17 +4330,19 @@ FormComponent.propDecorators = {
 class GKFormModule {
 }
 GKFormModule.decorators = [
-    { type: NgModule, args: [{
-                declarations: [
-                    FormComponent,
-                ],
-                imports: [
-                    GKIOModule,
-                ],
-                exports: [
-                    FormComponent,
-                ],
-            },] }
+    {
+        type: NgModule, args: [{
+            declarations: [
+                FormComponent,
+            ],
+            imports: [
+                GKIOModule,
+            ],
+            exports: [
+                FormComponent,
+            ],
+        },]
+    }
 ];
 
 class SearchComponent {
@@ -4308,11 +4386,13 @@ class SearchComponent {
     }
 }
 SearchComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-search',
-                template: "<div class=\"gk-search-container\">\n    <form nz-form [formGroup]=\"searchForm\" class=\"gk-search-from\">\n        <div nz-row [nzGutter]=\"24\" class=\"row\">\n            <ng-container *ngFor=\"let item of searchs.list\">\n                <div nz-col [nzSpan]=\"item.grid * 8\">\n                    <nz-form-item>\n                        <nz-form-label [style.width]=\"searchs.options.labelWidth\">{{ item.label }}</nz-form-label>\n\n                        <ng-container *ngIf=\"item.type !== 'mix'\">\n                            <nz-form-control>\n                                <ng-container *ngIf=\"item.type === 'text'\">\n                                    <input nz-input [formControlName]=\"item.prop\" [placeholder]=\"item.placeholder\" />\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.type === 'number'\">\n                                    <gk-number [formControlName]=\"item.prop\" [xFormControl]=\"item.formControl\">\n                                    </gk-number>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.type === 'select'\">\n                                    <nz-select [formControlName]=\"item.prop\" [nzMode]=\"item.formControl.config.mode\"\n                                        [nzShowSearch]=\"item.formControl.config.search\"\n                                        [nzLoading]=\"item.formControl.loading\" nzAllowClear\n                                        [nzPlaceHolder]=\"item.formControl.config.placeholder || '\u8BF7\u9009\u62E9'\">\n                                        <nz-option *ngFor=\"let option of item.formControl.list\" [nzLabel]=\"option.label\"\n                                            [nzValue]=\"option.value\">\n                                        </nz-option>\n                                    </nz-select>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.type === 'date'\">\n                                    <gk-time-picker [formControlName]=\"item.prop\" [xFormControl]=\"item.formControl\">\n                                    </gk-time-picker>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.type === 'dateRange'\">\n                                    <gk-time-picker [formControlName]=\"item.prop\" [xFormControl]=\"item.formControl\">\n                                    </gk-time-picker>\n                                </ng-container>\n                            </nz-form-control>\n\n                        </ng-container>\n\n                        <ng-container *ngIf=\"item.type === 'mix'\">\n                            <nz-form-control>\n                                <nz-input-group nzCompact>\n                                    <nz-select [formControlName]=\"item.content[0].prop\"\n                                        [nzMode]=\"item.content[0].formControl.config.mode\"\n                                        [nzShowSearch]=\"item.content[0].formControl.config.search\"\n                                        [nzLoading]=\"item.content[0].formControl.loading\" nzAllowClear\n                                        [nzPlaceHolder]=\"item.content[0].formControl.config.placeholder || '\u8BF7\u9009\u62E9'\"\n                                        [style.width]=\"item.config.firstWidth\">\n                                        <nz-option *ngFor=\"let option of item.content[0].formControl.list\"\n                                            [nzLabel]=\"option.label\" [nzValue]=\"option.value\">\n                                        </nz-option>\n                                    </nz-select>\n                                    <input nz-input [formControlName]=\"item.content[1].prop\"\n                                        [placeholder]=\"item.content[1].placeholder\"\n                                        [style.width]=\"'calc(100% - ' + item.config.firstWidth + ')'\" />\n                                </nz-input-group>\n                            </nz-form-control>\n                        </ng-container>\n                    </nz-form-item>\n                </div>\n            </ng-container>\n\n            <div nz-col [nzSpan]=\"8\">\n                <nz-form-item class=\"search-area\">\n                    <nz-form-label style=\"visibility: hidden;\" [style.width]=\"searchs.options.labelWidth\">\n                    </nz-form-label>\n                    <gk-button type=\"primary\" class=\"search-btn\" (click)=\"onClickSearch()\">{{ searchs.options.searchText\n                        }}</gk-button>\n                    <gk-button (click)=\"onClickReset()\">{{ searchs.options.resetText }}</gk-button>\n                </nz-form-item>\n            </div>\n        </div>\n    </form>\n\n    <ng-container *ngIf=\"search$ | async\"></ng-container>\n</div>\n",
-                styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}.gk-search-container{margin-bottom:8px;margin-top:8px}.gk-search-container .gk-search-from{margin-bottom:-16px}.gk-search-container .gk-search-from .ant-form-item{margin-bottom:16px}.gk-search-container .gk-search-from .search-area .search-btn{margin-right:8px}"]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-search',
+            template: "<div class=\"gk-search-container\">\n    <form nz-form [formGroup]=\"searchForm\" class=\"gk-search-from\">\n        <div nz-row [nzGutter]=\"24\" class=\"row\">\n            <ng-container *ngFor=\"let item of searchs.list\">\n                <div nz-col [nzSpan]=\"item.grid * 8\">\n                    <nz-form-item>\n                        <nz-form-label [style.width]=\"searchs.options.labelWidth\">{{ item.label }}</nz-form-label>\n\n                        <ng-container *ngIf=\"item.type !== 'mix'\">\n                            <nz-form-control>\n                                <ng-container *ngIf=\"item.type === 'text'\">\n                                    <input nz-input [formControlName]=\"item.prop\" [placeholder]=\"item.placeholder\" />\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.type === 'number'\">\n                                    <gk-number [formControlName]=\"item.prop\" [xFormControl]=\"item.formControl\">\n                                    </gk-number>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.type === 'select'\">\n                                    <nz-select [formControlName]=\"item.prop\" [nzMode]=\"item.formControl.config.mode\"\n                                        [nzShowSearch]=\"item.formControl.config.search\"\n                                        [nzLoading]=\"item.formControl.loading\" nzAllowClear\n                                        [nzPlaceHolder]=\"item.formControl.config.placeholder || '\u8BF7\u9009\u62E9'\">\n                                        <nz-option *ngFor=\"let option of item.formControl.list\" [nzLabel]=\"option.label\"\n                                            [nzValue]=\"option.value\">\n                                        </nz-option>\n                                    </nz-select>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.type === 'date'\">\n                                    <gk-time-picker [formControlName]=\"item.prop\" [xFormControl]=\"item.formControl\">\n                                    </gk-time-picker>\n                                </ng-container>\n\n                                <ng-container *ngIf=\"item.type === 'dateRange'\">\n                                    <gk-time-picker [formControlName]=\"item.prop\" [xFormControl]=\"item.formControl\">\n                                    </gk-time-picker>\n                                </ng-container>\n                            </nz-form-control>\n\n                        </ng-container>\n\n                        <ng-container *ngIf=\"item.type === 'mix'\">\n                            <nz-form-control>\n                                <nz-input-group nzCompact>\n                                    <nz-select [formControlName]=\"item.content[0].prop\"\n                                        [nzMode]=\"item.content[0].formControl.config.mode\"\n                                        [nzShowSearch]=\"item.content[0].formControl.config.search\"\n                                        [nzLoading]=\"item.content[0].formControl.loading\" nzAllowClear\n                                        [nzPlaceHolder]=\"item.content[0].formControl.config.placeholder || '\u8BF7\u9009\u62E9'\"\n                                        [style.width]=\"item.config.firstWidth\">\n                                        <nz-option *ngFor=\"let option of item.content[0].formControl.list\"\n                                            [nzLabel]=\"option.label\" [nzValue]=\"option.value\">\n                                        </nz-option>\n                                    </nz-select>\n                                    <input nz-input [formControlName]=\"item.content[1].prop\"\n                                        [placeholder]=\"item.content[1].placeholder\"\n                                        [style.width]=\"'calc(100% - ' + item.config.firstWidth + ')'\" />\n                                </nz-input-group>\n                            </nz-form-control>\n                        </ng-container>\n                    </nz-form-item>\n                </div>\n            </ng-container>\n\n            <div nz-col [nzSpan]=\"8\">\n                <nz-form-item class=\"search-area\">\n                    <nz-form-label style=\"visibility: hidden;\" [style.width]=\"searchs.options.labelWidth\">\n                    </nz-form-label>\n                    <gk-button type=\"primary\" class=\"search-btn\" (click)=\"onClickSearch()\">{{ searchs.options.searchText\n                        }}</gk-button>\n                    <gk-button (click)=\"onClickReset()\">{{ searchs.options.resetText }}</gk-button>\n                </nz-form-item>\n            </div>\n        </div>\n    </form>\n\n    <ng-container *ngIf=\"search$ | async\"></ng-container>\n</div>\n",
+            styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}.gk-search-container{margin-bottom:8px;margin-top:8px}.gk-search-container .gk-search-from{margin-bottom:-16px}.gk-search-container .gk-search-from .ant-form-item{margin-bottom:16px}.gk-search-container .gk-search-from .search-area .search-btn{margin-right:8px}"]
+        },]
+    }
 ];
 SearchComponent.ctorParameters = () => [
     { type: IOService }
@@ -4326,71 +4406,75 @@ SearchComponent.propDecorators = {
 class GKSearchModule {
 }
 GKSearchModule.decorators = [
-    { type: NgModule, args: [{
-                declarations: [
-                    SearchComponent,
-                ],
-                imports: [
-                    CommonModule,
-                    BrowserModule,
-                    FormsModule,
-                    ReactiveFormsModule,
-                    NzFormModule,
-                    NzInputModule,
-                    NzSelectModule,
-                    GKIOModule,
-                    GKButtonModule,
-                ],
-                exports: [
-                    SearchComponent,
-                ],
-            },] }
+    {
+        type: NgModule, args: [{
+            declarations: [
+                SearchComponent,
+            ],
+            imports: [
+                CommonModule,
+                BrowserModule,
+                FormsModule,
+                ReactiveFormsModule,
+                NzFormModule,
+                NzInputModule,
+                NzSelectModule,
+                GKIOModule,
+                GKButtonModule,
+            ],
+            exports: [
+                SearchComponent,
+            ],
+        },]
+    }
 ];
 
 const ɵ0 = defaultTableConf;
 class GKListModule {
 }
 GKListModule.decorators = [
-    { type: NgModule, args: [{
-                declarations: [
-                    TableComponent,
-                    ListComponent,
-                ],
-                imports: [
-                    CommonModule,
-                    FormsModule,
-                    ReactiveFormsModule,
-                    NzInputModule,
-                    NzTabsModule,
-                    NzInputNumberModule,
-                    NzDatePickerModule,
-                    NzSelectModule,
-                    NzTableModule,
-                    NzToolTipModule,
-                    NzTagModule,
-                    NzModalModule,
-                    NzRateModule,
-                    NzFormModule,
-                    NzRateModule,
-                    NzGridModule,
-                    NzTagModule,
-                    NzMessageModule,
-                    NzSwitchModule,
-                    GKIconModule,
-                    GKButtonModule,
-                    GKModalModule,
-                    GKPanelModule,
-                    GKIOModule,
-                    GKInfoModule,
-                    GKFormModule,
-                    GKSearchModule,
-                ],
-                exports: [
-                    TableComponent,
-                    ListComponent,
-                ],
-                providers: [{ provide: GK_TABLE_CONF, useValue: ɵ0 }],
-            },] }
+    {
+        type: NgModule, args: [{
+            declarations: [
+                TableComponent,
+                ListComponent,
+            ],
+            imports: [
+                CommonModule,
+                FormsModule,
+                ReactiveFormsModule,
+                NzInputModule,
+                NzTabsModule,
+                NzInputNumberModule,
+                NzDatePickerModule,
+                NzSelectModule,
+                NzTableModule,
+                NzToolTipModule,
+                NzTagModule,
+                NzModalModule,
+                NzRateModule,
+                NzFormModule,
+                NzRateModule,
+                NzGridModule,
+                NzTagModule,
+                NzMessageModule,
+                NzSwitchModule,
+                GKIconModule,
+                GKButtonModule,
+                GKModalModule,
+                GKPanelModule,
+                GKIOModule,
+                GKInfoModule,
+                GKFormModule,
+                GKSearchModule,
+            ],
+            exports: [
+                TableComponent,
+                ListComponent,
+            ],
+            providers: [{ provide: GK_TABLE_CONF, useValue: ɵ0 }],
+        },]
+    }
 ];
 
 class EchartLineData {
@@ -4492,12 +4576,12 @@ class EchartLineOption {
     }
     formatColor(color) {
         return [color, new graphic.LinearGradient(0, 0, 0, 1, [{
-                    offset: 0,
-                    color: hex2Rgba(color, 0.42),
-                }, {
-                    offset: 1,
-                    color: hex2Rgba(color, 0),
-                }])];
+            offset: 0,
+            color: hex2Rgba(color, 0.42),
+        }, {
+            offset: 1,
+            color: hex2Rgba(color, 0),
+        }])];
     }
 }
 
@@ -4511,9 +4595,9 @@ class EchartPieData {
                 const obj = {};
                 obj.name = item.group;
                 obj.data = [{
-                        name: item.name,
-                        value: item.value[0],
-                    }];
+                    name: item.name,
+                    value: item.value[0],
+                }];
                 this.series.push(obj);
             }
             else {
@@ -4563,28 +4647,28 @@ class EchartPieConfig {
         };
         this.color = ['#4F9AFF', '#FFB257', '#ee6666', '#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc'];
         this.series = [{
-                type: 'pie',
-                radius: ['40%', '60%'],
-                center: ['50%', '50%'],
-                labelLine: {
-                    show: false,
-                },
-                label: {
-                    show: false,
-                    position: 'center',
-                },
-            }, {
-                type: 'pie',
-                radius: ['0%', '30%'],
-                center: ['50%', '50%'],
-                labelLine: {
-                    show: false,
-                },
-                label: {
-                    show: false,
-                    position: 'center',
-                },
-            }];
+            type: 'pie',
+            radius: ['40%', '60%'],
+            center: ['50%', '50%'],
+            labelLine: {
+                show: false,
+            },
+            label: {
+                show: false,
+                position: 'center',
+            },
+        }, {
+            type: 'pie',
+            radius: ['0%', '30%'],
+            center: ['50%', '50%'],
+            labelLine: {
+                show: false,
+            },
+            label: {
+                show: false,
+                position: 'center',
+            },
+        }];
         this.width = config.width ? config.width : this.width;
         this.height = config.height ? config.height : this.height;
         this.legend.orient = config.orient ? config.orient : this.legend.orient;
@@ -4674,11 +4758,13 @@ class ChartLineComponent {
     }
 }
 ChartLineComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-chart-line',
-                template: "<div [hidden]=\"isHaveData\" class=\"empty\">\u6682\u65E0\u6570\u636E</div>\n<div [hidden]=\"!isHaveData\" #chart style=\"width: 100%; height: 100%\"></div>\n",
-                styles: [".empty{align-items:center;color:rgba(0,0,0,.25);display:flex;font-size:14px;height:100%;justify-content:center;line-height:1.5715;text-align:center;width:100%}"]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-chart-line',
+            template: "<div [hidden]=\"isHaveData\" class=\"empty\">\u6682\u65E0\u6570\u636E</div>\n<div [hidden]=\"!isHaveData\" #chart style=\"width: 100%; height: 100%\"></div>\n",
+            styles: [".empty{align-items:center;color:rgba(0,0,0,.25);display:flex;font-size:14px;height:100%;justify-content:center;line-height:1.5715;text-align:center;width:100%}"]
+        },]
+    }
 ];
 ChartLineComponent.ctorParameters = () => [];
 ChartLineComponent.propDecorators = {
@@ -4723,11 +4809,13 @@ class ChartPieComponent {
     }
 }
 ChartPieComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-chart-pie',
-                template: "<div [hidden]=\"isHaveData\" class=\"empty\">\u6682\u65E0\u6570\u636E</div>\n<div [hidden]=\"!isHaveData\" #chart style=\"width: 100%; height: 100%\"></div>\n",
-                styles: [".empty{align-items:center;color:rgba(0,0,0,.25);display:flex;font-size:14px;height:100%;justify-content:center;line-height:1.5715;text-align:center;width:100%}"]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-chart-pie',
+            template: "<div [hidden]=\"isHaveData\" class=\"empty\">\u6682\u65E0\u6570\u636E</div>\n<div [hidden]=\"!isHaveData\" #chart style=\"width: 100%; height: 100%\"></div>\n",
+            styles: [".empty{align-items:center;color:rgba(0,0,0,.25);display:flex;font-size:14px;height:100%;justify-content:center;line-height:1.5715;text-align:center;width:100%}"]
+        },]
+    }
 ];
 ChartPieComponent.ctorParameters = () => [];
 ChartPieComponent.propDecorators = {
@@ -4739,19 +4827,21 @@ ChartPieComponent.propDecorators = {
 class GKChartModule {
 }
 GKChartModule.decorators = [
-    { type: NgModule, args: [{
-                declarations: [
-                    ChartLineComponent,
-                    ChartPieComponent,
-                ],
-                imports: [
-                    CommonModule,
-                ],
-                exports: [
-                    ChartLineComponent,
-                    ChartPieComponent,
-                ],
-            },] }
+    {
+        type: NgModule, args: [{
+            declarations: [
+                ChartLineComponent,
+                ChartPieComponent,
+            ],
+            imports: [
+                CommonModule,
+            ],
+            exports: [
+                ChartLineComponent,
+                ChartPieComponent,
+            ],
+        },]
+    }
 ];
 
 class TipComponent {
@@ -4764,11 +4854,13 @@ class TipComponent {
     }
 }
 TipComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-tip',
-                template: "<gk-icon type=\"question-circle\" nz-tooltip [nzTooltipTitle]=\"tip\" [nzTooltipTrigger]=\"trigger\"></gk-icon>\n",
-                styles: [""]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-tip',
+            template: "<gk-icon type=\"question-circle\" nz-tooltip [nzTooltipTitle]=\"tip\" [nzTooltipTrigger]=\"trigger\"></gk-icon>\n",
+            styles: [""]
+        },]
+    }
 ];
 TipComponent.ctorParameters = () => [
     { type: NzIconService }
@@ -4781,19 +4873,21 @@ TipComponent.propDecorators = {
 class GKTipModule {
 }
 GKTipModule.decorators = [
-    { type: NgModule, args: [{
-                declarations: [
-                    TipComponent,
-                ],
-                imports: [
-                    CommonModule,
-                    NzToolTipModule,
-                    GKIconModule,
-                ],
-                exports: [
-                    TipComponent,
-                ],
-            },] }
+    {
+        type: NgModule, args: [{
+            declarations: [
+                TipComponent,
+            ],
+            imports: [
+                CommonModule,
+                NzToolTipModule,
+                GKIconModule,
+            ],
+            exports: [
+                TipComponent,
+            ],
+        },]
+    }
 ];
 
 class TitleComponent {
@@ -4805,11 +4899,13 @@ class TitleComponent {
     }
 }
 TitleComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-title',
-                template: "<div class=\"gk-title-container\">\n    <div class=\"gk-title-top\">\n        <h3 class=\"gk-title-top-text gk-flt\">{{ title }}</h3>\n        <gk-tip *ngIf=\"tip\" [tip]=\"tip\" class=\"gk-title-top-tip gk-flt\"></gk-tip>\n\n        <div class=\"gk-title-top-left gk-flt\">\n            <ng-content select=\"#title-left\"></ng-content>\n        </div>\n\n        <div class=\"gk-title-top-right gk-frt\">\n            <ng-content select=\"#title-right\"></ng-content>\n        </div>\n    </div>\n\n    <div class=\"gk-title-content-container\">\n        <ng-content></ng-content>\n    </div>\n</div>\n",
-                styles: [".gk-title-top{height:32px;margin-bottom:10px}.gk-title-top .gk-title-top-text{border-left:2px solid #3266fb;display:inline-block;font-size:14px;font-weight:500;height:16px;line-height:16px;margin:8px 5px 8px 0;padding-left:5px}.gk-title-top .gk-title-top-tip{margin:5px 5px 5px 0}"]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-title',
+            template: "<div class=\"gk-title-container\">\n    <div class=\"gk-title-top\">\n        <h3 class=\"gk-title-top-text gk-flt\">{{ title }}</h3>\n        <gk-tip *ngIf=\"tip\" [tip]=\"tip\" class=\"gk-title-top-tip gk-flt\"></gk-tip>\n\n        <div class=\"gk-title-top-left gk-flt\">\n            <ng-content select=\"#title-left\"></ng-content>\n        </div>\n\n        <div class=\"gk-title-top-right gk-frt\">\n            <ng-content select=\"#title-right\"></ng-content>\n        </div>\n    </div>\n\n    <div class=\"gk-title-content-container\">\n        <ng-content></ng-content>\n    </div>\n</div>\n",
+            styles: [".gk-title-top{height:32px;margin-bottom:10px}.gk-title-top .gk-title-top-text{border-left:2px solid #3266fb;display:inline-block;font-size:14px;font-weight:500;height:16px;line-height:16px;margin:8px 5px 8px 0;padding-left:5px}.gk-title-top .gk-title-top-tip{margin:5px 5px 5px 0}"]
+        },]
+    }
 ];
 TitleComponent.ctorParameters = () => [];
 TitleComponent.propDecorators = {
@@ -4820,18 +4916,20 @@ TitleComponent.propDecorators = {
 class GKTitleModule {
 }
 GKTitleModule.decorators = [
-    { type: NgModule, args: [{
-                declarations: [
-                    TitleComponent,
-                ],
-                imports: [
-                    CommonModule,
-                    GKTipModule,
-                ],
-                exports: [
-                    TitleComponent,
-                ],
-            },] }
+    {
+        type: NgModule, args: [{
+            declarations: [
+                TitleComponent,
+            ],
+            imports: [
+                CommonModule,
+                GKTipModule,
+            ],
+            exports: [
+                TitleComponent,
+            ],
+        },]
+    }
 ];
 
 class GKFormText {
@@ -5507,11 +5605,13 @@ class Table2Component {
     }
 }
 Table2Component.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-table2',
-                template: "<nz-table #nzTable [nzData]=\"showList\" [nzLoading]=\"loading\" [nzFrontPagination]=\"false\" [nzTotal]=\"total\"\n    [nzShowPagination]=\"table.config.pageMode !== 'none'\" [nzPageIndex]=\"pageIndex\" [nzPageSize]=\"pageSize\"\n    (nzPageIndexChange)=\"onChangeIndex($event)\" (nzPageSizeChange)=\"onChangeSize($event)\"\n    [nzShowQuickJumper]=\"table.config.showQuickJumper\" [nzShowSizeChanger]=\"table.config.showSizeChanger\"\n    [nzPageSizeOptions]=\"table.config.pageSizeOptions\" [nzShowTotal]=\"totalTemplate\" [nzTableLayout]=\"tableLayout\"\n    [nzScroll]=\"layoutScroll\" class=\"gk-table-container\"\n    [ngClass]=\"{ 'hide-more-page-last-btn': hideMorePageLastBtnClass }\">\n    <thead>\n        <tr>\n            <ng-container *ngFor=\"let col of table.config.columns\">\n                <ng-container *ngIf=\"table.config.header === false\">\n                    <th [nzWidth]=\"col.width\" class=\"gk-table-hide-header-th\"></th>\n                </ng-container>\n                <ng-container *ngIf=\"table.config.header !== false\">\n                    <th *ngIf=\"col.type === 'check'\" [nzShowCheckbox]=\"true\" [nzIndeterminate]=\"checkHalf\"\n                        [nzChecked]=\"checkAll\" (nzCheckedChange)=\"onPageCheckChange($event, col)\" [nzWidth]=\"col.width\"\n                        [nzLeft]=\"col.fixed === 'left'\" [nzRight]=\"col.fixed === 'right'\"></th>\n                    <th *ngIf=\"col.type !== 'check'\" [nzWidth]=\"col.width\" [nzLeft]=\"col.fixed === 'left'\"\n                        [nzRight]=\"col.fixed === 'right'\" [nzShowSort]=\"!!col.sort\"\n                        [nzSortDirections]=\"['ascend', 'descend', null]\"\n                        [nzSortOrder]=\"sortKey === col.sortKey ? sortState : null\"\n                        (nzSortOrderChange)=\"onSortOrderChange(col.sortKey , $any($event))\">{{ col.title }}</th>\n                </ng-container>\n            </ng-container>\n        </tr>\n    </thead>\n\n    <tbody>\n        <ng-container *ngFor=\"let tr of nzTable.data; let index = index\">\n            <tr>\n                <ng-container *ngFor=\"let col of table.config.columns\">\n\n                    <td *ngIf=\"col.type === 'check'\" [nzEllipsis]=\"table.config.tdEllipsis\"\n                        [nzLeft]=\"col.fixed === 'left'\" [nzRight]=\"col.fixed === 'right'\" [ngStyle]=\"col.tdStyle\"\n                        [nzShowCheckbox]=\"!col.hide || !col.hide(tr, index)\"\n                        [nzDisabled]=\"col.disabled && !col.disabled(tr, index)\" [nzChecked]=\"checkTrs.includes(tr)\"\n                        (nzCheckedChange)=\"onTrCheckChange(tr, col)\">\n                    </td>\n\n                    <td *ngIf=\"col.type !== 'check'\" [nzEllipsis]=\"table.config.tdEllipsis\"\n                        [class.table-col-ellipsis]=\"col.ellipsis\" [nzLeft]=\"col.fixed === 'left'\"\n                        [nzRight]=\"col.fixed === 'right'\" [ngStyle]=\"col.tdStyle\">\n                        <ng-container *ngIf=\"col.type !== 'group'\">\n                            <gk-ceil-type [config]=\"col\" [tr]=\"tr\" [index]=\"index\" [pageIndex]=\"pageIndex\"\n                                [pageSize]=\"pageSize\" [expandTrSet]=\"expandTrSet\"></gk-ceil-type>\n                        </ng-container>\n                        <ng-container *ngIf=\"col.type === 'group'\">\n                            <ng-container *ngFor=\"let config of col.content\">\n                                <gk-ceil-type [config]=\"config\" [tr]=\"tr\" [index]=\"index\" [pageIndex]=\"pageIndex\"\n                                    [pageSize]=\"pageSize\" [expandTrSet]=\"expandTrSet\"></gk-ceil-type>\n                            </ng-container>\n                        </ng-container>\n                    </td>\n\n                </ng-container>\n            </tr>\n            <tr *ngIf=\"expandRenderOut\" [nzExpand]=\"expandTrSet.has(tr)\">\n                <ng-container [ngTemplateOutlet]=\"expandRenderOut\"\n                    [ngTemplateOutletContext]=\"{ data: tr, rowIndex: index }\">\n                </ng-container>\n            </tr>\n        </ng-container>\n    </tbody>\n</nz-table>\n\n\n<ng-template #totalTemplate let-total>\n    <ng-container> \u5171 {{ total }} \u6761 </ng-container>\n</ng-template>\n\n<nz-modal *ngIf=\"modal\" [(nzVisible)]=\"modal.show\" [nzTitle]=\"modal.title\" [nzWidth]=\"modal.width || '500px'\"\n    [nzCentered]=\"modalService.center\" (nzOnCancel)=\"initModal()\" [nzMaskClosable]=\"false\" [nzKeyboard]=\"false\"\n    [nzAutofocus]=\"null\">\n    <ng-container *nzModalContent>\n        <ng-container *ngIf=\"modal.type === 'text'\">\n            {{ modal.text }}\n        </ng-container>\n        <ng-container *ngIf=\"modal.type === 'io'\">\n            <gk-io [control]=\"modal.ioControl\" [data]=\"modal.data\"></gk-io>\n        </ng-container>\n    </ng-container>\n    <div class=\"gk-modal-bottom\" *nzModalFooter>\n        <gk-button *ngIf=\"modal.onCancel\" [type]=\"'default'\" (click)=\"modal.onCancel()\" class=\"gk-btn\">{{ '\u53D6\u6D88'\n            }}</gk-button>\n        <gk-button *ngIf=\"modal.onOk\" [type]=\"'primary'\" [loading]=\"modal.ioControl?.formGroup.pending\"\n            (click)=\"modal.onOk()\" class=\"gk-btn\">{{ '\u786E\u5B9A'\n            }}</gk-button>\n    </div>\n</nz-modal>\n",
-                styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}.ant-modal-footer{border-top:0;padding:8px 24px 32px}.ant-modal-body{padding:16px 24px 0}.gk-modal-bottom .gk-btn{margin-left:8px}.gk-modal-bottom .gk-btn:first-child{margin-left:0}.gk-table-container .ant-table,.gk-table-container .ant-table table{border-radius:0}.gk-table-container .gk-table-hide-header-th{height:1px;padding-bottom:0;padding-top:0}.gk-table-container .ant-table-container table>thead>tr:first-child th:first-child,.gk-table-container .ant-table-container table>thead>tr:first-child th:last-child{border-top-left-radius:0;border-top-right-radius:0}.gk-table-container .table-col-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;word-break:keep-all}::ng-deep .ant-table-pagination.ant-pagination{margin:24px 0 0}::ng-deep .hide-more-page-last-btn .ant-table-pagination>li.ant-pagination-item:nth-last-of-type(2){display:none}"]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-table2',
+            template: "<nz-table #nzTable [nzData]=\"showList\" [nzLoading]=\"loading\" [nzFrontPagination]=\"false\" [nzTotal]=\"total\"\n    [nzShowPagination]=\"table.config.pageMode !== 'none'\" [nzPageIndex]=\"pageIndex\" [nzPageSize]=\"pageSize\"\n    (nzPageIndexChange)=\"onChangeIndex($event)\" (nzPageSizeChange)=\"onChangeSize($event)\"\n    [nzShowQuickJumper]=\"table.config.showQuickJumper\" [nzShowSizeChanger]=\"table.config.showSizeChanger\"\n    [nzPageSizeOptions]=\"table.config.pageSizeOptions\" [nzShowTotal]=\"totalTemplate\" [nzTableLayout]=\"tableLayout\"\n    [nzScroll]=\"layoutScroll\" class=\"gk-table-container\"\n    [ngClass]=\"{ 'hide-more-page-last-btn': hideMorePageLastBtnClass }\">\n    <thead>\n        <tr>\n            <ng-container *ngFor=\"let col of table.config.columns\">\n                <ng-container *ngIf=\"table.config.header === false\">\n                    <th [nzWidth]=\"col.width\" class=\"gk-table-hide-header-th\"></th>\n                </ng-container>\n                <ng-container *ngIf=\"table.config.header !== false\">\n                    <th *ngIf=\"col.type === 'check'\" [nzShowCheckbox]=\"true\" [nzIndeterminate]=\"checkHalf\"\n                        [nzChecked]=\"checkAll\" (nzCheckedChange)=\"onPageCheckChange($event, col)\" [nzWidth]=\"col.width\"\n                        [nzLeft]=\"col.fixed === 'left'\" [nzRight]=\"col.fixed === 'right'\"></th>\n                    <th *ngIf=\"col.type !== 'check'\" [nzWidth]=\"col.width\" [nzLeft]=\"col.fixed === 'left'\"\n                        [nzRight]=\"col.fixed === 'right'\" [nzShowSort]=\"!!col.sort\"\n                        [nzSortDirections]=\"['ascend', 'descend', null]\"\n                        [nzSortOrder]=\"sortKey === col.sortKey ? sortState : null\"\n                        (nzSortOrderChange)=\"onSortOrderChange(col.sortKey , $any($event))\">{{ col.title }}</th>\n                </ng-container>\n            </ng-container>\n        </tr>\n    </thead>\n\n    <tbody>\n        <ng-container *ngFor=\"let tr of nzTable.data; let index = index\">\n            <tr>\n                <ng-container *ngFor=\"let col of table.config.columns\">\n\n                    <td *ngIf=\"col.type === 'check'\" [nzEllipsis]=\"table.config.tdEllipsis\"\n                        [nzLeft]=\"col.fixed === 'left'\" [nzRight]=\"col.fixed === 'right'\" [ngStyle]=\"col.tdStyle\"\n                        [nzShowCheckbox]=\"!col.hide || !col.hide(tr, index)\"\n                        [nzDisabled]=\"col.disabled && !col.disabled(tr, index)\" [nzChecked]=\"checkTrs.includes(tr)\"\n                        (nzCheckedChange)=\"onTrCheckChange(tr, col)\">\n                    </td>\n\n                    <td *ngIf=\"col.type !== 'check'\" [nzEllipsis]=\"table.config.tdEllipsis\"\n                        [class.table-col-ellipsis]=\"col.ellipsis\" [nzLeft]=\"col.fixed === 'left'\"\n                        [nzRight]=\"col.fixed === 'right'\" [ngStyle]=\"col.tdStyle\">\n                        <ng-container *ngIf=\"col.type !== 'group'\">\n                            <gk-ceil-type [config]=\"col\" [tr]=\"tr\" [index]=\"index\" [pageIndex]=\"pageIndex\"\n                                [pageSize]=\"pageSize\" [expandTrSet]=\"expandTrSet\"></gk-ceil-type>\n                        </ng-container>\n                        <ng-container *ngIf=\"col.type === 'group'\">\n                            <ng-container *ngFor=\"let config of col.content\">\n                                <gk-ceil-type [config]=\"config\" [tr]=\"tr\" [index]=\"index\" [pageIndex]=\"pageIndex\"\n                                    [pageSize]=\"pageSize\" [expandTrSet]=\"expandTrSet\"></gk-ceil-type>\n                            </ng-container>\n                        </ng-container>\n                    </td>\n\n                </ng-container>\n            </tr>\n            <tr *ngIf=\"expandRenderOut\" [nzExpand]=\"expandTrSet.has(tr)\">\n                <ng-container [ngTemplateOutlet]=\"expandRenderOut\"\n                    [ngTemplateOutletContext]=\"{ data: tr, rowIndex: index }\">\n                </ng-container>\n            </tr>\n        </ng-container>\n    </tbody>\n</nz-table>\n\n\n<ng-template #totalTemplate let-total>\n    <ng-container> \u5171 {{ total }} \u6761 </ng-container>\n</ng-template>\n\n<nz-modal *ngIf=\"modal\" [(nzVisible)]=\"modal.show\" [nzTitle]=\"modal.title\" [nzWidth]=\"modal.width || '500px'\"\n    [nzCentered]=\"modalService.center\" (nzOnCancel)=\"initModal()\" [nzMaskClosable]=\"false\" [nzKeyboard]=\"false\"\n    [nzAutofocus]=\"null\">\n    <ng-container *nzModalContent>\n        <ng-container *ngIf=\"modal.type === 'text'\">\n            {{ modal.text }}\n        </ng-container>\n        <ng-container *ngIf=\"modal.type === 'io'\">\n            <gk-io [control]=\"modal.ioControl\" [data]=\"modal.data\"></gk-io>\n        </ng-container>\n    </ng-container>\n    <div class=\"gk-modal-bottom\" *nzModalFooter>\n        <gk-button *ngIf=\"modal.onCancel\" [type]=\"'default'\" (click)=\"modal.onCancel()\" class=\"gk-btn\">{{ '\u53D6\u6D88'\n            }}</gk-button>\n        <gk-button *ngIf=\"modal.onOk\" [type]=\"'primary'\" [loading]=\"modal.ioControl?.formGroup.pending\"\n            (click)=\"modal.onOk()\" class=\"gk-btn\">{{ '\u786E\u5B9A'\n            }}</gk-button>\n    </div>\n</nz-modal>\n",
+            styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}.ant-modal-footer{border-top:0;padding:8px 24px 32px}.ant-modal-body{padding:16px 24px 0}.gk-modal-bottom .gk-btn{margin-left:8px}.gk-modal-bottom .gk-btn:first-child{margin-left:0}.gk-table-container .ant-table,.gk-table-container .ant-table table{border-radius:0}.gk-table-container .gk-table-hide-header-th{height:1px;padding-bottom:0;padding-top:0}.gk-table-container .ant-table-container table>thead>tr:first-child th:first-child,.gk-table-container .ant-table-container table>thead>tr:first-child th:last-child{border-top-left-radius:0;border-top-right-radius:0}.gk-table-container .table-col-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;word-break:keep-all}::ng-deep .ant-table-pagination.ant-pagination{margin:24px 0 0}::ng-deep .hide-more-page-last-btn .ant-table-pagination>li.ant-pagination-item:nth-last-of-type(2){display:none}"]
+        },]
+    }
 ];
 Table2Component.ctorParameters = () => [
     { type: NzModalService },
@@ -5638,11 +5738,13 @@ class CeilTypeComponent {
     }
 }
 CeilTypeComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-ceil-type',
-                template: "<span *ngIf=\"!config.hide || !config.hide(tr, config.prop, index)\"\n    [ngClass]=\"['table-ceil', 'table-ceil-' + config.type]\" [ngStyle]=\"config.ceilStyle\" nz-tooltip\n    [nzTooltipTitle]=\"getTipContent(config.ceilTip, config.prop, tr, index) || ''\">\n\n    <ng-container *ngIf=\"config.type === 'default'\">\n        <ng-container\n            *ngTemplateOutlet=\"defaultContent; context: { $implicit: getVal(config.prop, config.format, tr, index)}\">\n        </ng-container>\n        <ng-template #defaultContent let-v=\"$implicit\">\n            <span [title]=\"config.showTextTitle ? v : ''\">{{ v }}</span>\n        </ng-template>\n    </ng-container>\n\n    <ng-container *ngIf=\"config.type === 'operate'\">\n        <ng-container *ngFor=\"let item of config.__renderBtns__\">\n            <gk-button *ngIf=\"!item.hide || !item.hide(tr, index)\" [button]=\"item.btn\" [mode]=\"item.btn.mode || 'text'\"\n                [type]=\"item.btn.type || 'primary'\" [disabled]=\"item.disabled && item.disabled(tr, index)\"\n                (click)=\"item.onClick && item.onClick(tr, index)\"></gk-button>\n        </ng-container>\n    </ng-container>\n\n    <ng-container *ngIf=\"config.type === 'expand'\">\n        <i class=\"expand-button\" [class.disabled]=\"config.disabled && config.disabled(tr, config.prop, index)\"\n            [class.expand-open]=\"expandTrSet.has(tr)\" (click)=\"onExpandClick(config)\"></i>\n    </ng-container>\n\n    <ng-container *ngIf=\"config.type === 'render'\">\n        <ng-container *ngIf=\"config.__renderOut__\" [ngTemplateOutlet]=\"config.__renderOut__\"\n            [ngTemplateOutletContext]=\"{ data: tr, rowIndex: index }\">\n        </ng-container>\n    </ng-container>\n\n    <ng-container *ngIf=\"config.type === 'switch'\">\n        <nz-switch [ngModel]=\"getVal(config.prop, config.format, tr, index)\"\n            [nzDisabled]=\"config.disabled && config.disabled(tr, config.prop, index)\" [nzControl]=\"true\"\n            [nzCheckedChildren]=\"config.checkedText\" [nzUnCheckedChildren]=\"config.unCheckedText\"\n            [nzLoading]=\"switchLoading[config.prop + '-' + index]\" (click)=\"onClickSwitch(config, tr, index)\"\n            [ngClass]=\"['switch-' + config.color]\">\n        </nz-switch>\n    </ng-container>\n\n    <ng-container *ngIf=\"config.type === 'image'\">\n        <img nz-image [nzSrc]=\"getVal(config.prop, config.format, tr, index)\" [ngStyle]=\"getImageStyle(config)\"\n            [ngClass]=\"{ 'image-circle': !!config.image?.circle, 'image-preview': isImagePreview(config) }\"\n            [nzDisablePreview]=\"!isImagePreview(config)\" />\n    </ng-container>\n\n    <ng-container *ngIf=\"config.type === 'status'\">\n        <ng-container *ngTemplateOutlet=\"statusCeil; context: { $implicit: getStatusV(config, tr, index) }\">\n        </ng-container>\n        <ng-template #statusCeil let-v=\"$implicit\">\n            <gk-icon *ngIf=\"v.icon\" [type]=\"v.icon\" class=\"status-icon\"></gk-icon>\n            <span *ngIf=\"v.point\" class=\"status-point\" [ngStyle]=\"v.point.style\" [class]=\"v.point.class\">\n            </span>\n            <span [ngStyle]=\"v.textStyle\">{{ getVal(config.prop, config.format, tr, index) }}</span>\n        </ng-template>\n    </ng-container>\n\n    <ng-container *ngIf=\"config.type === 'tip'\">\n        <gk-tip [tip]=\"getTipContent(config.tip, config.prop, tr, index)\" [trigger]=\"config.trigger || 'hover'\">\n        </gk-tip>\n    </ng-container>\n\n</span>\n",
-                styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}.table-ceil-expand .expand-button{display:inline-block;height:16px;vertical-align:middle;width:16px}.table-ceil-expand .expand-button.disabled{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAA1ElEQVQ4jbWTMYuFQAyEx+wJFgsrdqls/P+/SISt7JYsBBQku9cevvc8xLspEybzBZKm1lr3fce6rlBVlFJwJSKC9x7MjK7r0GzbVud5Rt/3CCHAOXc5wMyQc4aIYJomNMuy1LZtMQzDpfGslBKO4wCpKkIIt8wAEEKAqoJKKR+xY4yIMb7tOedQSgHdjj7p8YCvc+Ensoi8GMZx/GeCc8Kn2p8RPF+BiGBmb2/hCt3MQEQg7z1yzreTc87w3oOYGSKClBLM7FejmSGlBBEBM6N5+s7flB9vhhOjUUwAAAAASUVORK5CYII=)}.table-ceil-expand .expand-button:not(.disabled){background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAvElEQVQ4T9VTOwqEMBB9SUDQQojYWtik8Do5p9cR1CKF2ImChUFBZ1HYRUTcIs3ulDPM+wzzGBHRsizoug7TNGHbNjwV5xxBECCOY3ieBzbPMzVNgyiKEIYhhBCPAOu6YhxH9H2PJEnA2rYl3/chpXxcvA6HYYC1Fqyua0rT9CvzFWBXYowBK8uSlFK37HmeH32t9e28qqpfBHjL3jUXRXFIz7LsY+Fs59aCM8D5Wn9yROdHcn5l5zC5xvkFxFq4qeN9LzYAAAAASUVORK5CYII=);cursor:pointer}.table-ceil-expand .expand-button:not(.disabled).expand-open{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAtklEQVQ4T2P8/////4cv/zNMXv+P4dT1/wxffzDgBdwcDAxmmowMuYFMDPLijAyMD178+5/S/ZchxpWJIdCWiYGPC78Bn74xMKw//I9hye5/DHNKmRkYi6f/+a+ryMgQ786EXyea7MKd/xgu3//PwGib9/v/lnYWgjajmw5yiU/lHwZGo7Tf/8/OZCHJdphi4/RBacDMzf/weifdFxHYWL1AsQGkhOYgCUSKExLFSZnizERpdgYA+HaPd2IkVJIAAAAASUVORK5CYII=)}.table-ceil-switch ::ng-deep .switch-green>.ant-switch-checked{background-color:#48bc19}.table-ceil-image ::ng-deep .image-circle{border-radius:50%}.table-ceil-image ::ng-deep .image-preview{cursor:pointer}.table-ceil-status ::ng-deep .status-icon{margin-right:3px}.table-ceil-status ::ng-deep .status-point{border-radius:50%;display:inline-block;margin:2px 5px 2px 2px;vertical-align:middle}.table-ceil-status ::ng-deep .status-point.default{background-color:#999}.table-ceil-status ::ng-deep .status-point.primary{background-color:#3266fb}.table-ceil-status ::ng-deep .status-point.success{background-color:#52c41a}.table-ceil-status ::ng-deep .status-point.warning{background-color:#faad14}.table-ceil-status ::ng-deep .status-point.danger{background-color:#ff4d4f}"]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-ceil-type',
+            template: "<span *ngIf=\"!config.hide || !config.hide(tr, config.prop, index)\"\n    [ngClass]=\"['table-ceil', 'table-ceil-' + config.type]\" [ngStyle]=\"config.ceilStyle\" nz-tooltip\n    [nzTooltipTitle]=\"getTipContent(config.ceilTip, config.prop, tr, index) || ''\">\n\n    <ng-container *ngIf=\"config.type === 'default'\">\n        <ng-container\n            *ngTemplateOutlet=\"defaultContent; context: { $implicit: getVal(config.prop, config.format, tr, index)}\">\n        </ng-container>\n        <ng-template #defaultContent let-v=\"$implicit\">\n            <span [title]=\"config.showTextTitle ? v : ''\">{{ v }}</span>\n        </ng-template>\n    </ng-container>\n\n    <ng-container *ngIf=\"config.type === 'operate'\">\n        <ng-container *ngFor=\"let item of config.__renderBtns__\">\n            <gk-button *ngIf=\"!item.hide || !item.hide(tr, index)\" [button]=\"item.btn\" [mode]=\"item.btn.mode || 'text'\"\n                [type]=\"item.btn.type || 'primary'\" [disabled]=\"item.disabled && item.disabled(tr, index)\"\n                (click)=\"item.onClick && item.onClick(tr, index)\"></gk-button>\n        </ng-container>\n    </ng-container>\n\n    <ng-container *ngIf=\"config.type === 'expand'\">\n        <i class=\"expand-button\" [class.disabled]=\"config.disabled && config.disabled(tr, config.prop, index)\"\n            [class.expand-open]=\"expandTrSet.has(tr)\" (click)=\"onExpandClick(config)\"></i>\n    </ng-container>\n\n    <ng-container *ngIf=\"config.type === 'render'\">\n        <ng-container *ngIf=\"config.__renderOut__\" [ngTemplateOutlet]=\"config.__renderOut__\"\n            [ngTemplateOutletContext]=\"{ data: tr, rowIndex: index }\">\n        </ng-container>\n    </ng-container>\n\n    <ng-container *ngIf=\"config.type === 'switch'\">\n        <nz-switch [ngModel]=\"getVal(config.prop, config.format, tr, index)\"\n            [nzDisabled]=\"config.disabled && config.disabled(tr, config.prop, index)\" [nzControl]=\"true\"\n            [nzCheckedChildren]=\"config.checkedText\" [nzUnCheckedChildren]=\"config.unCheckedText\"\n            [nzLoading]=\"switchLoading[config.prop + '-' + index]\" (click)=\"onClickSwitch(config, tr, index)\"\n            [ngClass]=\"['switch-' + config.color]\">\n        </nz-switch>\n    </ng-container>\n\n    <ng-container *ngIf=\"config.type === 'image'\">\n        <img nz-image [nzSrc]=\"getVal(config.prop, config.format, tr, index)\" [ngStyle]=\"getImageStyle(config)\"\n            [ngClass]=\"{ 'image-circle': !!config.image?.circle, 'image-preview': isImagePreview(config) }\"\n            [nzDisablePreview]=\"!isImagePreview(config)\" />\n    </ng-container>\n\n    <ng-container *ngIf=\"config.type === 'status'\">\n        <ng-container *ngTemplateOutlet=\"statusCeil; context: { $implicit: getStatusV(config, tr, index) }\">\n        </ng-container>\n        <ng-template #statusCeil let-v=\"$implicit\">\n            <gk-icon *ngIf=\"v.icon\" [type]=\"v.icon\" class=\"status-icon\"></gk-icon>\n            <span *ngIf=\"v.point\" class=\"status-point\" [ngStyle]=\"v.point.style\" [class]=\"v.point.class\">\n            </span>\n            <span [ngStyle]=\"v.textStyle\">{{ getVal(config.prop, config.format, tr, index) }}</span>\n        </ng-template>\n    </ng-container>\n\n    <ng-container *ngIf=\"config.type === 'tip'\">\n        <gk-tip [tip]=\"getTipContent(config.tip, config.prop, tr, index)\" [trigger]=\"config.trigger || 'hover'\">\n        </gk-tip>\n    </ng-container>\n\n</span>\n",
+            styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}.table-ceil-expand .expand-button{display:inline-block;height:16px;vertical-align:middle;width:16px}.table-ceil-expand .expand-button.disabled{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAA1ElEQVQ4jbWTMYuFQAyEx+wJFgsrdqls/P+/SISt7JYsBBQku9cevvc8xLspEybzBZKm1lr3fce6rlBVlFJwJSKC9x7MjK7r0GzbVud5Rt/3CCHAOXc5wMyQc4aIYJomNMuy1LZtMQzDpfGslBKO4wCpKkIIt8wAEEKAqoJKKR+xY4yIMb7tOedQSgHdjj7p8YCvc+Ensoi8GMZx/GeCc8Kn2p8RPF+BiGBmb2/hCt3MQEQg7z1yzreTc87w3oOYGSKClBLM7FejmSGlBBEBM6N5+s7flB9vhhOjUUwAAAAASUVORK5CYII=)}.table-ceil-expand .expand-button:not(.disabled){background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAvElEQVQ4T9VTOwqEMBB9SUDQQojYWtik8Do5p9cR1CKF2ImChUFBZ1HYRUTcIs3ulDPM+wzzGBHRsizoug7TNGHbNjwV5xxBECCOY3ieBzbPMzVNgyiKEIYhhBCPAOu6YhxH9H2PJEnA2rYl3/chpXxcvA6HYYC1Fqyua0rT9CvzFWBXYowBK8uSlFK37HmeH32t9e28qqpfBHjL3jUXRXFIz7LsY+Fs59aCM8D5Wn9yROdHcn5l5zC5xvkFxFq4qeN9LzYAAAAASUVORK5CYII=);cursor:pointer}.table-ceil-expand .expand-button:not(.disabled).expand-open{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAtklEQVQ4T2P8/////4cv/zNMXv+P4dT1/wxffzDgBdwcDAxmmowMuYFMDPLijAyMD178+5/S/ZchxpWJIdCWiYGPC78Bn74xMKw//I9hye5/DHNKmRkYi6f/+a+ryMgQ786EXyea7MKd/xgu3//PwGib9/v/lnYWgjajmw5yiU/lHwZGo7Tf/8/OZCHJdphi4/RBacDMzf/weifdFxHYWL1AsQGkhOYgCUSKExLFSZnizERpdgYA+HaPd2IkVJIAAAAASUVORK5CYII=)}.table-ceil-switch ::ng-deep .switch-green>.ant-switch-checked{background-color:#48bc19}.table-ceil-image ::ng-deep .image-circle{border-radius:50%}.table-ceil-image ::ng-deep .image-preview{cursor:pointer}.table-ceil-status ::ng-deep .status-icon{margin-right:3px}.table-ceil-status ::ng-deep .status-point{border-radius:50%;display:inline-block;margin:2px 5px 2px 2px;vertical-align:middle}.table-ceil-status ::ng-deep .status-point.default{background-color:#999}.table-ceil-status ::ng-deep .status-point.primary{background-color:#3266fb}.table-ceil-status ::ng-deep .status-point.success{background-color:#52c41a}.table-ceil-status ::ng-deep .status-point.warning{background-color:#faad14}.table-ceil-status ::ng-deep .status-point.danger{background-color:#ff4d4f}"]
+        },]
+    }
 ];
 CeilTypeComponent.ctorParameters = () => [
     { type: NzIconService }
@@ -5659,29 +5761,31 @@ CeilTypeComponent.propDecorators = {
 class GKTable2Module {
 }
 GKTable2Module.decorators = [
-    { type: NgModule, args: [{
-                declarations: [
-                    Table2Component,
-                    CeilTypeComponent,
-                ],
-                imports: [
-                    BrowserModule,
-                    FormsModule,
-                    ReactiveFormsModule,
-                    NzTableModule,
-                    NzSwitchModule,
-                    NzModalModule,
-                    NzToolTipModule,
-                    NzImageModule,
-                    GKIconModule,
-                    GKTipModule,
-                    GKButtonModule,
-                    GKIOModule,
-                ],
-                exports: [
-                    Table2Component,
-                ],
-            },] }
+    {
+        type: NgModule, args: [{
+            declarations: [
+                Table2Component,
+                CeilTypeComponent,
+            ],
+            imports: [
+                BrowserModule,
+                FormsModule,
+                ReactiveFormsModule,
+                NzTableModule,
+                NzSwitchModule,
+                NzModalModule,
+                NzToolTipModule,
+                NzImageModule,
+                GKIconModule,
+                GKTipModule,
+                GKButtonModule,
+                GKIOModule,
+            ],
+            exports: [
+                Table2Component,
+            ],
+        },]
+    }
 ];
 
 class TreeComponent {
@@ -5733,11 +5837,13 @@ class TreeComponent {
     }
 }
 TreeComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-tree',
-                template: "<nz-tree\n    #nzTreeComponent\n    nzShowIcon\n    [nzData]=\"nodes\"\n    [nzExpandedIcon]=\"multiExpandedIconTpl\"\n    [nzCheckable]=\"config?.checkbox\"\n    [nzShowLine]=\"config?.showLine\"\n    [nzAsyncData]=\"config?.asyncData\"\n    [nzDraggable]=\"config?.draggable\"\n    [nzMultiple]=\"config?.multiple\"\n    [nzCheckStrictly]=\"config?.checkStrictly\"\n    [nzExpandAll]=\"config?.expandAll\"\n    [nzExpandedKeys]=\"config?.expandedKeys\"\n    [nzCheckedKeys]=\"config?.checkedKeys\"\n    [nzSelectedKeys]=\"config?.selectedKeys\"\n    [nzSearchValue]=\"searchValue\"\n    [nzSearchFunc]=\"config?.searchFunc\"\n    [nzVirtualHeight]=\"config?.virtual ? config.virtualHeight : undefined\"\n    (nzClick)=\"treeClick($event)\"\n    (nzCheckBoxChange)=\"checkBoxChange($event)\"\n    (nzExpandChange)=\"expandChange($event)\"\n    (nzSearchValueChange)=\"searchValueChange($event)\"\n    (nzOnDrop)=\"drop($event)\"\n>\n    <ng-template #multiExpandedIconTpl let-node let-origin=\"origin\">\n        <gk-icon\n            *ngIf=\"!origin.isLeaf\"\n            [type]=\"node.isExpanded ? config.openIcon : config.closeIcon\"\n            class=\"ant-tree-switcher-line-icon\"\n        ></gk-icon>\n    </ng-template>\n</nz-tree>\n",
-                styles: [""]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-tree',
+            template: "<nz-tree\n    #nzTreeComponent\n    nzShowIcon\n    [nzData]=\"nodes\"\n    [nzExpandedIcon]=\"multiExpandedIconTpl\"\n    [nzCheckable]=\"config?.checkbox\"\n    [nzShowLine]=\"config?.showLine\"\n    [nzAsyncData]=\"config?.asyncData\"\n    [nzDraggable]=\"config?.draggable\"\n    [nzMultiple]=\"config?.multiple\"\n    [nzCheckStrictly]=\"config?.checkStrictly\"\n    [nzExpandAll]=\"config?.expandAll\"\n    [nzExpandedKeys]=\"config?.expandedKeys\"\n    [nzCheckedKeys]=\"config?.checkedKeys\"\n    [nzSelectedKeys]=\"config?.selectedKeys\"\n    [nzSearchValue]=\"searchValue\"\n    [nzSearchFunc]=\"config?.searchFunc\"\n    [nzVirtualHeight]=\"config?.virtual ? config.virtualHeight : undefined\"\n    (nzClick)=\"treeClick($event)\"\n    (nzCheckBoxChange)=\"checkBoxChange($event)\"\n    (nzExpandChange)=\"expandChange($event)\"\n    (nzSearchValueChange)=\"searchValueChange($event)\"\n    (nzOnDrop)=\"drop($event)\"\n>\n    <ng-template #multiExpandedIconTpl let-node let-origin=\"origin\">\n        <gk-icon\n            *ngIf=\"!origin.isLeaf\"\n            [type]=\"node.isExpanded ? config.openIcon : config.closeIcon\"\n            class=\"ant-tree-switcher-line-icon\"\n        ></gk-icon>\n    </ng-template>\n</nz-tree>\n",
+            styles: [""]
+        },]
+    }
 ];
 TreeComponent.ctorParameters = () => [
     { type: NzIconService }
@@ -5756,20 +5862,22 @@ TreeComponent.propDecorators = {
 class GKTreeModule {
 }
 GKTreeModule.decorators = [
-    { type: NgModule, args: [{
-                declarations: [
-                    TreeComponent,
-                ],
-                imports: [
-                    CommonModule,
-                    NzIconModule,
-                    NzTreeModule,
-                    GKIconModule,
-                ],
-                exports: [
-                    TreeComponent,
-                ],
-            },] }
+    {
+        type: NgModule, args: [{
+            declarations: [
+                TreeComponent,
+            ],
+            imports: [
+                CommonModule,
+                NzIconModule,
+                NzTreeModule,
+                GKIconModule,
+            ],
+            exports: [
+                TreeComponent,
+            ],
+        },]
+    }
 ];
 
 class GKTree {
@@ -5827,11 +5935,13 @@ class AlertComponent {
     }
 }
 AlertComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-alert',
-                template: "<div class=\"gk-alert-container\">\n    <div class=\"gk-alert-image\" [ngClass]=\"['status-' + status]\"></div>\n    <div class=\"gk-alert-text\">{{ statusText }}</div>\n    <a *ngIf=\"!hideButton\" class=\"gk-alert-button\" [routerLink]=\"[homeHref]\">\u56DE\u5230\u9996\u9875</a>\n</div>\n",
-                styles: [".gk-alert-container{display:inline-block;text-align:center;width:560px}.gk-alert-container .gk-alert-image{display:inline-block;height:200px;vertical-align:top;width:326px}.gk-alert-container .gk-alert-image.status-401{background-image:url(\"data:image/svg+xml,%3C%3Fxml version%3D%221.0%22 encoding%3D%22UTF-8%22%3F%3E%3Csvg width%3D%22326px%22 height%3D%22200px%22 viewBox%3D%220 0 326 200%22 version%3D%221.1%22 xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E    %3Ctitle%3E%E7%BC%96%E7%BB%84 18%3C%2Ftitle%3E    %3Cg id%3D%22Components%22 stroke%3D%22none%22 stroke-width%3D%221%22 fill%3D%22none%22 fill-rule%3D%22evenodd%22%3E        %3Cg id%3D%225.%E5%8F%8D%E9%A6%88%2F7.Result%E7%BB%93%E6%9E%9C%2F%E6%97%A0%E6%9D%83%E9%99%90%22 transform%3D%22translate(-117.000000%2C 0.000000)%22%3E            %3Cg id%3D%22%E7%BC%96%E7%BB%84-18%22 transform%3D%22translate(117.000000%2C 0.000000)%22%3E                %3Crect id%3D%22%E7%9F%A9%E5%BD%A2%22 x%3D%220%22 y%3D%220%22 width%3D%22326%22 height%3D%22200%22%3E%3C%2Frect%3E                %3Cg id%3D%22%E7%BC%96%E7%BB%84-17%22 transform%3D%22translate(30.000000%2C 1.000000)%22%3E                    %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%22 fill%3D%22%23F3F3F3%22 cx%3D%22133%22 cy%3D%22183%22 rx%3D%2298%22 ry%3D%2212%22%3E%3C%2Fellipse%3E                    %3Cg id%3D%22%E7%BC%96%E7%BB%84-19%22 transform%3D%22translate(57.000000%2C 65.000000)%22%3E                        %3Crect id%3D%22%E7%9F%A9%E5%BD%A2%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23FFFFFF%22 x%3D%220.5%22 y%3D%22-1.5%22 width%3D%22151%22 height%3D%22118%22 rx%3D%228%22%3E%3C%2Frect%3E                        %3Cpath d%3D%22M10%2C0 L142%2C0 C146.418278%2C-8.11624501e-16 150%2C3.581722 150%2C8 L150%2C23 L150%2C23 L2%2C23 L2%2C8 C2%2C3.581722 5.581722%2C8.11624501e-16 10%2C0 Z%22 id%3D%22%E7%9F%A9%E5%BD%A2%22 fill%3D%22%23E5E5E5%22%3E%3C%2Fpath%3E                        %3Cline x1%3D%220.447058824%22 y1%3D%2222.5%22 x2%3D%22151.552941%22 y2%3D%2222.5%22 id%3D%22%E7%9B%B4%E7%BA%BF-2%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 stroke-linecap%3D%22square%22%3E%3C%2Fline%3E                        %3Cline x1%3D%22119%22 y1%3D%227%22 x2%3D%22125%22 y2%3D%2214%22 id%3D%22%E8%B7%AF%E5%BE%84-11%22 stroke%3D%22%23979797%22 stroke-width%3D%222%22%3E%3C%2Fline%3E                        %3Ccircle id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%22 stroke%3D%22%23979797%22 stroke-width%3D%222%22 cx%3D%22135.5%22 cy%3D%2210.5%22 r%3D%223.5%22%3E%3C%2Fcircle%3E                        %3Cline x1%3D%22119%22 y1%3D%227%22 x2%3D%22125%22 y2%3D%2214%22 id%3D%22%E8%B7%AF%E5%BE%84-11%E5%A4%87%E4%BB%BD%22 stroke%3D%22%23979797%22 stroke-width%3D%222%22 transform%3D%22translate(122.000000%2C 10.500000) scale(-1%2C 1) translate(-122.000000%2C -10.500000) %22%3E%3C%2Fline%3E                    %3C%2Fg%3E                    %3Cg id%3D%22%E7%BC%96%E7%BB%84%22 transform%3D%22translate(112.000000%2C 106.000000)%22 fill-rule%3D%22nonzero%22%3E                        %3Cpath d%3D%22M38%2C21 L34.7%2C21 L34.7%2C16.5876777 C34.7%2C9.25878057 28.7901587%2C3.31753555 21.5%2C3.31753555 C14.2098413%2C3.31753555 8.3%2C9.25878057 8.3%2C16.5876777 L8.3%2C21 L5%2C21 L5%2C16.5876777 C5%2C7.42655628 12.3873016%2C0 21.5%2C0 C30.6126984%2C0 38%2C7.42655628 38%2C16.5876777 L38%2C21 Z%22 id%3D%22%E8%B7%AF%E5%BE%84%22 fill%3D%22%23979797%22%3E%3C%2Fpath%3E                        %3Cpath d%3D%22M38.0294802%2C55 L4.97051978%2C55 C2.21999019%2C54.9816229 0%2C52.7418168 0%2C49.9852507 L0%2C26.0147493 C0%2C23.2581832 2.21999019%2C21.0183771 4.97051978%2C21 L38.0294802%2C21 C40.7800098%2C21.0183771 43%2C23.2581832 43%2C26.0147493 L43%2C49.9852507 C43%2C52.7418168 40.7800098%2C54.9816229 38.0294802%2C55 Z%22 id%3D%22%E5%BD%A2%E7%8A%B6%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23F2F2F2%22%3E%3C%2Fpath%3E                        %3Cpath d%3D%22M22.0318315%2C42 C19.6022452%2C42.0127706 17.4047347%2C40.559118 16.4660513%2C38.3181535 C15.5273679%2C36.0771891 16.0328295%2C33.4913312 17.7462674%2C31.7687804 C19.4597054%2C30.0462295 22.042847%2C29.5270573 24.2887611%2C30.4538386 C26.5346752%2C31.3806199 28%2C33.5703865 28%2C36 C28%2C39.3013062 25.3330884%2C41.9824482 22.0318315%2C42 L22.0318315%2C42 Z M22%2C33 C20.3431458%2C33 19%2C34.3431458 19%2C36 C19%2C37.6568542 20.3431458%2C39 22%2C39 C23.6568542%2C39 25%2C37.6568542 25%2C36 C25%2C34.3431458 23.6568542%2C33 22%2C33 L22%2C33 Z%22 id%3D%22%E5%BD%A2%E7%8A%B6%22 fill%3D%22%23979797%22%3E%3C%2Fpath%3E                        %3Cpath d%3D%22M22%2C48 C20.8954305%2C48 20%2C47.2865096 20%2C46.4063745 L20%2C41.5936255 C20%2C40.7134904 20.8954305%2C40 22%2C40 C23.1045695%2C40 24%2C40.7134904 24%2C41.5936255 L24%2C46.4063745 C24%2C47.2865096 23.1045695%2C48 22%2C48 Z%22 id%3D%22%E8%B7%AF%E5%BE%84%22 fill%3D%22%23979797%22%3E%3C%2Fpath%3E                    %3C%2Fg%3E                    %3Ccircle id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-14%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 opacity%3D%220.39%22 cx%3D%22249%22 cy%3D%2232%22 r%3D%226%22%3E%3C%2Fcircle%3E                    %3Cpath d%3D%22M23%2C59.9518301 C33.6421532%2C45.6685856 51.7249284%2C43.1106779 77.2483254%2C52.278107 C106.627421%2C62.7602463 121.189137%2C24.4238586 99.8325378%2C22.966992 C86.2977408%2C21.7452157 84.0926228%2C39.1850219 88.8966444%2C41.3655239 C93.700666%2C43.5460259 103.774148%2C48.5662887 124.929333%2C34.3582007 C143.578502%2C20.5537994 192.45919%2C12.4719082 203.288327%2C30.0757333 C214.117464%2C47.6795584 168.346511%2C52.4848037 168.344056%2C43.1355678 C168.341602%2C33.7863319 177.42376%2C34.4737979 179.682529%2C34.372589 C205.883072%2C35.1735399 211.575569%2C57.6760441 243.14272%2C46.1840197%22 id%3D%22%E8%B7%AF%E5%BE%84-9%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 opacity%3D%220.389868024%22 stroke-dasharray%3D%224%2C4%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M8%2C126 C8.6565862%2C126 9.19616731%2C126.500958 9.25737551%2C127.141507 L9.26315789%2C127.263158 L9.263%2C132.736 L14.7368421%2C132.736842 C15.4344649%2C132.736842 16%2C133.302377 16%2C134 C16%2C134.656586 15.4990416%2C135.196167 14.8584926%2C135.257376 L14.7368421%2C135.263158 L9.263%2C135.263 L9.26315789%2C140.736842 C9.26315789%2C141.434465 8.69762284%2C142 8%2C142 C7.3434138%2C142 6.80383269%2C141.499042 6.74262449%2C140.858493 L6.73684211%2C140.736842 L6.736%2C135.263 L1.26315789%2C135.263158 C0.565535053%2C135.263158 0%2C134.697623 0%2C134 C0%2C133.343414 0.500958386%2C132.803833 1.14150736%2C132.742624 L1.26315789%2C132.736842 L6.736%2C132.736 L6.73684211%2C127.263158 C6.73684211%2C126.565535 7.30237716%2C126 8%2C126 Z%22 id%3D%22%E5%BD%A2%E7%8A%B6%E7%BB%93%E5%90%88%22 fill%3D%22%23979797%22 fill-rule%3D%22nonzero%22 opacity%3D%220.4%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M258%2C76 C258.656586%2C76 259.196167%2C76.5009584 259.257376%2C77.1415074 L259.263158%2C77.2631579 L259.263%2C82.736 L264.736842%2C82.7368421 C265.434465%2C82.7368421 266%2C83.3023772 266%2C84 C266%2C84.6565862 265.499042%2C85.1961673 264.858493%2C85.2573755 L264.736842%2C85.2631579 L259.263%2C85.263 L259.263158%2C90.7368421 C259.263158%2C91.4344649 258.697623%2C92 258%2C92 C257.343414%2C92 256.803833%2C91.4990416 256.742624%2C90.8584926 L256.736842%2C90.7368421 L256.736%2C85.263 L251.263158%2C85.2631579 C250.565535%2C85.2631579 250%2C84.6976228 250%2C84 C250%2C83.3434138 250.500958%2C82.8038327 251.141507%2C82.7426245 L251.263158%2C82.7368421 L256.736%2C82.736 L256.736842%2C77.2631579 C256.736842%2C76.5655351 257.302377%2C76 258%2C76 Z%22 id%3D%22%E5%BD%A2%E7%8A%B6%E7%BB%93%E5%90%88%E5%A4%87%E4%BB%BD-4%22 fill%3D%22%23979797%22 fill-rule%3D%22nonzero%22 opacity%3D%220.4%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M158.5%2C3 C164.29899%2C3 169%2C7.70101013 169%2C13.5 C169%2C18.4654763 165.553262%2C22.6259238 160.92179%2C23.719337 L160.921%2C27.961 L162.504892%2C27.961334 C163.609461%2C27.961334 164.504892%2C28.8567645 164.504892%2C29.961334 C164.504892%2C31.0659035 163.609461%2C31.961334 162.504892%2C31.961334 L160.921%2C31.961 L160.921183%2C38.0650601 C160.921183%2C39.9980567 159.35418%2C41.5650601 157.421183%2C41.5650601 C155.488187%2C41.5650601 153.921183%2C39.9980567 153.921183%2C38.0650601 L153.921248%2C22.9517379 C150.416332%2C21.2506897 148%2C17.6575272 148%2C13.5 C148%2C7.70101013 152.70101%2C3 158.5%2C3 Z M158.5%2C10.2413793 C156.700313%2C10.2413793 155.241379%2C11.7003135 155.241379%2C13.5 C155.241379%2C15.2996865 156.700313%2C16.7586207 158.5%2C16.7586207 C160.299687%2C16.7586207 161.758621%2C15.2996865 161.758621%2C13.5 C161.758621%2C11.7003135 160.299687%2C10.2413793 158.5%2C10.2413793 Z%22 id%3D%22%E5%BD%A2%E7%8A%B6%E7%BB%93%E5%90%88%22 stroke%3D%22%23979797%22 stroke-width%3D%222%22 fill%3D%22%23F2F2F2%22 transform%3D%22translate(158.500000%2C 22.282530) rotate(39.000000) translate(-158.500000%2C -22.282530) %22%3E%3C%2Fpath%3E                %3C%2Fg%3E            %3C%2Fg%3E        %3C%2Fg%3E    %3C%2Fg%3E%3C%2Fsvg%3E\")}.gk-alert-container .gk-alert-image.status-404{background-image:url(\"data:image/svg+xml,%3C%3Fxml version%3D%221.0%22 encoding%3D%22UTF-8%22%3F%3E%3Csvg width%3D%22326px%22 height%3D%22200px%22 viewBox%3D%220 0 326 200%22 version%3D%221.1%22 xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E    %3Ctitle%3E%E7%BC%96%E7%BB%84 6%3C%2Ftitle%3E    %3Cg id%3D%22Components%22 stroke%3D%22none%22 stroke-width%3D%221%22 fill%3D%22none%22 fill-rule%3D%22evenodd%22%3E        %3Cg id%3D%225.%E5%8F%8D%E9%A6%88%2F7.Result%E7%BB%93%E6%9E%9C%2F404%22 transform%3D%22translate(-117.000000%2C 1.000000)%22%3E            %3Cg id%3D%22%E7%BC%96%E7%BB%84-6%22 transform%3D%22translate(117.000000%2C 0.000000)%22%3E                %3Crect id%3D%22%E8%92%99%E7%89%88%22 x%3D%220%22 y%3D%220%22 width%3D%22326%22 height%3D%22200%22%3E%3C%2Frect%3E                %3Cg id%3D%22%E7%BC%96%E7%BB%84-4%22 transform%3D%22translate(36.000000%2C 1.000000)%22%3E                    %3Cg id%3D%22%E7%BC%96%E7%BB%84-11%22 transform%3D%22translate(117.518669%2C 77.572400) rotate(-14.000000) translate(-117.518669%2C -77.572400) translate(37.518669%2C 17.572400)%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22%3E                        %3Cline x1%3D%2223.592843%22 y1%3D%2295.4972973%22 x2%3D%2213.0448549%22 y2%3D%22119.983784%22 id%3D%22%E8%B7%AF%E5%BE%84-3%22 stroke-linecap%3D%22round%22%3E%3C%2Fline%3E                        %3Cline x1%3D%2231.7968338%22 y1%3D%2298.0899841%22 x2%3D%2230.6248351%22 y2%3D%22114.222258%22 id%3D%22%E8%B7%AF%E5%BE%84-3%E5%A4%87%E4%BB%BD%22 stroke-linecap%3D%22round%22%3E%3C%2Fline%3E                        %3Cline x1%3D%2279.8997361%22 y1%3D%222.59148649%22 x2%3D%2279.8997361%22 y2%3D%2219.4463514%22 id%3D%22%E7%9B%B4%E7%BA%BF%22 stroke-linecap%3D%22square%22%3E%3C%2Fline%3E                        %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-6%22 fill%3D%22%23FFFFFF%22 cx%3D%2279.8997361%22 cy%3D%223.26486486%22 rx%3D%223.26121372%22 ry%3D%223.26486486%22%3E%3C%2Fellipse%3E                        %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%22 fill%3D%22%23F9F9F9%22 cx%3D%2280.3073879%22 cy%3D%2250.6054054%22 rx%3D%2247.6952507%22 ry%3D%2234.2810811%22%3E%3C%2Fellipse%3E                        %3Cpath d%3D%22M140.110861%2C96.2746021 C152.371934%2C90.392528 159.799472%2C82.6973988 159.799472%2C74.2756757 C159.799472%2C55.7935412 124.027142%2C40.8108108 79.8997361%2C40.8108108 C35.7723304%2C40.8108108 7.4151415e-13%2C55.7935412 7.4151415e-13%2C74.2756757 C7.4151415e-13%2C92.7578102 35.7723304%2C107.740541 79.8997361%2C107.740541 C96.0844735%2C107.740541 111.145266%2C105.725028 123.72937%2C102.260581%22 id%3D%22%E8%B7%AF%E5%BE%84%22 fill%3D%22%23FFFFFF%22%3E%3C%2Fpath%3E                        %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-2%22 fill-opacity%3D%220.1%22 fill%3D%22%23000000%22 cx%3D%2280.9040095%22 cy%3D%2284.6374689%22 rx%3D%2238.7269129%22 ry%3D%2216.7324324%22%3E%3C%2Fellipse%3E                        %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%22 fill%3D%22%23FFFFFF%22 cx%3D%2230.7974628%22 cy%3D%2271.3461836%22 rx%3D%227.74538259%22 ry%3D%227.75405405%22%3E%3C%2Fellipse%3E                        %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-3%22 fill%3D%22%23FFFFFF%22 cx%3D%2259.3330829%22 cy%3D%2255.8380755%22 rx%3D%227.74538259%22 ry%3D%227.75405405%22%3E%3C%2Fellipse%3E                        %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-4%22 fill%3D%22%23FFFFFF%22 cx%3D%22102.544165%22 cy%3D%2255.8380755%22 rx%3D%227.74538259%22 ry%3D%227.75405405%22%3E%3C%2Fellipse%3E                        %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-5%22 fill%3D%22%23FFFFFF%22 cx%3D%22130.264481%22 cy%3D%2271.3461836%22 rx%3D%227.74538259%22 ry%3D%227.75405405%22%3E%3C%2Fellipse%3E                        %3Cline x1%3D%22146.754617%22 y1%3D%2295.4972973%22 x2%3D%22136.206629%22 y2%3D%22119.983784%22 id%3D%22%E8%B7%AF%E5%BE%84-3%E5%A4%87%E4%BB%BD-2%22 stroke-linecap%3D%22round%22 transform%3D%22translate(141.480623%2C 107.740541) scale(-1%2C 1) translate(-141.480623%2C -107.740541) %22%3E%3C%2Fline%3E                        %3Cline x1%3D%22129.174637%22 y1%3D%2298.0899841%22 x2%3D%22128.002639%22 y2%3D%22114.222258%22 id%3D%22%E8%B7%AF%E5%BE%84-3%E5%A4%87%E4%BB%BD-3%22 stroke-linecap%3D%22round%22 transform%3D%22translate(128.588638%2C 106.156121) scale(-1%2C 1) translate(-128.588638%2C -106.156121) %22%3E%3C%2Fline%3E                    %3C%2Fg%3E                    %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-7%22 fill%3D%22%23F3F3F3%22 cx%3D%22129.27145%22 cy%3D%22189.406199%22 rx%3D%2252.590517%22 ry%3D%227.75355913%22%3E%3C%2Fellipse%3E                    %3Cpath d%3D%22M0.852161841%2C187.147894 C10.7863948%2C169.73153 20.9532545%2C168.002067 31.3527412%2C181.959505%22 id%3D%22%E8%B7%AF%E5%BE%84-4%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 stroke-linecap%3D%22round%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M15.7539316%2C189.600298 C34.1215202%2C181.294211 52.4906121%2C178.714377 70.8612072%2C181.860797%22 id%3D%22%E8%B7%AF%E5%BE%84-5%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 stroke-linecap%3D%22round%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M173.710337%2C196.802247 C202.735636%2C181.98336 229.751059%2C176.994998 254.756605%2C181.837162%22 id%3D%22%E8%B7%AF%E5%BE%84-5%E5%A4%87%E4%BB%BD%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 stroke-linecap%3D%22round%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M186.82416%2C160.900646 C186.82416%2C160.900646 197.563706%2C157.375747 214.546602%2C162.087156%22 id%3D%22%E8%B7%AF%E5%BE%84-5%E5%A4%87%E4%BB%BD-2%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 stroke-linecap%3D%22round%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M222%2C168 C230.269038%2C141.987551 240.269038%2C141.349383 252%2C166.085498%22 id%3D%22%E8%B7%AF%E5%BE%84-6%E5%A4%87%E4%BB%BD%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23FFFFFF%22 stroke-linecap%3D%22round%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M15.919278%2C114.705684 C16.5556786%2C114.705684 17.0786712%2C115.190698 17.1379977%2C115.810861 L17.1436023%2C115.928639 L17.1428954%2C121.226684 L22.4417054%2C121.226742 C23.1171249%2C121.226742 23.6646606%2C121.774891 23.6646606%2C122.451067 C23.6646606%2C123.087467 23.1796463%2C123.61046 22.5594842%2C123.669786 L22.4417054%2C123.675391 L17.1428954%2C123.674684 L17.1436023%2C128.973494 C17.1436023%2C129.648914 16.5954536%2C130.196449 15.919278%2C130.196449 C15.2828774%2C130.196449 14.7598847%2C129.711435 14.7005583%2C129.091273 L14.6949537%2C128.973494 L14.6948954%2C123.674684 L9.39685055%2C123.675391 C8.72143108%2C123.675391 8.17389541%2C123.127242 8.17389541%2C122.451067 C8.17389541%2C121.814666 8.6589097%2C121.291674 9.27907181%2C121.232347 L9.39685055%2C121.226742 L14.6948954%2C121.226684 L14.6949537%2C115.928639 C14.6949537%2C115.25322 15.2431023%2C114.705684 15.919278%2C114.705684 Z%22 id%3D%22%E5%BD%A2%E7%8A%B6%E7%BB%93%E5%90%88%E5%A4%87%E4%BB%BD-2%22 fill%3D%22%23979797%22 fill-rule%3D%22nonzero%22 opacity%3D%220.4%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M227.900061%2C69.0562762 C228.536461%2C69.0562762 229.059454%2C69.5412905 229.11878%2C70.1614526 L229.124385%2C70.2792314 L229.123678%2C75.5772762 L234.422488%2C75.5773345 C235.097908%2C75.5773345 235.645443%2C76.1254831 235.645443%2C76.8016588 C235.645443%2C77.4380594 235.160429%2C77.961052 234.540267%2C78.0203785 L234.422488%2C78.0259831 L229.123678%2C78.0252762 L229.124385%2C83.3240862 C229.124385%2C83.9995057 228.576236%2C84.5470414 227.900061%2C84.5470414 C227.26366%2C84.5470414 226.740668%2C84.0620271 226.681341%2C83.441865 L226.675736%2C83.3240862 L226.675678%2C78.0252762 L221.377633%2C78.0259831 C220.702214%2C78.0259831 220.154678%2C77.4778344 220.154678%2C76.8016588 C220.154678%2C76.1652582 220.639692%2C75.6422655 221.259855%2C75.5829391 L221.377633%2C75.5773345 L226.675678%2C75.5772762 L226.675736%2C70.2792314 C226.675736%2C69.6038119 227.223885%2C69.0562762 227.900061%2C69.0562762 Z%22 id%3D%22%E5%BD%A2%E7%8A%B6%E7%BB%93%E5%90%88%E5%A4%87%E4%BB%BD-3%22 fill%3D%22%23979797%22 fill-rule%3D%22nonzero%22 opacity%3D%220.4%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M0%2C46.9518301 C10.6421532%2C32.6685856 28.7249284%2C30.1106779 54.2483254%2C39.278107 C83.6274208%2C49.7602463 98.189137%2C11.4238586 76.8325378%2C9.96699195 C63.2977408%2C8.74521568 61.0926228%2C26.1850219 65.8966444%2C28.3655239 C70.700666%2C30.5460259 80.774148%2C35.5662887 101.929333%2C21.3582007 C120.578502%2C7.55379942 169.45919%2C-0.528091772 180.288327%2C17.0757333 C191.117464%2C34.6795584 145.346511%2C39.4848037 145.344056%2C30.1355678 C145.341602%2C20.7863319 154.42376%2C21.4737979 156.682529%2C21.372589 C182.883072%2C22.1735399 188.575569%2C44.6760441 220.14272%2C33.1840197%22 id%3D%22%E8%B7%AF%E5%BE%84-9%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 opacity%3D%220.389868024%22 stroke-dasharray%3D%224%2C4%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M117.37589%2C166.6623 C117.745495%2C166.6623 118.039004%2C166.629651 118.256418%2C166.564354 C118.430349%2C165.19311 118.571669%2C163.974228 118.680376%2C162.907705 C119.636998%2C162.77711 120.952355%2C162.537687 122.626444%2C162.189435 C122.626444%2C161.318804 122.539479%2C160.687597 122.365547%2C160.295813 C121.930719%2C160.36111 120.767553%2C160.480822 118.876049%2C160.654948 C119.006497%2C159.479597 119.223911%2C157.205074 119.528291%2C153.831381 C118.615152%2C153.657255 117.952038%2C153.613723 117.538951%2C153.700786 L117.538951%2C153.700786 L116.625811%2C160.883489 C115.23436%2C160.992318 113.582012%2C161.046732 111.668766%2C161.046732 C109.190244%2C161.046732 107.624861%2C160.959669 106.972619%2C160.785543 C107.124808%2C158.630732 107.537896%2C156.182083 108.21188%2C153.439597 C108.429294%2C152.590732 109.103278%2C150.207381 110.233832%2C146.289543 C109.646814%2C145.919525 109.016312%2C145.71275 108.342328%2C145.669219 C105.733357%2C152.220714 104.428872%2C157.890696 104.428872%2C162.679165 C106.168186%2C163.158011 108.581484%2C163.397435 111.668766%2C163.397435 C113.473305%2C163.397435 115.060429%2C163.332137 116.430138%2C163.201543 C116.343173%2C164.638083 116.29969%2C165.726372 116.29969%2C166.466408 C116.60407%2C166.597002 116.962803%2C166.6623 117.37589%2C166.6623 Z M135.964808%2C166.6623 C138.530297%2C166.6623 140.856629%2C165.68284 142.943806%2C163.723921 C145.009241%2C161.743237 146.041959%2C159.479597 146.041959%2C156.933002 C146.041959%2C153.167525 144.791827%2C150.272678 142.291563%2C148.248462 C141.748027%2C148.531417 141.269716%2C149.010264 140.856629%2C149.685002 C141.987183%2C150.990948 142.737262%2C152.068354 143.106867%2C152.917219 C143.541695%2C153.918444 143.759109%2C155.202624 143.759109%2C156.769759 C143.759109%2C158.598083 142.922064%2C160.339345 141.247975%2C161.993543 C139.552144%2C163.647741 137.791088%2C164.47484 135.964808%2C164.47484 C133.790666%2C164.47484 131.877421%2C163.702155 130.225072%2C162.156786 C128.594465%2C160.633183 127.779162%2C158.793975 127.779162%2C156.639165 C127.779162%2C154.440822 128.496629%2C152.47102 129.931563%2C150.729759 C131.453463%2C148.901435 133.290613%2C147.987273 135.443014%2C147.987273 C136.834465%2C147.987273 138.225917%2C148.335525 139.617368%2C149.032029 C139.856524%2C148.879669 140.095679%2C148.61848 140.334835%2C148.248462 C140.573991%2C147.90021 140.693568%2C147.595489 140.693568%2C147.3343 C140.10655%2C146.833687 139.291246%2C146.420137 138.247658%2C146.093651 C137.291035%2C145.810696 136.399637%2C145.669219 135.573463%2C145.669219 C132.681853%2C145.669219 130.246814%2C146.757507 128.268344%2C148.934083 C126.333357%2C151.023597 125.365864%2C153.52666 125.365864%2C156.443273 C125.365864%2C159.359885 126.398582%2C161.786768 128.464017%2C163.723921 C130.529452%2C165.68284 133.029716%2C166.6623 135.964808%2C166.6623 Z M161.728397%2C166.6623 C162.098001%2C166.6623 162.39151%2C166.629651 162.608925%2C166.564354 C162.782856%2C165.19311 162.924175%2C163.974228 163.032882%2C162.907705 C163.989505%2C162.77711 165.304861%2C162.537687 166.978951%2C162.189435 C166.978951%2C161.318804 166.891985%2C160.687597 166.718054%2C160.295813 C166.283225%2C160.36111 165.120059%2C160.480822 163.228555%2C160.654948 C163.359004%2C159.479597 163.576418%2C157.205074 163.880798%2C153.831381 C162.967658%2C153.657255 162.304545%2C153.613723 161.891458%2C153.700786 L161.891458%2C153.700786 L160.978318%2C160.883489 C159.586867%2C160.992318 157.934518%2C161.046732 156.021273%2C161.046732 C153.54275%2C161.046732 151.977368%2C160.959669 151.325125%2C160.785543 C151.477315%2C158.630732 151.890402%2C156.182083 152.564386%2C153.439597 C152.781801%2C152.590732 153.455785%2C150.207381 154.586339%2C146.289543 C153.99932%2C145.919525 153.368819%2C145.71275 152.694835%2C145.669219 C150.085864%2C152.220714 148.781378%2C157.890696 148.781378%2C162.679165 C150.520692%2C163.158011 152.933991%2C163.397435 156.021273%2C163.397435 C157.825811%2C163.397435 159.412935%2C163.332137 160.782645%2C163.201543 C160.695679%2C164.638083 160.652196%2C165.726372 160.652196%2C166.466408 C160.956576%2C166.597002 161.31531%2C166.6623 161.728397%2C166.6623 Z%22 id%3D%22404%22 fill-opacity%3D%220.45%22 fill%3D%22%23000000%22 fill-rule%3D%22nonzero%22 transform%3D%22translate(135.703911%2C 156.165759) rotate(-10.000000) translate(-135.703911%2C -156.165759) %22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M209.657032%2C171.879824 C215.500168%2C149.591313 222.56645%2C149.044506 230.855878%2C170.239401%22 id%3D%22%E8%B7%AF%E5%BE%84-6%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23FFFFFF%22 stroke-linecap%3D%22round%22%3E%3C%2Fpath%3E                %3C%2Fg%3E            %3C%2Fg%3E        %3C%2Fg%3E    %3C%2Fg%3E%3C%2Fsvg%3E\")}.gk-alert-container .gk-alert-image.status-500{background-image:url(\"data:image/svg+xml,%3C%3Fxml version%3D%221.0%22 encoding%3D%22UTF-8%22%3F%3E%3Csvg width%3D%22326px%22 height%3D%22200px%22 viewBox%3D%220 0 326 200%22 version%3D%221.1%22 xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E    %3Ctitle%3E%E7%BC%96%E7%BB%84 16%3C%2Ftitle%3E    %3Cdefs%3E        %3Cellipse id%3D%22path-1%22 cx%3D%2261.4998135%22 cy%3D%2261.9346409%22 rx%3D%2261.5%22 ry%3D%2261.5838926%22%3E%3C%2Fellipse%3E    %3C%2Fdefs%3E    %3Cg id%3D%22Components%22 stroke%3D%22none%22 stroke-width%3D%221%22 fill%3D%22none%22 fill-rule%3D%22evenodd%22%3E        %3Cg id%3D%225.%E5%8F%8D%E9%A6%88%2F7.Result%E7%BB%93%E6%9E%9C%2F500%22 transform%3D%22translate(-116.000000%2C 2.000000)%22%3E            %3Cg id%3D%22%E7%BC%96%E7%BB%84-16%22 transform%3D%22translate(117.000000%2C 0.000000)%22%3E                %3Crect id%3D%22%E7%9F%A9%E5%BD%A2%22 x%3D%220%22 y%3D%220%22 width%3D%22326%22 height%3D%22200%22%3E%3C%2Frect%3E                %3Cg id%3D%22%E7%BC%96%E7%BB%84-15%22%3E                    %3Cpath d%3D%22M0%2C52.4975591 C16.7137944%2C62.3484795 33.938449%2C61.006607 51.6739638%2C48.4719414 C78.2772361%2C29.6699431 83.4968142%2C19.533958 103.489268%2C19.533958 C139.97142%2C19.533958 82.903957%2C57.6211552 96.2340016%2C26.6278396 C109.564046%2C-4.36547602 137.210651%2C1.40013087 166.370124%2C22.2979305 C195.529597%2C43.1957301 214.568903%2C36.6593599 239%2C28.7521373%22 id%3D%22%E8%B7%AF%E5%BE%84-10%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 opacity%3D%220.4%22 stroke-dasharray%3D%224%2C4%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M237%2C168.261766 C242.721616%2C148.373384 249.721616%2C149.286129 258%2C171%22 id%3D%22%E8%B7%AF%E5%BE%84-6%E5%A4%87%E4%BB%BD-2%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 stroke-linecap%3D%22round%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M221%2C172 C225.96629%2C152.492295 231.96629%2C152.012118 239%2C170.559467%22 id%3D%22%E8%B7%AF%E5%BE%84-6%E5%A4%87%E4%BB%BD-3%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23FFFFFF%22 stroke-linecap%3D%22round%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M26%2C150 C30.9662904%2C130.492295 36.9662904%2C130.012118 44%2C148.559467%22 id%3D%22%E8%B7%AF%E5%BE%84-6%E5%A4%87%E4%BB%BD-5%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23FFFFFF%22 stroke-linecap%3D%22round%22%3E%3C%2Fpath%3E                    %3Cg id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD%22 transform%3D%22translate(93.000000%2C 41.000000)%22%3E                        %3Cmask id%3D%22mask-2%22 fill%3D%22white%22%3E                            %3Cuse xlink%3Ahref%3D%22%23path-1%22%3E%3C%2Fuse%3E                        %3C%2Fmask%3E                        %3Cellipse stroke%3D%22%23979797%22 stroke-width%3D%223%22 cx%3D%2261.4998135%22 cy%3D%2261.9346409%22 rx%3D%2263%22 ry%3D%2263.0838926%22%3E%3C%2Fellipse%3E                        %3Cellipse stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23F9F9F9%22 mask%3D%22url(%23mask-2)%22 cx%3D%2268.1484622%22 cy%3D%228.67289592%22 rx%3D%2220.6148649%22 ry%3D%2220.6409396%22%3E%3C%2Fellipse%3E                        %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-8%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23E5E5E5%22 mask%3D%22url(%23mask-2)%22 cx%3D%2215.3748135%22 cy%3D%2288.9816208%22 rx%3D%2213.5506757%22 ry%3D%2213.5671141%22%3E%3C%2Fellipse%3E                        %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-9%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23FFFFFF%22 mask%3D%22url(%23mask-2)%22 cx%3D%2236.5673811%22 cy%3D%2242.7937013%22 rx%3D%227.31756757%22 ry%3D%227.32550336%22%3E%3C%2Fellipse%3E                        %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-10%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23F9F9F9%22 mask%3D%22url(%23mask-2)%22 cx%3D%2297.2363%22 cy%3D%2248.6192046%22 rx%3D%2211.472973%22 ry%3D%2211.4865772%22%3E%3C%2Fellipse%3E                        %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-11%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23FFFFFF%22 mask%3D%22url(%23mask-2)%22 cx%3D%2278.1214351%22 cy%3D%22106.874238%22 rx%3D%228.14864865%22 ry%3D%228.15771812%22%3E%3C%2Fellipse%3E                    %3C%2Fg%3E                    %3Cpath d%3D%22M98.9248865%2C83.0029642 C78.3577685%2C89.0922562 65.2831247%2C98.262716 65.2951658%2C108.533708 C65.316767%2C126.939578 107.356168%2C141.909716 159.192804%2C141.970631 C211.02944%2C142.031176 253.033831%2C127.159501 253.012247%2C108.75363 C253.001544%2C99.637596 242.683843%2C91.3643501 225.973686%2C85.3278559 C224.028048%2C84.6249998 221.995747%2C83.9524674 219.882963%2C83.312459%22 id%3D%22%E8%B7%AF%E5%BE%84%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 transform%3D%22translate(159.153706%2C 112.486798) rotate(-30.000000) translate(-159.153706%2C -112.486798) %22%3E%3C%2Fpath%3E                    %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%22 fill%3D%22%23F3F3F3%22 cx%3D%22163.5%22 cy%3D%22192%22 rx%3D%2252.5%22 ry%3D%227%22%3E%3C%2Fellipse%3E                    %3Cg id%3D%22%E7%BC%96%E7%BB%84-6%22 transform%3D%22translate(91.193912%2C 51.429384) rotate(-27.000000) translate(-91.193912%2C -51.429384) translate(60.193912%2C 9.929384)%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22%3E                        %3Cg id%3D%22%E7%BC%96%E7%BB%84-7%22 transform%3D%22translate(0.786940%2C 0.763244)%22%3E                            %3Cline x1%3D%222.30968266%22 y1%3D%2220.6958975%22 x2%3D%2219.1247929%22 y2%3D%2281.4833223%22 id%3D%22%E8%B7%AF%E5%BE%84-7%22%3E%3C%2Fline%3E                            %3Cpath d%3D%22M4.40076845%2C12.1586723 C14.18426%2C12.008468 23.8773672%2C10.4826714 33.48009%2C7.5812824 C45.3069841%2C5.6445918 53.1423855%2C7.15782855 56.9862943%2C12.1209926 L56.9659592%2C40.435397 C52.0644619%2C35.2174997 44.2290233%2C33.7559457 33.4596436%2C36.0507351 C23.9350239%2C40.1485838 14.2419539%2C41.6226976 4.3804334%2C40.4730766 L4.40076845%2C12.1586723 Z%22 id%3D%22%E7%9F%A9%E5%BD%A2%22 fill%3D%22%23FFFFFF%22 transform%3D%22translate(30.683364%2C 23.808374) scale(-1%2C 1) rotate(16.000000) translate(-30.683364%2C -23.808374) %22%3E%3C%2Fpath%3E                        %3C%2Fg%3E                    %3C%2Fg%3E                    %3Cpath d%3D%22M49%2C94 C49.6565862%2C94 50.1961673%2C94.5009584 50.2573755%2C95.1415074 L50.2631579%2C95.2631579 L50.263%2C100.736 L55.7368421%2C100.736842 C56.4344649%2C100.736842 57%2C101.302377 57%2C102 C57%2C102.656586 56.4990416%2C103.196167 55.8584926%2C103.257376 L55.7368421%2C103.263158 L50.263%2C103.263 L50.2631579%2C108.736842 C50.2631579%2C109.434465 49.6976228%2C110 49%2C110 C48.3434138%2C110 47.8038327%2C109.499042 47.7426245%2C108.858493 L47.7368421%2C108.736842 L47.736%2C103.263 L42.2631579%2C103.263158 C41.5655351%2C103.263158 41%2C102.697623 41%2C102 C41%2C101.343414 41.5009584%2C100.803833 42.1415074%2C100.742624 L42.2631579%2C100.736842 L47.736%2C100.736 L47.7368421%2C95.2631579 C47.7368421%2C94.5655351 48.3023772%2C94 49%2C94 Z%22 id%3D%22%E5%BD%A2%E7%8A%B6%E7%BB%93%E5%90%88%22 fill%3D%22%23979797%22 fill-rule%3D%22nonzero%22 opacity%3D%220.4%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M265%2C126 C265.656586%2C126 266.196167%2C126.500958 266.257376%2C127.141507 L266.263158%2C127.263158 L266.263%2C132.736 L271.736842%2C132.736842 C272.434465%2C132.736842 273%2C133.302377 273%2C134 C273%2C134.656586 272.499042%2C135.196167 271.858493%2C135.257376 L271.736842%2C135.263158 L266.263%2C135.263 L266.263158%2C140.736842 C266.263158%2C141.434465 265.697623%2C142 265%2C142 C264.343414%2C142 263.803833%2C141.499042 263.742624%2C140.858493 L263.736842%2C140.736842 L263.736%2C135.263 L258.263158%2C135.263158 C257.565535%2C135.263158 257%2C134.697623 257%2C134 C257%2C133.343414 257.500958%2C132.803833 258.141507%2C132.742624 L258.263158%2C132.736842 L263.736%2C132.736 L263.736842%2C127.263158 C263.736842%2C126.565535 264.302377%2C126 265%2C126 Z%22 id%3D%22%E5%BD%A2%E7%8A%B6%E7%BB%93%E5%90%88%E5%A4%87%E4%BB%BD%22 fill%3D%22%23979797%22 fill-rule%3D%22nonzero%22 opacity%3D%220.4%22%3E%3C%2Fpath%3E                    %3Ccircle id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%22 fill%3D%22%23979797%22 cx%3D%2273.5%22 cy%3D%2242.5%22 r%3D%222.5%22%3E%3C%2Fcircle%3E                    %3Ccircle id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-12%22 fill%3D%22%23979797%22 cx%3D%2286.5%22 cy%3D%2236.5%22 r%3D%222.5%22%3E%3C%2Fcircle%3E                    %3Ccircle id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-13%22 fill%3D%22%23979797%22 cx%3D%2295.5%22 cy%3D%2227.5%22 r%3D%222.5%22%3E%3C%2Fcircle%3E                    %3Cpath d%3D%22M188.478532%2C27.430718 C190.17052%2C27.430718 191.606483%2C26.9866619 192.786422%2C26.0985498 C194.077676%2C25.1216265 194.723303%2C23.8116612 194.723303%2C22.1686538 C194.723303%2C20.2148071 193.465443%2C18.8049292 190.949725%2C17.9390199 C189.257737%2C17.3395442 187.242936%2C17.0398064 184.905321%2C17.0398064 C184.504587%2C17.0398064 183.480489%2C17.0620092 181.833028%2C17.1064148 C181.899817%2C16.062883 182.345076%2C13.653879 183.168807%2C9.8794025 L183.168807%2C9.8794025 L195.424587%2C9.8794025 C195.558165%2C9.61296887 195.624954%2C9.27992683 195.624954%2C8.88027639 C195.624954%2C8.54723435 195.580428%2C8.23639511 195.491376%2C7.94775867 C194.957064%2C7.94775867 193.342997%2C7.90335307 190.649174%2C7.81454186 C187.8663%2C7.70352785 185.495291%2C7.64802084 183.536147%2C7.64802084 C183.580673%2C7.42599281 183.658593%2C6.99303816 183.769908%2C6.34915688 C183.012966%2C6.10492606 182.333945%2C6.00501344 181.732844%2C6.04941905 C180.174434%2C11.4002945 179.395229%2C15.8075508 179.395229%2C19.271188 C183.55841%2C19.271188 186.330153%2C19.3599992 187.710459%2C19.5376217 C190.91633%2C19.9372721 192.519266%2C20.8364856 192.519266%2C22.2352622 C192.519266%2C23.8560668 191.049908%2C24.9662069 188.111193%2C25.5656826 C188.08893%2C25.7211022 188.077798%2C25.8765218 188.077798%2C26.0319414 C188.077798%2C26.5204031 188.211376%2C26.9866619 188.478532%2C27.430718 Z M210.485505%2C27.430718 C213.112538%2C27.430718 215.494679%2C26.4315919 217.631927%2C24.4333396 C219.746911%2C22.4128846 220.804404%2C20.1037931 220.804404%2C17.5060652 C220.804404%2C13.6649804 219.524281%2C10.7120076 216.964037%2C8.64714696 C216.407462%2C8.93578339 215.917676%2C9.42424505 215.494679%2C10.1125319 C216.652355%2C11.4447001 217.420428%2C12.5437388 217.798899%2C13.4096481 C218.244159%2C14.430977 218.466789%2C15.7409424 218.466789%2C17.3395442 C218.466789%2C19.2045796 217.609664%2C20.9808038 215.895413%2C22.6682168 C214.158899%2C24.3556298 212.355596%2C25.1993363 210.485505%2C25.1993363 C208.259205%2C25.1993363 206.300061%2C24.4111368 204.608073%2C22.8347378 C202.938349%2C21.2805417 202.103486%2C19.4044048 202.103486%2C17.2063274 C202.103486%2C14.9638443 202.838165%2C12.9544907 204.307523%2C11.1782665 C205.865933%2C9.31323104 207.747156%2C8.38071333 209.951193%2C8.38071333 C211.376024%2C8.38071333 212.800856%2C8.73595817 214.225688%2C9.44644785 C214.470581%2C9.29102823 214.715474%2C9.0245946 214.960367%2C8.64714696 C215.20526%2C8.29190212 215.327706%2C7.98106288 215.327706%2C7.71462925 C214.726606%2C7.20396479 213.891743%2C6.78211154 212.823119%2C6.4490695 C211.843547%2C6.16043306 210.930765%2C6.01611484 210.084771%2C6.01611484 C207.123792%2C6.01611484 204.630336%2C7.12625498 202.604404%2C9.34653524 C200.622997%2C11.4780043 199.632294%2C14.0313266 199.632294%2C17.0065022 C199.632294%2C19.9816777 200.689786%2C22.4572902 202.804771%2C24.4333396 C204.919755%2C26.4315919 207.48%2C27.430718 210.485505%2C27.430718 Z M233.193761%2C27.430718 C235.820795%2C27.430718 238.202936%2C26.4315919 240.340183%2C24.4333396 C242.455168%2C22.4128846 243.512661%2C20.1037931 243.512661%2C17.5060652 C243.512661%2C13.6649804 242.232538%2C10.7120076 239.672294%2C8.64714696 C239.115719%2C8.93578339 238.625933%2C9.42424505 238.202936%2C10.1125319 C239.360612%2C11.4447001 240.128685%2C12.5437388 240.507156%2C13.4096481 C240.952416%2C14.430977 241.175046%2C15.7409424 241.175046%2C17.3395442 C241.175046%2C19.2045796 240.31792%2C20.9808038 238.60367%2C22.6682168 C236.867156%2C24.3556298 235.063853%2C25.1993363 233.193761%2C25.1993363 C230.967462%2C25.1993363 229.008318%2C24.4111368 227.31633%2C22.8347378 C225.646606%2C21.2805417 224.811743%2C19.4044048 224.811743%2C17.2063274 C224.811743%2C14.9638443 225.546422%2C12.9544907 227.01578%2C11.1782665 C228.57419%2C9.31323104 230.455413%2C8.38071333 232.65945%2C8.38071333 C234.084281%2C8.38071333 235.509113%2C8.73595817 236.933945%2C9.44644785 C237.178838%2C9.29102823 237.423731%2C9.0245946 237.668624%2C8.64714696 C237.913517%2C8.29190212 238.035963%2C7.98106288 238.035963%2C7.71462925 C237.434862%2C7.20396479 236.6%2C6.78211154 235.531376%2C6.4490695 C234.551804%2C6.16043306 233.639021%2C6.01611484 232.793028%2C6.01611484 C229.832049%2C6.01611484 227.338593%2C7.12625498 225.312661%2C9.34653524 C223.331254%2C11.4780043 222.34055%2C14.0313266 222.34055%2C17.0065022 C222.34055%2C19.9816777 223.398043%2C22.4572902 225.513028%2C24.4333396 C227.628012%2C26.4315919 230.188257%2C27.430718 233.193761%2C27.430718 Z%22 id%3D%22500%22 fill-opacity%3D%220.45%22 fill%3D%22%23000000%22 fill-rule%3D%22nonzero%22 transform%3D%22translate(211.453945%2C 16.723416) rotate(-10.000000) translate(-211.453945%2C -16.723416) %22%3E%3C%2Fpath%3E                %3C%2Fg%3E            %3C%2Fg%3E        %3C%2Fg%3E    %3C%2Fg%3E%3C%2Fsvg%3E\")}.gk-alert-container .gk-alert-image.status-refresh{background-image:url(\"data:image/svg+xml,%3C%3Fxml version%3D%221.0%22 encoding%3D%22UTF-8%22%3F%3E%3Csvg width%3D%22326px%22 height%3D%22200px%22 viewBox%3D%220 0 326 200%22 version%3D%221.1%22 xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E    %3Ctitle%3E%E7%BC%96%E7%BB%84 25%3C%2Ftitle%3E    %3Cg id%3D%22Components%22 stroke%3D%22none%22 stroke-width%3D%221%22 fill%3D%22none%22 fill-rule%3D%22evenodd%22%3E        %3Cg id%3D%225.%E5%8F%8D%E9%A6%88%2F7.Result%E7%BB%93%E6%9E%9C%2F%E7%B3%BB%E7%BB%9F%E9%94%99%E8%AF%AF%22 transform%3D%22translate(-117.000000%2C 0.000000)%22%3E            %3Cg id%3D%22%E7%BC%96%E7%BB%84-25%22 transform%3D%22translate(117.000000%2C 0.000000)%22%3E                %3Crect id%3D%22%E7%9F%A9%E5%BD%A2%22 x%3D%220%22 y%3D%220%22 width%3D%22326%22 height%3D%22200%22%3E%3C%2Frect%3E                %3Cg id%3D%22%E7%BC%96%E7%BB%84-24%22 transform%3D%22translate(33.000000%2C 14.000000)%22%3E                    %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-16%22 fill%3D%22%23F3F3F3%22 cx%3D%22135%22 cy%3D%22173%22 rx%3D%2262%22 ry%3D%2212%22%3E%3C%2Fellipse%3E                    %3Ccircle id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-17%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 opacity%3D%220.39%22 cx%3D%22254%22 cy%3D%2216%22 r%3D%226%22%3E%3C%2Fcircle%3E                    %3Cpath d%3D%22M0%2C32 C11.9888316%2C20.5596274 32.3598356%2C18.5108339 61.113012%2C25.8536197 C94.2097941%2C34.2494418 110.614178%2C3.54335392 86.5550736%2C2.3764554 C71.3075576%2C1.3978559 68.8233997%2C15.3665226 74.2353314%2C17.1130274 C79.6472631%2C18.8595323 90.9954626%2C22.8805848 114.827665%2C11.5004099 C135.836735%2C0.443573705 190.902879%2C-6.02973471 203.102356%2C8.07030528 C215.301832%2C22.1703453 163.738935%2C26.0191765 163.73617%2C18.5307699 C163.733405%2C11.0423633 173.964837%2C11.5929991 176.509435%2C11.5119344 C206.025444%2C12.1534677 212.438281%2C30.1771761 248%2C20.9724718%22 id%3D%22%E8%B7%AF%E5%BE%84-9%E5%A4%87%E4%BB%BD%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 opacity%3D%220.389868024%22 stroke-dasharray%3D%224%2C4%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M30%2C81 C30.6565862%2C81 31.1961673%2C81.5009584 31.2573755%2C82.1415074 L31.2631579%2C82.2631579 L31.263%2C87.736 L36.7368421%2C87.7368421 C37.4344649%2C87.7368421 38%2C88.3023772 38%2C89 C38%2C89.6565862 37.4990416%2C90.1961673 36.8584926%2C90.2573755 L36.7368421%2C90.2631579 L31.263%2C90.263 L31.2631579%2C95.7368421 C31.2631579%2C96.4344649 30.6976228%2C97 30%2C97 C29.3434138%2C97 28.8038327%2C96.4990416 28.7426245%2C95.8584926 L28.7368421%2C95.7368421 L28.736%2C90.263 L23.2631579%2C90.2631579 C22.5655351%2C90.2631579 22%2C89.6976228 22%2C89 C22%2C88.3434138 22.5009584%2C87.8038327 23.1415074%2C87.7426245 L23.2631579%2C87.7368421 L28.736%2C87.736 L28.7368421%2C82.2631579 C28.7368421%2C81.5655351 29.3023772%2C81 30%2C81 Z%22 id%3D%22%E5%BD%A2%E7%8A%B6%E7%BB%93%E5%90%88%E5%A4%87%E4%BB%BD-5%22 fill%3D%22%23979797%22 fill-rule%3D%22nonzero%22 opacity%3D%220.4%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M48.0740865%2C0.0359272935 C49.5929693%2C0.423750577 51.0485652%2C1.0252724 52.4013202%2C1.82466325 C52.8838819%2C2.10959465 53.0737422%2C2.71903123 52.8522385%2C3.22557593 C52.3459442%2C4.3653015 52.5832697%2C5.66332228 53.4613737%2C6.54186074 C54.3394778%2C7.4203992 55.6368568%2C7.65784203 56.7760189%2C7.15129733 C57.290224%2C6.92176926 57.8914484%2C7.11172353 58.1762389%2C7.59452394 C58.9752345%2C8.94003329 59.5764589%2C10.3963493 59.9640905%2C11.9238981 C60.1064857%2C12.4700166 59.8137844%2C13.0319647 59.2916684%2C13.2298337 C58.1287738%2C13.6730603 57.3772433%2C14.7652973 57.3772433%2C16 C57.3772433%2C17.2347027 58.1287738%2C18.3269397 59.2916684%2C18.7701663 C59.8137844%2C18.9680353 60.1064857%2C19.5299834 59.9640905%2C20.0761019 C59.5764589%2C21.6036507 58.9752345%2C23.0599667 58.1683281%2C24.4054761 C57.8835375%2C24.8882765 57.2823131%2C25.0782307 56.768108%2C24.8487027 C55.628946%2C24.342158 54.331567%2C24.5796008 53.4534629%2C25.4581393 C52.5753588%2C26.3366777 52.3380334%2C27.6346985 52.8443276%2C28.7744241 C53.0737422%2C29.2888835 52.8838819%2C29.8904054 52.4013202%2C30.1753367 C51.0485652%2C30.9747276 49.6008801%2C31.5762494 48.0740865%2C31.9640727 C47.528238%2C32.1065384 46.9665679%2C31.8136922 46.7687967%2C31.291318 C46.3257892%2C30.1278482 45.2340922%2C29.3759459 44%2C29.3759459 C42.7659078%2C29.3759459 41.6742108%2C30.1278482 41.2312033%2C31.291318 C41.0255213%2C31.8136922 40.471762%2C32.1065384 39.9259135%2C31.9640727 C38.4070307%2C31.5762494 36.9514348%2C30.9747276 35.5986798%2C30.1753367 C35.1161181%2C29.8904054 34.9262578%2C29.2809688 35.1477615%2C28.7744241 C35.6540558%2C27.6346985 35.4167303%2C26.3366777 34.5386263%2C25.4581393 C33.6605222%2C24.5796008 32.3631432%2C24.342158 31.2239811%2C24.8487027 C30.709776%2C25.0782307 30.1085516%2C24.8882765 29.8237611%2C24.4054761 C29.0247655%2C23.0599667 28.4235411%2C21.6036507 28.0359095%2C20.0761019 C27.8935143%2C19.5299834 28.1862156%2C18.9680353 28.7083316%2C18.7701663 C29.8712262%2C18.3269397 30.6227567%2C17.2347027 30.6227567%2C16 C30.6227567%2C14.7652973 29.8712262%2C13.6730603 28.7083316%2C13.2298337 C28.1862156%2C13.0240499 27.8935143%2C12.4700166 28.0359095%2C11.9238981 C28.4235411%2C10.3963493 29.0247655%2C8.94003329 29.8316719%2C7.59452394 C30.1164625%2C7.11172353 30.7176869%2C6.92176926 31.231892%2C7.15129733 C32.371054%2C7.65784203 33.668433%2C7.4203992 34.5465371%2C6.54186074 C35.4167303%2C5.67123704 35.6619666%2C4.3653015 35.1556724%2C3.22557593 C34.9262578%2C2.71111647 35.1161181%2C2.10959465 35.5986798%2C1.82466325 C36.9435239%2C1.0252724 38.3991199%2C0.423750577 39.9259135%2C0.0359272935 C40.471762%2C-0.106538402 41.0334321%2C0.18630775 41.2312033%2C0.708681969 C41.6742108%2C1.87215182 42.7659078%2C2.6240541 44%2C2.6240541 C45.2340922%2C2.6240541 46.3257892%2C1.87215182 46.7687967%2C0.708681969 C46.9744787%2C0.18630775 47.528238%2C-0.106538402 48.0740865%2C0.0359272935 Z M48.9889809%2C16.3275718 C49.1870168%2C13.310864 46.6887179%2C10.8197946 43.6724791%2C11.0102433 C41.1817971%2C11.1626023 39.1709712%2C13.1813588 39.0110191%2C15.6724282 C38.8129832%2C18.689136 41.3112821%2C21.1802054 44.3275209%2C20.9897567 C46.8182029%2C20.8297798 48.8290288%2C18.8186412 48.9889809%2C16.3275718 Z%22 id%3D%22%E5%BD%A2%E7%8A%B6%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23F2F2F2%22 fill-rule%3D%22nonzero%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M226%2C117 C226.656586%2C117 227.196167%2C117.500958 227.257376%2C118.141507 L227.263158%2C118.263158 L227.263%2C123.736 L232.736842%2C123.736842 C233.434465%2C123.736842 234%2C124.302377 234%2C125 C234%2C125.656586 233.499042%2C126.196167 232.858493%2C126.257376 L232.736842%2C126.263158 L227.263%2C126.263 L227.263158%2C131.736842 C227.263158%2C132.434465 226.697623%2C133 226%2C133 C225.343414%2C133 224.803833%2C132.499042 224.742624%2C131.858493 L224.736842%2C131.736842 L224.736%2C126.263 L219.263158%2C126.263158 C218.565535%2C126.263158 218%2C125.697623 218%2C125 C218%2C124.343414 218.500958%2C123.803833 219.141507%2C123.742624 L219.263158%2C123.736842 L224.736%2C123.736 L224.736842%2C118.263158 C224.736842%2C117.565535 225.302377%2C117 226%2C117 Z%22 id%3D%22%E5%BD%A2%E7%8A%B6%E7%BB%93%E5%90%88%E5%A4%87%E4%BB%BD-6%22 fill%3D%22%23979797%22 fill-rule%3D%22nonzero%22 opacity%3D%220.4%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M169.426384%2C140.016421 C168.022935%2C148.782185 170.880807%2C153.165067 178%2C153.165067 C188.67879%2C153.165067 189.039859%2C153.640489 189.039859%2C161 C189.039859%2C165.906341 195.693239%2C167.906341 209%2C167%22 id%3D%22%E8%B7%AF%E5%BE%84-12%22 stroke%3D%22%23979797%22 stroke-width%3D%222%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M212.05702%2C163.31925 C214.70468%2C162.824806 217.35234%2C162.577585 220%2C162.577585 C222.64766%2C162.577585 225.29532%2C162.824806 227.94298%2C163.31925 C229.715226%2C163.650204 231%2C165.197117 231%2C167 C231%2C168.656854 229.656854%2C170 228%2C170 L212%2C170 C210.343146%2C170 209%2C168.656854 209%2C167 C209%2C165.197117 210.284774%2C163.650204 212.05702%2C163.31925 Z%22 id%3D%22%E7%9F%A9%E5%BD%A2%22 stroke%3D%22%23979797%22 stroke-width%3D%222%22 fill%3D%22%23F3F3F3%22%3E%3C%2Fpath%3E                    %3Crect id%3D%22%E7%9F%A9%E5%BD%A2%E5%A4%87%E4%BB%BD-6%22 stroke%3D%22%23979797%22 stroke-width%3D%222%22 fill%3D%22%23FFFFFF%22 x%3D%22218%22 y%3D%22161%22 width%3D%224%22 height%3D%225%22 rx%3D%222%22%3E%3C%2Frect%3E                    %3Cg id%3D%22%E7%BC%96%E7%BB%84-22%22 transform%3D%22translate(60.000000%2C 38.000000)%22%3E                        %3Cpolygon id%3D%22%E7%9F%A9%E5%BD%A2%E5%A4%87%E4%BB%BD-4%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23E5E5E5%22 points%3D%2264.4444444 86 85.5555556 86 90 129 60 129%22%3E%3C%2Fpolygon%3E                        %3Crect id%3D%22%E7%9F%A9%E5%BD%A2%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23FFFFFF%22 x%3D%220%22 y%3D%220%22 width%3D%22149%22 height%3D%22106%22 rx%3D%228%22%3E%3C%2Frect%3E                        %3Crect id%3D%22%E7%9F%A9%E5%BD%A2%E5%A4%87%E4%BB%BD-3%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23FFFFFF%22 x%3D%229%22 y%3D%229%22 width%3D%22131%22 height%3D%2289%22 rx%3D%224%22%3E%3C%2Frect%3E                        %3Cg id%3D%22%E7%BC%96%E7%BB%84%22 transform%3D%22translate(55.000000%2C 32.000000)%22 fill%3D%22%23979797%22 fill-rule%3D%22nonzero%22%3E                            %3Cpath d%3D%22M37.7204233%2C25.7280335 C36.8307907%2C25.5481171 35.7632316%2C26.0878661 35.585305%2C26.9874477 C33.8060397%2C34.3640167 27.4006849%2C39.4016736 19.9277708%2C39.4016736 C11.0314445%2C39.4016736 3.73645699%2C32.0251046 3.73645699%2C23.0292887 C3.73645699%2C14.0334728 11.0314445%2C6.65690375 19.9277708%2C6.65690375 C24.0200809%2C6.65690375 28.1123909%2C8.27615062 30.9592154%2C11.1548117 L23.4863013%2C11.1548117 C22.5966687%2C11.1548117 21.707036%2C11.874477 21.7070361%2C12.9539749 C21.7070361%2C13.8535565 22.4187422%2C14.7531381 23.4863013%2C14.7531381 L34.5177459%2C14.7531381 C35.4073785%2C14.7531381 36.2970111%2C14.0334728 36.2970111%2C12.9539749 L36.2970111%2C1.7991632 C36.2970111%2C0.89958162 35.585305%2C0 34.5177459%2C0 C33.6281132%2C0 32.7384806%2C0.719665288 32.7384806%2C1.7991632 L32.7384806%2C8.09623433 C29.1799501%2C4.8577406 24.5538604%2C3.05857744 19.7498443%2C3.0585774 C8.89632622%2C3.0585774 0%2C12.0543933 0%2C23.0292887 C0%2C34.0041841 8.89632626%2C43 19.7498443%2C43 C28.824097%2C43 36.6528641%2C36.7029289 38.965909%2C27.8870293 C39.1438355%2C26.9874477 38.6100559%2C26.0878661 37.7204233%2C25.7280335 Z%22 id%3D%22%E8%B7%AF%E5%BE%84%22%3E%3C%2Fpath%3E                        %3C%2Fg%3E                        %3Crect id%3D%22%E7%9F%A9%E5%BD%A2%E5%A4%87%E4%BB%BD-5%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23F2F2F2%22 x%3D%2247%22 y%3D%22128%22 width%3D%2257%22 height%3D%227%22 rx%3D%223.5%22%3E%3C%2Frect%3E                    %3C%2Fg%3E                %3C%2Fg%3E            %3C%2Fg%3E        %3C%2Fg%3E    %3C%2Fg%3E%3C%2Fsvg%3E\")}.gk-alert-container .gk-alert-text{color:#000;font-size:16px;height:22px;line-height:22px;margin-top:24px;opacity:.85;vertical-align:top}.gk-alert-container .gk-alert-button{background-color:#3266fb;border-radius:8px;color:#fff;cursor:pointer;display:inline-block;font-size:16px;height:40px;line-height:40px;margin-top:40px;vertical-align:top;width:96px}"]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-alert',
+            template: "<div class=\"gk-alert-container\">\n    <div class=\"gk-alert-image\" [ngClass]=\"['status-' + status]\"></div>\n    <div class=\"gk-alert-text\">{{ statusText }}</div>\n    <a *ngIf=\"!hideButton\" class=\"gk-alert-button\" [routerLink]=\"[homeHref]\">\u56DE\u5230\u9996\u9875</a>\n</div>\n",
+            styles: [".gk-alert-container{display:inline-block;text-align:center;width:560px}.gk-alert-container .gk-alert-image{display:inline-block;height:200px;vertical-align:top;width:326px}.gk-alert-container .gk-alert-image.status-401{background-image:url(\"data:image/svg+xml,%3C%3Fxml version%3D%221.0%22 encoding%3D%22UTF-8%22%3F%3E%3Csvg width%3D%22326px%22 height%3D%22200px%22 viewBox%3D%220 0 326 200%22 version%3D%221.1%22 xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E    %3Ctitle%3E%E7%BC%96%E7%BB%84 18%3C%2Ftitle%3E    %3Cg id%3D%22Components%22 stroke%3D%22none%22 stroke-width%3D%221%22 fill%3D%22none%22 fill-rule%3D%22evenodd%22%3E        %3Cg id%3D%225.%E5%8F%8D%E9%A6%88%2F7.Result%E7%BB%93%E6%9E%9C%2F%E6%97%A0%E6%9D%83%E9%99%90%22 transform%3D%22translate(-117.000000%2C 0.000000)%22%3E            %3Cg id%3D%22%E7%BC%96%E7%BB%84-18%22 transform%3D%22translate(117.000000%2C 0.000000)%22%3E                %3Crect id%3D%22%E7%9F%A9%E5%BD%A2%22 x%3D%220%22 y%3D%220%22 width%3D%22326%22 height%3D%22200%22%3E%3C%2Frect%3E                %3Cg id%3D%22%E7%BC%96%E7%BB%84-17%22 transform%3D%22translate(30.000000%2C 1.000000)%22%3E                    %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%22 fill%3D%22%23F3F3F3%22 cx%3D%22133%22 cy%3D%22183%22 rx%3D%2298%22 ry%3D%2212%22%3E%3C%2Fellipse%3E                    %3Cg id%3D%22%E7%BC%96%E7%BB%84-19%22 transform%3D%22translate(57.000000%2C 65.000000)%22%3E                        %3Crect id%3D%22%E7%9F%A9%E5%BD%A2%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23FFFFFF%22 x%3D%220.5%22 y%3D%22-1.5%22 width%3D%22151%22 height%3D%22118%22 rx%3D%228%22%3E%3C%2Frect%3E                        %3Cpath d%3D%22M10%2C0 L142%2C0 C146.418278%2C-8.11624501e-16 150%2C3.581722 150%2C8 L150%2C23 L150%2C23 L2%2C23 L2%2C8 C2%2C3.581722 5.581722%2C8.11624501e-16 10%2C0 Z%22 id%3D%22%E7%9F%A9%E5%BD%A2%22 fill%3D%22%23E5E5E5%22%3E%3C%2Fpath%3E                        %3Cline x1%3D%220.447058824%22 y1%3D%2222.5%22 x2%3D%22151.552941%22 y2%3D%2222.5%22 id%3D%22%E7%9B%B4%E7%BA%BF-2%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 stroke-linecap%3D%22square%22%3E%3C%2Fline%3E                        %3Cline x1%3D%22119%22 y1%3D%227%22 x2%3D%22125%22 y2%3D%2214%22 id%3D%22%E8%B7%AF%E5%BE%84-11%22 stroke%3D%22%23979797%22 stroke-width%3D%222%22%3E%3C%2Fline%3E                        %3Ccircle id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%22 stroke%3D%22%23979797%22 stroke-width%3D%222%22 cx%3D%22135.5%22 cy%3D%2210.5%22 r%3D%223.5%22%3E%3C%2Fcircle%3E                        %3Cline x1%3D%22119%22 y1%3D%227%22 x2%3D%22125%22 y2%3D%2214%22 id%3D%22%E8%B7%AF%E5%BE%84-11%E5%A4%87%E4%BB%BD%22 stroke%3D%22%23979797%22 stroke-width%3D%222%22 transform%3D%22translate(122.000000%2C 10.500000) scale(-1%2C 1) translate(-122.000000%2C -10.500000) %22%3E%3C%2Fline%3E                    %3C%2Fg%3E                    %3Cg id%3D%22%E7%BC%96%E7%BB%84%22 transform%3D%22translate(112.000000%2C 106.000000)%22 fill-rule%3D%22nonzero%22%3E                        %3Cpath d%3D%22M38%2C21 L34.7%2C21 L34.7%2C16.5876777 C34.7%2C9.25878057 28.7901587%2C3.31753555 21.5%2C3.31753555 C14.2098413%2C3.31753555 8.3%2C9.25878057 8.3%2C16.5876777 L8.3%2C21 L5%2C21 L5%2C16.5876777 C5%2C7.42655628 12.3873016%2C0 21.5%2C0 C30.6126984%2C0 38%2C7.42655628 38%2C16.5876777 L38%2C21 Z%22 id%3D%22%E8%B7%AF%E5%BE%84%22 fill%3D%22%23979797%22%3E%3C%2Fpath%3E                        %3Cpath d%3D%22M38.0294802%2C55 L4.97051978%2C55 C2.21999019%2C54.9816229 0%2C52.7418168 0%2C49.9852507 L0%2C26.0147493 C0%2C23.2581832 2.21999019%2C21.0183771 4.97051978%2C21 L38.0294802%2C21 C40.7800098%2C21.0183771 43%2C23.2581832 43%2C26.0147493 L43%2C49.9852507 C43%2C52.7418168 40.7800098%2C54.9816229 38.0294802%2C55 Z%22 id%3D%22%E5%BD%A2%E7%8A%B6%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23F2F2F2%22%3E%3C%2Fpath%3E                        %3Cpath d%3D%22M22.0318315%2C42 C19.6022452%2C42.0127706 17.4047347%2C40.559118 16.4660513%2C38.3181535 C15.5273679%2C36.0771891 16.0328295%2C33.4913312 17.7462674%2C31.7687804 C19.4597054%2C30.0462295 22.042847%2C29.5270573 24.2887611%2C30.4538386 C26.5346752%2C31.3806199 28%2C33.5703865 28%2C36 C28%2C39.3013062 25.3330884%2C41.9824482 22.0318315%2C42 L22.0318315%2C42 Z M22%2C33 C20.3431458%2C33 19%2C34.3431458 19%2C36 C19%2C37.6568542 20.3431458%2C39 22%2C39 C23.6568542%2C39 25%2C37.6568542 25%2C36 C25%2C34.3431458 23.6568542%2C33 22%2C33 L22%2C33 Z%22 id%3D%22%E5%BD%A2%E7%8A%B6%22 fill%3D%22%23979797%22%3E%3C%2Fpath%3E                        %3Cpath d%3D%22M22%2C48 C20.8954305%2C48 20%2C47.2865096 20%2C46.4063745 L20%2C41.5936255 C20%2C40.7134904 20.8954305%2C40 22%2C40 C23.1045695%2C40 24%2C40.7134904 24%2C41.5936255 L24%2C46.4063745 C24%2C47.2865096 23.1045695%2C48 22%2C48 Z%22 id%3D%22%E8%B7%AF%E5%BE%84%22 fill%3D%22%23979797%22%3E%3C%2Fpath%3E                    %3C%2Fg%3E                    %3Ccircle id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-14%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 opacity%3D%220.39%22 cx%3D%22249%22 cy%3D%2232%22 r%3D%226%22%3E%3C%2Fcircle%3E                    %3Cpath d%3D%22M23%2C59.9518301 C33.6421532%2C45.6685856 51.7249284%2C43.1106779 77.2483254%2C52.278107 C106.627421%2C62.7602463 121.189137%2C24.4238586 99.8325378%2C22.966992 C86.2977408%2C21.7452157 84.0926228%2C39.1850219 88.8966444%2C41.3655239 C93.700666%2C43.5460259 103.774148%2C48.5662887 124.929333%2C34.3582007 C143.578502%2C20.5537994 192.45919%2C12.4719082 203.288327%2C30.0757333 C214.117464%2C47.6795584 168.346511%2C52.4848037 168.344056%2C43.1355678 C168.341602%2C33.7863319 177.42376%2C34.4737979 179.682529%2C34.372589 C205.883072%2C35.1735399 211.575569%2C57.6760441 243.14272%2C46.1840197%22 id%3D%22%E8%B7%AF%E5%BE%84-9%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 opacity%3D%220.389868024%22 stroke-dasharray%3D%224%2C4%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M8%2C126 C8.6565862%2C126 9.19616731%2C126.500958 9.25737551%2C127.141507 L9.26315789%2C127.263158 L9.263%2C132.736 L14.7368421%2C132.736842 C15.4344649%2C132.736842 16%2C133.302377 16%2C134 C16%2C134.656586 15.4990416%2C135.196167 14.8584926%2C135.257376 L14.7368421%2C135.263158 L9.263%2C135.263 L9.26315789%2C140.736842 C9.26315789%2C141.434465 8.69762284%2C142 8%2C142 C7.3434138%2C142 6.80383269%2C141.499042 6.74262449%2C140.858493 L6.73684211%2C140.736842 L6.736%2C135.263 L1.26315789%2C135.263158 C0.565535053%2C135.263158 0%2C134.697623 0%2C134 C0%2C133.343414 0.500958386%2C132.803833 1.14150736%2C132.742624 L1.26315789%2C132.736842 L6.736%2C132.736 L6.73684211%2C127.263158 C6.73684211%2C126.565535 7.30237716%2C126 8%2C126 Z%22 id%3D%22%E5%BD%A2%E7%8A%B6%E7%BB%93%E5%90%88%22 fill%3D%22%23979797%22 fill-rule%3D%22nonzero%22 opacity%3D%220.4%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M258%2C76 C258.656586%2C76 259.196167%2C76.5009584 259.257376%2C77.1415074 L259.263158%2C77.2631579 L259.263%2C82.736 L264.736842%2C82.7368421 C265.434465%2C82.7368421 266%2C83.3023772 266%2C84 C266%2C84.6565862 265.499042%2C85.1961673 264.858493%2C85.2573755 L264.736842%2C85.2631579 L259.263%2C85.263 L259.263158%2C90.7368421 C259.263158%2C91.4344649 258.697623%2C92 258%2C92 C257.343414%2C92 256.803833%2C91.4990416 256.742624%2C90.8584926 L256.736842%2C90.7368421 L256.736%2C85.263 L251.263158%2C85.2631579 C250.565535%2C85.2631579 250%2C84.6976228 250%2C84 C250%2C83.3434138 250.500958%2C82.8038327 251.141507%2C82.7426245 L251.263158%2C82.7368421 L256.736%2C82.736 L256.736842%2C77.2631579 C256.736842%2C76.5655351 257.302377%2C76 258%2C76 Z%22 id%3D%22%E5%BD%A2%E7%8A%B6%E7%BB%93%E5%90%88%E5%A4%87%E4%BB%BD-4%22 fill%3D%22%23979797%22 fill-rule%3D%22nonzero%22 opacity%3D%220.4%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M158.5%2C3 C164.29899%2C3 169%2C7.70101013 169%2C13.5 C169%2C18.4654763 165.553262%2C22.6259238 160.92179%2C23.719337 L160.921%2C27.961 L162.504892%2C27.961334 C163.609461%2C27.961334 164.504892%2C28.8567645 164.504892%2C29.961334 C164.504892%2C31.0659035 163.609461%2C31.961334 162.504892%2C31.961334 L160.921%2C31.961 L160.921183%2C38.0650601 C160.921183%2C39.9980567 159.35418%2C41.5650601 157.421183%2C41.5650601 C155.488187%2C41.5650601 153.921183%2C39.9980567 153.921183%2C38.0650601 L153.921248%2C22.9517379 C150.416332%2C21.2506897 148%2C17.6575272 148%2C13.5 C148%2C7.70101013 152.70101%2C3 158.5%2C3 Z M158.5%2C10.2413793 C156.700313%2C10.2413793 155.241379%2C11.7003135 155.241379%2C13.5 C155.241379%2C15.2996865 156.700313%2C16.7586207 158.5%2C16.7586207 C160.299687%2C16.7586207 161.758621%2C15.2996865 161.758621%2C13.5 C161.758621%2C11.7003135 160.299687%2C10.2413793 158.5%2C10.2413793 Z%22 id%3D%22%E5%BD%A2%E7%8A%B6%E7%BB%93%E5%90%88%22 stroke%3D%22%23979797%22 stroke-width%3D%222%22 fill%3D%22%23F2F2F2%22 transform%3D%22translate(158.500000%2C 22.282530) rotate(39.000000) translate(-158.500000%2C -22.282530) %22%3E%3C%2Fpath%3E                %3C%2Fg%3E            %3C%2Fg%3E        %3C%2Fg%3E    %3C%2Fg%3E%3C%2Fsvg%3E\")}.gk-alert-container .gk-alert-image.status-404{background-image:url(\"data:image/svg+xml,%3C%3Fxml version%3D%221.0%22 encoding%3D%22UTF-8%22%3F%3E%3Csvg width%3D%22326px%22 height%3D%22200px%22 viewBox%3D%220 0 326 200%22 version%3D%221.1%22 xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E    %3Ctitle%3E%E7%BC%96%E7%BB%84 6%3C%2Ftitle%3E    %3Cg id%3D%22Components%22 stroke%3D%22none%22 stroke-width%3D%221%22 fill%3D%22none%22 fill-rule%3D%22evenodd%22%3E        %3Cg id%3D%225.%E5%8F%8D%E9%A6%88%2F7.Result%E7%BB%93%E6%9E%9C%2F404%22 transform%3D%22translate(-117.000000%2C 1.000000)%22%3E            %3Cg id%3D%22%E7%BC%96%E7%BB%84-6%22 transform%3D%22translate(117.000000%2C 0.000000)%22%3E                %3Crect id%3D%22%E8%92%99%E7%89%88%22 x%3D%220%22 y%3D%220%22 width%3D%22326%22 height%3D%22200%22%3E%3C%2Frect%3E                %3Cg id%3D%22%E7%BC%96%E7%BB%84-4%22 transform%3D%22translate(36.000000%2C 1.000000)%22%3E                    %3Cg id%3D%22%E7%BC%96%E7%BB%84-11%22 transform%3D%22translate(117.518669%2C 77.572400) rotate(-14.000000) translate(-117.518669%2C -77.572400) translate(37.518669%2C 17.572400)%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22%3E                        %3Cline x1%3D%2223.592843%22 y1%3D%2295.4972973%22 x2%3D%2213.0448549%22 y2%3D%22119.983784%22 id%3D%22%E8%B7%AF%E5%BE%84-3%22 stroke-linecap%3D%22round%22%3E%3C%2Fline%3E                        %3Cline x1%3D%2231.7968338%22 y1%3D%2298.0899841%22 x2%3D%2230.6248351%22 y2%3D%22114.222258%22 id%3D%22%E8%B7%AF%E5%BE%84-3%E5%A4%87%E4%BB%BD%22 stroke-linecap%3D%22round%22%3E%3C%2Fline%3E                        %3Cline x1%3D%2279.8997361%22 y1%3D%222.59148649%22 x2%3D%2279.8997361%22 y2%3D%2219.4463514%22 id%3D%22%E7%9B%B4%E7%BA%BF%22 stroke-linecap%3D%22square%22%3E%3C%2Fline%3E                        %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-6%22 fill%3D%22%23FFFFFF%22 cx%3D%2279.8997361%22 cy%3D%223.26486486%22 rx%3D%223.26121372%22 ry%3D%223.26486486%22%3E%3C%2Fellipse%3E                        %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%22 fill%3D%22%23F9F9F9%22 cx%3D%2280.3073879%22 cy%3D%2250.6054054%22 rx%3D%2247.6952507%22 ry%3D%2234.2810811%22%3E%3C%2Fellipse%3E                        %3Cpath d%3D%22M140.110861%2C96.2746021 C152.371934%2C90.392528 159.799472%2C82.6973988 159.799472%2C74.2756757 C159.799472%2C55.7935412 124.027142%2C40.8108108 79.8997361%2C40.8108108 C35.7723304%2C40.8108108 7.4151415e-13%2C55.7935412 7.4151415e-13%2C74.2756757 C7.4151415e-13%2C92.7578102 35.7723304%2C107.740541 79.8997361%2C107.740541 C96.0844735%2C107.740541 111.145266%2C105.725028 123.72937%2C102.260581%22 id%3D%22%E8%B7%AF%E5%BE%84%22 fill%3D%22%23FFFFFF%22%3E%3C%2Fpath%3E                        %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-2%22 fill-opacity%3D%220.1%22 fill%3D%22%23000000%22 cx%3D%2280.9040095%22 cy%3D%2284.6374689%22 rx%3D%2238.7269129%22 ry%3D%2216.7324324%22%3E%3C%2Fellipse%3E                        %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%22 fill%3D%22%23FFFFFF%22 cx%3D%2230.7974628%22 cy%3D%2271.3461836%22 rx%3D%227.74538259%22 ry%3D%227.75405405%22%3E%3C%2Fellipse%3E                        %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-3%22 fill%3D%22%23FFFFFF%22 cx%3D%2259.3330829%22 cy%3D%2255.8380755%22 rx%3D%227.74538259%22 ry%3D%227.75405405%22%3E%3C%2Fellipse%3E                        %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-4%22 fill%3D%22%23FFFFFF%22 cx%3D%22102.544165%22 cy%3D%2255.8380755%22 rx%3D%227.74538259%22 ry%3D%227.75405405%22%3E%3C%2Fellipse%3E                        %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-5%22 fill%3D%22%23FFFFFF%22 cx%3D%22130.264481%22 cy%3D%2271.3461836%22 rx%3D%227.74538259%22 ry%3D%227.75405405%22%3E%3C%2Fellipse%3E                        %3Cline x1%3D%22146.754617%22 y1%3D%2295.4972973%22 x2%3D%22136.206629%22 y2%3D%22119.983784%22 id%3D%22%E8%B7%AF%E5%BE%84-3%E5%A4%87%E4%BB%BD-2%22 stroke-linecap%3D%22round%22 transform%3D%22translate(141.480623%2C 107.740541) scale(-1%2C 1) translate(-141.480623%2C -107.740541) %22%3E%3C%2Fline%3E                        %3Cline x1%3D%22129.174637%22 y1%3D%2298.0899841%22 x2%3D%22128.002639%22 y2%3D%22114.222258%22 id%3D%22%E8%B7%AF%E5%BE%84-3%E5%A4%87%E4%BB%BD-3%22 stroke-linecap%3D%22round%22 transform%3D%22translate(128.588638%2C 106.156121) scale(-1%2C 1) translate(-128.588638%2C -106.156121) %22%3E%3C%2Fline%3E                    %3C%2Fg%3E                    %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-7%22 fill%3D%22%23F3F3F3%22 cx%3D%22129.27145%22 cy%3D%22189.406199%22 rx%3D%2252.590517%22 ry%3D%227.75355913%22%3E%3C%2Fellipse%3E                    %3Cpath d%3D%22M0.852161841%2C187.147894 C10.7863948%2C169.73153 20.9532545%2C168.002067 31.3527412%2C181.959505%22 id%3D%22%E8%B7%AF%E5%BE%84-4%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 stroke-linecap%3D%22round%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M15.7539316%2C189.600298 C34.1215202%2C181.294211 52.4906121%2C178.714377 70.8612072%2C181.860797%22 id%3D%22%E8%B7%AF%E5%BE%84-5%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 stroke-linecap%3D%22round%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M173.710337%2C196.802247 C202.735636%2C181.98336 229.751059%2C176.994998 254.756605%2C181.837162%22 id%3D%22%E8%B7%AF%E5%BE%84-5%E5%A4%87%E4%BB%BD%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 stroke-linecap%3D%22round%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M186.82416%2C160.900646 C186.82416%2C160.900646 197.563706%2C157.375747 214.546602%2C162.087156%22 id%3D%22%E8%B7%AF%E5%BE%84-5%E5%A4%87%E4%BB%BD-2%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 stroke-linecap%3D%22round%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M222%2C168 C230.269038%2C141.987551 240.269038%2C141.349383 252%2C166.085498%22 id%3D%22%E8%B7%AF%E5%BE%84-6%E5%A4%87%E4%BB%BD%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23FFFFFF%22 stroke-linecap%3D%22round%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M15.919278%2C114.705684 C16.5556786%2C114.705684 17.0786712%2C115.190698 17.1379977%2C115.810861 L17.1436023%2C115.928639 L17.1428954%2C121.226684 L22.4417054%2C121.226742 C23.1171249%2C121.226742 23.6646606%2C121.774891 23.6646606%2C122.451067 C23.6646606%2C123.087467 23.1796463%2C123.61046 22.5594842%2C123.669786 L22.4417054%2C123.675391 L17.1428954%2C123.674684 L17.1436023%2C128.973494 C17.1436023%2C129.648914 16.5954536%2C130.196449 15.919278%2C130.196449 C15.2828774%2C130.196449 14.7598847%2C129.711435 14.7005583%2C129.091273 L14.6949537%2C128.973494 L14.6948954%2C123.674684 L9.39685055%2C123.675391 C8.72143108%2C123.675391 8.17389541%2C123.127242 8.17389541%2C122.451067 C8.17389541%2C121.814666 8.6589097%2C121.291674 9.27907181%2C121.232347 L9.39685055%2C121.226742 L14.6948954%2C121.226684 L14.6949537%2C115.928639 C14.6949537%2C115.25322 15.2431023%2C114.705684 15.919278%2C114.705684 Z%22 id%3D%22%E5%BD%A2%E7%8A%B6%E7%BB%93%E5%90%88%E5%A4%87%E4%BB%BD-2%22 fill%3D%22%23979797%22 fill-rule%3D%22nonzero%22 opacity%3D%220.4%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M227.900061%2C69.0562762 C228.536461%2C69.0562762 229.059454%2C69.5412905 229.11878%2C70.1614526 L229.124385%2C70.2792314 L229.123678%2C75.5772762 L234.422488%2C75.5773345 C235.097908%2C75.5773345 235.645443%2C76.1254831 235.645443%2C76.8016588 C235.645443%2C77.4380594 235.160429%2C77.961052 234.540267%2C78.0203785 L234.422488%2C78.0259831 L229.123678%2C78.0252762 L229.124385%2C83.3240862 C229.124385%2C83.9995057 228.576236%2C84.5470414 227.900061%2C84.5470414 C227.26366%2C84.5470414 226.740668%2C84.0620271 226.681341%2C83.441865 L226.675736%2C83.3240862 L226.675678%2C78.0252762 L221.377633%2C78.0259831 C220.702214%2C78.0259831 220.154678%2C77.4778344 220.154678%2C76.8016588 C220.154678%2C76.1652582 220.639692%2C75.6422655 221.259855%2C75.5829391 L221.377633%2C75.5773345 L226.675678%2C75.5772762 L226.675736%2C70.2792314 C226.675736%2C69.6038119 227.223885%2C69.0562762 227.900061%2C69.0562762 Z%22 id%3D%22%E5%BD%A2%E7%8A%B6%E7%BB%93%E5%90%88%E5%A4%87%E4%BB%BD-3%22 fill%3D%22%23979797%22 fill-rule%3D%22nonzero%22 opacity%3D%220.4%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M0%2C46.9518301 C10.6421532%2C32.6685856 28.7249284%2C30.1106779 54.2483254%2C39.278107 C83.6274208%2C49.7602463 98.189137%2C11.4238586 76.8325378%2C9.96699195 C63.2977408%2C8.74521568 61.0926228%2C26.1850219 65.8966444%2C28.3655239 C70.700666%2C30.5460259 80.774148%2C35.5662887 101.929333%2C21.3582007 C120.578502%2C7.55379942 169.45919%2C-0.528091772 180.288327%2C17.0757333 C191.117464%2C34.6795584 145.346511%2C39.4848037 145.344056%2C30.1355678 C145.341602%2C20.7863319 154.42376%2C21.4737979 156.682529%2C21.372589 C182.883072%2C22.1735399 188.575569%2C44.6760441 220.14272%2C33.1840197%22 id%3D%22%E8%B7%AF%E5%BE%84-9%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 opacity%3D%220.389868024%22 stroke-dasharray%3D%224%2C4%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M117.37589%2C166.6623 C117.745495%2C166.6623 118.039004%2C166.629651 118.256418%2C166.564354 C118.430349%2C165.19311 118.571669%2C163.974228 118.680376%2C162.907705 C119.636998%2C162.77711 120.952355%2C162.537687 122.626444%2C162.189435 C122.626444%2C161.318804 122.539479%2C160.687597 122.365547%2C160.295813 C121.930719%2C160.36111 120.767553%2C160.480822 118.876049%2C160.654948 C119.006497%2C159.479597 119.223911%2C157.205074 119.528291%2C153.831381 C118.615152%2C153.657255 117.952038%2C153.613723 117.538951%2C153.700786 L117.538951%2C153.700786 L116.625811%2C160.883489 C115.23436%2C160.992318 113.582012%2C161.046732 111.668766%2C161.046732 C109.190244%2C161.046732 107.624861%2C160.959669 106.972619%2C160.785543 C107.124808%2C158.630732 107.537896%2C156.182083 108.21188%2C153.439597 C108.429294%2C152.590732 109.103278%2C150.207381 110.233832%2C146.289543 C109.646814%2C145.919525 109.016312%2C145.71275 108.342328%2C145.669219 C105.733357%2C152.220714 104.428872%2C157.890696 104.428872%2C162.679165 C106.168186%2C163.158011 108.581484%2C163.397435 111.668766%2C163.397435 C113.473305%2C163.397435 115.060429%2C163.332137 116.430138%2C163.201543 C116.343173%2C164.638083 116.29969%2C165.726372 116.29969%2C166.466408 C116.60407%2C166.597002 116.962803%2C166.6623 117.37589%2C166.6623 Z M135.964808%2C166.6623 C138.530297%2C166.6623 140.856629%2C165.68284 142.943806%2C163.723921 C145.009241%2C161.743237 146.041959%2C159.479597 146.041959%2C156.933002 C146.041959%2C153.167525 144.791827%2C150.272678 142.291563%2C148.248462 C141.748027%2C148.531417 141.269716%2C149.010264 140.856629%2C149.685002 C141.987183%2C150.990948 142.737262%2C152.068354 143.106867%2C152.917219 C143.541695%2C153.918444 143.759109%2C155.202624 143.759109%2C156.769759 C143.759109%2C158.598083 142.922064%2C160.339345 141.247975%2C161.993543 C139.552144%2C163.647741 137.791088%2C164.47484 135.964808%2C164.47484 C133.790666%2C164.47484 131.877421%2C163.702155 130.225072%2C162.156786 C128.594465%2C160.633183 127.779162%2C158.793975 127.779162%2C156.639165 C127.779162%2C154.440822 128.496629%2C152.47102 129.931563%2C150.729759 C131.453463%2C148.901435 133.290613%2C147.987273 135.443014%2C147.987273 C136.834465%2C147.987273 138.225917%2C148.335525 139.617368%2C149.032029 C139.856524%2C148.879669 140.095679%2C148.61848 140.334835%2C148.248462 C140.573991%2C147.90021 140.693568%2C147.595489 140.693568%2C147.3343 C140.10655%2C146.833687 139.291246%2C146.420137 138.247658%2C146.093651 C137.291035%2C145.810696 136.399637%2C145.669219 135.573463%2C145.669219 C132.681853%2C145.669219 130.246814%2C146.757507 128.268344%2C148.934083 C126.333357%2C151.023597 125.365864%2C153.52666 125.365864%2C156.443273 C125.365864%2C159.359885 126.398582%2C161.786768 128.464017%2C163.723921 C130.529452%2C165.68284 133.029716%2C166.6623 135.964808%2C166.6623 Z M161.728397%2C166.6623 C162.098001%2C166.6623 162.39151%2C166.629651 162.608925%2C166.564354 C162.782856%2C165.19311 162.924175%2C163.974228 163.032882%2C162.907705 C163.989505%2C162.77711 165.304861%2C162.537687 166.978951%2C162.189435 C166.978951%2C161.318804 166.891985%2C160.687597 166.718054%2C160.295813 C166.283225%2C160.36111 165.120059%2C160.480822 163.228555%2C160.654948 C163.359004%2C159.479597 163.576418%2C157.205074 163.880798%2C153.831381 C162.967658%2C153.657255 162.304545%2C153.613723 161.891458%2C153.700786 L161.891458%2C153.700786 L160.978318%2C160.883489 C159.586867%2C160.992318 157.934518%2C161.046732 156.021273%2C161.046732 C153.54275%2C161.046732 151.977368%2C160.959669 151.325125%2C160.785543 C151.477315%2C158.630732 151.890402%2C156.182083 152.564386%2C153.439597 C152.781801%2C152.590732 153.455785%2C150.207381 154.586339%2C146.289543 C153.99932%2C145.919525 153.368819%2C145.71275 152.694835%2C145.669219 C150.085864%2C152.220714 148.781378%2C157.890696 148.781378%2C162.679165 C150.520692%2C163.158011 152.933991%2C163.397435 156.021273%2C163.397435 C157.825811%2C163.397435 159.412935%2C163.332137 160.782645%2C163.201543 C160.695679%2C164.638083 160.652196%2C165.726372 160.652196%2C166.466408 C160.956576%2C166.597002 161.31531%2C166.6623 161.728397%2C166.6623 Z%22 id%3D%22404%22 fill-opacity%3D%220.45%22 fill%3D%22%23000000%22 fill-rule%3D%22nonzero%22 transform%3D%22translate(135.703911%2C 156.165759) rotate(-10.000000) translate(-135.703911%2C -156.165759) %22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M209.657032%2C171.879824 C215.500168%2C149.591313 222.56645%2C149.044506 230.855878%2C170.239401%22 id%3D%22%E8%B7%AF%E5%BE%84-6%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23FFFFFF%22 stroke-linecap%3D%22round%22%3E%3C%2Fpath%3E                %3C%2Fg%3E            %3C%2Fg%3E        %3C%2Fg%3E    %3C%2Fg%3E%3C%2Fsvg%3E\")}.gk-alert-container .gk-alert-image.status-500{background-image:url(\"data:image/svg+xml,%3C%3Fxml version%3D%221.0%22 encoding%3D%22UTF-8%22%3F%3E%3Csvg width%3D%22326px%22 height%3D%22200px%22 viewBox%3D%220 0 326 200%22 version%3D%221.1%22 xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E    %3Ctitle%3E%E7%BC%96%E7%BB%84 16%3C%2Ftitle%3E    %3Cdefs%3E        %3Cellipse id%3D%22path-1%22 cx%3D%2261.4998135%22 cy%3D%2261.9346409%22 rx%3D%2261.5%22 ry%3D%2261.5838926%22%3E%3C%2Fellipse%3E    %3C%2Fdefs%3E    %3Cg id%3D%22Components%22 stroke%3D%22none%22 stroke-width%3D%221%22 fill%3D%22none%22 fill-rule%3D%22evenodd%22%3E        %3Cg id%3D%225.%E5%8F%8D%E9%A6%88%2F7.Result%E7%BB%93%E6%9E%9C%2F500%22 transform%3D%22translate(-116.000000%2C 2.000000)%22%3E            %3Cg id%3D%22%E7%BC%96%E7%BB%84-16%22 transform%3D%22translate(117.000000%2C 0.000000)%22%3E                %3Crect id%3D%22%E7%9F%A9%E5%BD%A2%22 x%3D%220%22 y%3D%220%22 width%3D%22326%22 height%3D%22200%22%3E%3C%2Frect%3E                %3Cg id%3D%22%E7%BC%96%E7%BB%84-15%22%3E                    %3Cpath d%3D%22M0%2C52.4975591 C16.7137944%2C62.3484795 33.938449%2C61.006607 51.6739638%2C48.4719414 C78.2772361%2C29.6699431 83.4968142%2C19.533958 103.489268%2C19.533958 C139.97142%2C19.533958 82.903957%2C57.6211552 96.2340016%2C26.6278396 C109.564046%2C-4.36547602 137.210651%2C1.40013087 166.370124%2C22.2979305 C195.529597%2C43.1957301 214.568903%2C36.6593599 239%2C28.7521373%22 id%3D%22%E8%B7%AF%E5%BE%84-10%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 opacity%3D%220.4%22 stroke-dasharray%3D%224%2C4%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M237%2C168.261766 C242.721616%2C148.373384 249.721616%2C149.286129 258%2C171%22 id%3D%22%E8%B7%AF%E5%BE%84-6%E5%A4%87%E4%BB%BD-2%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 stroke-linecap%3D%22round%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M221%2C172 C225.96629%2C152.492295 231.96629%2C152.012118 239%2C170.559467%22 id%3D%22%E8%B7%AF%E5%BE%84-6%E5%A4%87%E4%BB%BD-3%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23FFFFFF%22 stroke-linecap%3D%22round%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M26%2C150 C30.9662904%2C130.492295 36.9662904%2C130.012118 44%2C148.559467%22 id%3D%22%E8%B7%AF%E5%BE%84-6%E5%A4%87%E4%BB%BD-5%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23FFFFFF%22 stroke-linecap%3D%22round%22%3E%3C%2Fpath%3E                    %3Cg id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD%22 transform%3D%22translate(93.000000%2C 41.000000)%22%3E                        %3Cmask id%3D%22mask-2%22 fill%3D%22white%22%3E                            %3Cuse xlink%3Ahref%3D%22%23path-1%22%3E%3C%2Fuse%3E                        %3C%2Fmask%3E                        %3Cellipse stroke%3D%22%23979797%22 stroke-width%3D%223%22 cx%3D%2261.4998135%22 cy%3D%2261.9346409%22 rx%3D%2263%22 ry%3D%2263.0838926%22%3E%3C%2Fellipse%3E                        %3Cellipse stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23F9F9F9%22 mask%3D%22url(%23mask-2)%22 cx%3D%2268.1484622%22 cy%3D%228.67289592%22 rx%3D%2220.6148649%22 ry%3D%2220.6409396%22%3E%3C%2Fellipse%3E                        %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-8%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23E5E5E5%22 mask%3D%22url(%23mask-2)%22 cx%3D%2215.3748135%22 cy%3D%2288.9816208%22 rx%3D%2213.5506757%22 ry%3D%2213.5671141%22%3E%3C%2Fellipse%3E                        %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-9%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23FFFFFF%22 mask%3D%22url(%23mask-2)%22 cx%3D%2236.5673811%22 cy%3D%2242.7937013%22 rx%3D%227.31756757%22 ry%3D%227.32550336%22%3E%3C%2Fellipse%3E                        %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-10%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23F9F9F9%22 mask%3D%22url(%23mask-2)%22 cx%3D%2297.2363%22 cy%3D%2248.6192046%22 rx%3D%2211.472973%22 ry%3D%2211.4865772%22%3E%3C%2Fellipse%3E                        %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-11%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23FFFFFF%22 mask%3D%22url(%23mask-2)%22 cx%3D%2278.1214351%22 cy%3D%22106.874238%22 rx%3D%228.14864865%22 ry%3D%228.15771812%22%3E%3C%2Fellipse%3E                    %3C%2Fg%3E                    %3Cpath d%3D%22M98.9248865%2C83.0029642 C78.3577685%2C89.0922562 65.2831247%2C98.262716 65.2951658%2C108.533708 C65.316767%2C126.939578 107.356168%2C141.909716 159.192804%2C141.970631 C211.02944%2C142.031176 253.033831%2C127.159501 253.012247%2C108.75363 C253.001544%2C99.637596 242.683843%2C91.3643501 225.973686%2C85.3278559 C224.028048%2C84.6249998 221.995747%2C83.9524674 219.882963%2C83.312459%22 id%3D%22%E8%B7%AF%E5%BE%84%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 transform%3D%22translate(159.153706%2C 112.486798) rotate(-30.000000) translate(-159.153706%2C -112.486798) %22%3E%3C%2Fpath%3E                    %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%22 fill%3D%22%23F3F3F3%22 cx%3D%22163.5%22 cy%3D%22192%22 rx%3D%2252.5%22 ry%3D%227%22%3E%3C%2Fellipse%3E                    %3Cg id%3D%22%E7%BC%96%E7%BB%84-6%22 transform%3D%22translate(91.193912%2C 51.429384) rotate(-27.000000) translate(-91.193912%2C -51.429384) translate(60.193912%2C 9.929384)%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22%3E                        %3Cg id%3D%22%E7%BC%96%E7%BB%84-7%22 transform%3D%22translate(0.786940%2C 0.763244)%22%3E                            %3Cline x1%3D%222.30968266%22 y1%3D%2220.6958975%22 x2%3D%2219.1247929%22 y2%3D%2281.4833223%22 id%3D%22%E8%B7%AF%E5%BE%84-7%22%3E%3C%2Fline%3E                            %3Cpath d%3D%22M4.40076845%2C12.1586723 C14.18426%2C12.008468 23.8773672%2C10.4826714 33.48009%2C7.5812824 C45.3069841%2C5.6445918 53.1423855%2C7.15782855 56.9862943%2C12.1209926 L56.9659592%2C40.435397 C52.0644619%2C35.2174997 44.2290233%2C33.7559457 33.4596436%2C36.0507351 C23.9350239%2C40.1485838 14.2419539%2C41.6226976 4.3804334%2C40.4730766 L4.40076845%2C12.1586723 Z%22 id%3D%22%E7%9F%A9%E5%BD%A2%22 fill%3D%22%23FFFFFF%22 transform%3D%22translate(30.683364%2C 23.808374) scale(-1%2C 1) rotate(16.000000) translate(-30.683364%2C -23.808374) %22%3E%3C%2Fpath%3E                        %3C%2Fg%3E                    %3C%2Fg%3E                    %3Cpath d%3D%22M49%2C94 C49.6565862%2C94 50.1961673%2C94.5009584 50.2573755%2C95.1415074 L50.2631579%2C95.2631579 L50.263%2C100.736 L55.7368421%2C100.736842 C56.4344649%2C100.736842 57%2C101.302377 57%2C102 C57%2C102.656586 56.4990416%2C103.196167 55.8584926%2C103.257376 L55.7368421%2C103.263158 L50.263%2C103.263 L50.2631579%2C108.736842 C50.2631579%2C109.434465 49.6976228%2C110 49%2C110 C48.3434138%2C110 47.8038327%2C109.499042 47.7426245%2C108.858493 L47.7368421%2C108.736842 L47.736%2C103.263 L42.2631579%2C103.263158 C41.5655351%2C103.263158 41%2C102.697623 41%2C102 C41%2C101.343414 41.5009584%2C100.803833 42.1415074%2C100.742624 L42.2631579%2C100.736842 L47.736%2C100.736 L47.7368421%2C95.2631579 C47.7368421%2C94.5655351 48.3023772%2C94 49%2C94 Z%22 id%3D%22%E5%BD%A2%E7%8A%B6%E7%BB%93%E5%90%88%22 fill%3D%22%23979797%22 fill-rule%3D%22nonzero%22 opacity%3D%220.4%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M265%2C126 C265.656586%2C126 266.196167%2C126.500958 266.257376%2C127.141507 L266.263158%2C127.263158 L266.263%2C132.736 L271.736842%2C132.736842 C272.434465%2C132.736842 273%2C133.302377 273%2C134 C273%2C134.656586 272.499042%2C135.196167 271.858493%2C135.257376 L271.736842%2C135.263158 L266.263%2C135.263 L266.263158%2C140.736842 C266.263158%2C141.434465 265.697623%2C142 265%2C142 C264.343414%2C142 263.803833%2C141.499042 263.742624%2C140.858493 L263.736842%2C140.736842 L263.736%2C135.263 L258.263158%2C135.263158 C257.565535%2C135.263158 257%2C134.697623 257%2C134 C257%2C133.343414 257.500958%2C132.803833 258.141507%2C132.742624 L258.263158%2C132.736842 L263.736%2C132.736 L263.736842%2C127.263158 C263.736842%2C126.565535 264.302377%2C126 265%2C126 Z%22 id%3D%22%E5%BD%A2%E7%8A%B6%E7%BB%93%E5%90%88%E5%A4%87%E4%BB%BD%22 fill%3D%22%23979797%22 fill-rule%3D%22nonzero%22 opacity%3D%220.4%22%3E%3C%2Fpath%3E                    %3Ccircle id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%22 fill%3D%22%23979797%22 cx%3D%2273.5%22 cy%3D%2242.5%22 r%3D%222.5%22%3E%3C%2Fcircle%3E                    %3Ccircle id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-12%22 fill%3D%22%23979797%22 cx%3D%2286.5%22 cy%3D%2236.5%22 r%3D%222.5%22%3E%3C%2Fcircle%3E                    %3Ccircle id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-13%22 fill%3D%22%23979797%22 cx%3D%2295.5%22 cy%3D%2227.5%22 r%3D%222.5%22%3E%3C%2Fcircle%3E                    %3Cpath d%3D%22M188.478532%2C27.430718 C190.17052%2C27.430718 191.606483%2C26.9866619 192.786422%2C26.0985498 C194.077676%2C25.1216265 194.723303%2C23.8116612 194.723303%2C22.1686538 C194.723303%2C20.2148071 193.465443%2C18.8049292 190.949725%2C17.9390199 C189.257737%2C17.3395442 187.242936%2C17.0398064 184.905321%2C17.0398064 C184.504587%2C17.0398064 183.480489%2C17.0620092 181.833028%2C17.1064148 C181.899817%2C16.062883 182.345076%2C13.653879 183.168807%2C9.8794025 L183.168807%2C9.8794025 L195.424587%2C9.8794025 C195.558165%2C9.61296887 195.624954%2C9.27992683 195.624954%2C8.88027639 C195.624954%2C8.54723435 195.580428%2C8.23639511 195.491376%2C7.94775867 C194.957064%2C7.94775867 193.342997%2C7.90335307 190.649174%2C7.81454186 C187.8663%2C7.70352785 185.495291%2C7.64802084 183.536147%2C7.64802084 C183.580673%2C7.42599281 183.658593%2C6.99303816 183.769908%2C6.34915688 C183.012966%2C6.10492606 182.333945%2C6.00501344 181.732844%2C6.04941905 C180.174434%2C11.4002945 179.395229%2C15.8075508 179.395229%2C19.271188 C183.55841%2C19.271188 186.330153%2C19.3599992 187.710459%2C19.5376217 C190.91633%2C19.9372721 192.519266%2C20.8364856 192.519266%2C22.2352622 C192.519266%2C23.8560668 191.049908%2C24.9662069 188.111193%2C25.5656826 C188.08893%2C25.7211022 188.077798%2C25.8765218 188.077798%2C26.0319414 C188.077798%2C26.5204031 188.211376%2C26.9866619 188.478532%2C27.430718 Z M210.485505%2C27.430718 C213.112538%2C27.430718 215.494679%2C26.4315919 217.631927%2C24.4333396 C219.746911%2C22.4128846 220.804404%2C20.1037931 220.804404%2C17.5060652 C220.804404%2C13.6649804 219.524281%2C10.7120076 216.964037%2C8.64714696 C216.407462%2C8.93578339 215.917676%2C9.42424505 215.494679%2C10.1125319 C216.652355%2C11.4447001 217.420428%2C12.5437388 217.798899%2C13.4096481 C218.244159%2C14.430977 218.466789%2C15.7409424 218.466789%2C17.3395442 C218.466789%2C19.2045796 217.609664%2C20.9808038 215.895413%2C22.6682168 C214.158899%2C24.3556298 212.355596%2C25.1993363 210.485505%2C25.1993363 C208.259205%2C25.1993363 206.300061%2C24.4111368 204.608073%2C22.8347378 C202.938349%2C21.2805417 202.103486%2C19.4044048 202.103486%2C17.2063274 C202.103486%2C14.9638443 202.838165%2C12.9544907 204.307523%2C11.1782665 C205.865933%2C9.31323104 207.747156%2C8.38071333 209.951193%2C8.38071333 C211.376024%2C8.38071333 212.800856%2C8.73595817 214.225688%2C9.44644785 C214.470581%2C9.29102823 214.715474%2C9.0245946 214.960367%2C8.64714696 C215.20526%2C8.29190212 215.327706%2C7.98106288 215.327706%2C7.71462925 C214.726606%2C7.20396479 213.891743%2C6.78211154 212.823119%2C6.4490695 C211.843547%2C6.16043306 210.930765%2C6.01611484 210.084771%2C6.01611484 C207.123792%2C6.01611484 204.630336%2C7.12625498 202.604404%2C9.34653524 C200.622997%2C11.4780043 199.632294%2C14.0313266 199.632294%2C17.0065022 C199.632294%2C19.9816777 200.689786%2C22.4572902 202.804771%2C24.4333396 C204.919755%2C26.4315919 207.48%2C27.430718 210.485505%2C27.430718 Z M233.193761%2C27.430718 C235.820795%2C27.430718 238.202936%2C26.4315919 240.340183%2C24.4333396 C242.455168%2C22.4128846 243.512661%2C20.1037931 243.512661%2C17.5060652 C243.512661%2C13.6649804 242.232538%2C10.7120076 239.672294%2C8.64714696 C239.115719%2C8.93578339 238.625933%2C9.42424505 238.202936%2C10.1125319 C239.360612%2C11.4447001 240.128685%2C12.5437388 240.507156%2C13.4096481 C240.952416%2C14.430977 241.175046%2C15.7409424 241.175046%2C17.3395442 C241.175046%2C19.2045796 240.31792%2C20.9808038 238.60367%2C22.6682168 C236.867156%2C24.3556298 235.063853%2C25.1993363 233.193761%2C25.1993363 C230.967462%2C25.1993363 229.008318%2C24.4111368 227.31633%2C22.8347378 C225.646606%2C21.2805417 224.811743%2C19.4044048 224.811743%2C17.2063274 C224.811743%2C14.9638443 225.546422%2C12.9544907 227.01578%2C11.1782665 C228.57419%2C9.31323104 230.455413%2C8.38071333 232.65945%2C8.38071333 C234.084281%2C8.38071333 235.509113%2C8.73595817 236.933945%2C9.44644785 C237.178838%2C9.29102823 237.423731%2C9.0245946 237.668624%2C8.64714696 C237.913517%2C8.29190212 238.035963%2C7.98106288 238.035963%2C7.71462925 C237.434862%2C7.20396479 236.6%2C6.78211154 235.531376%2C6.4490695 C234.551804%2C6.16043306 233.639021%2C6.01611484 232.793028%2C6.01611484 C229.832049%2C6.01611484 227.338593%2C7.12625498 225.312661%2C9.34653524 C223.331254%2C11.4780043 222.34055%2C14.0313266 222.34055%2C17.0065022 C222.34055%2C19.9816777 223.398043%2C22.4572902 225.513028%2C24.4333396 C227.628012%2C26.4315919 230.188257%2C27.430718 233.193761%2C27.430718 Z%22 id%3D%22500%22 fill-opacity%3D%220.45%22 fill%3D%22%23000000%22 fill-rule%3D%22nonzero%22 transform%3D%22translate(211.453945%2C 16.723416) rotate(-10.000000) translate(-211.453945%2C -16.723416) %22%3E%3C%2Fpath%3E                %3C%2Fg%3E            %3C%2Fg%3E        %3C%2Fg%3E    %3C%2Fg%3E%3C%2Fsvg%3E\")}.gk-alert-container .gk-alert-image.status-refresh{background-image:url(\"data:image/svg+xml,%3C%3Fxml version%3D%221.0%22 encoding%3D%22UTF-8%22%3F%3E%3Csvg width%3D%22326px%22 height%3D%22200px%22 viewBox%3D%220 0 326 200%22 version%3D%221.1%22 xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E    %3Ctitle%3E%E7%BC%96%E7%BB%84 25%3C%2Ftitle%3E    %3Cg id%3D%22Components%22 stroke%3D%22none%22 stroke-width%3D%221%22 fill%3D%22none%22 fill-rule%3D%22evenodd%22%3E        %3Cg id%3D%225.%E5%8F%8D%E9%A6%88%2F7.Result%E7%BB%93%E6%9E%9C%2F%E7%B3%BB%E7%BB%9F%E9%94%99%E8%AF%AF%22 transform%3D%22translate(-117.000000%2C 0.000000)%22%3E            %3Cg id%3D%22%E7%BC%96%E7%BB%84-25%22 transform%3D%22translate(117.000000%2C 0.000000)%22%3E                %3Crect id%3D%22%E7%9F%A9%E5%BD%A2%22 x%3D%220%22 y%3D%220%22 width%3D%22326%22 height%3D%22200%22%3E%3C%2Frect%3E                %3Cg id%3D%22%E7%BC%96%E7%BB%84-24%22 transform%3D%22translate(33.000000%2C 14.000000)%22%3E                    %3Cellipse id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-16%22 fill%3D%22%23F3F3F3%22 cx%3D%22135%22 cy%3D%22173%22 rx%3D%2262%22 ry%3D%2212%22%3E%3C%2Fellipse%3E                    %3Ccircle id%3D%22%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD-17%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 opacity%3D%220.39%22 cx%3D%22254%22 cy%3D%2216%22 r%3D%226%22%3E%3C%2Fcircle%3E                    %3Cpath d%3D%22M0%2C32 C11.9888316%2C20.5596274 32.3598356%2C18.5108339 61.113012%2C25.8536197 C94.2097941%2C34.2494418 110.614178%2C3.54335392 86.5550736%2C2.3764554 C71.3075576%2C1.3978559 68.8233997%2C15.3665226 74.2353314%2C17.1130274 C79.6472631%2C18.8595323 90.9954626%2C22.8805848 114.827665%2C11.5004099 C135.836735%2C0.443573705 190.902879%2C-6.02973471 203.102356%2C8.07030528 C215.301832%2C22.1703453 163.738935%2C26.0191765 163.73617%2C18.5307699 C163.733405%2C11.0423633 173.964837%2C11.5929991 176.509435%2C11.5119344 C206.025444%2C12.1534677 212.438281%2C30.1771761 248%2C20.9724718%22 id%3D%22%E8%B7%AF%E5%BE%84-9%E5%A4%87%E4%BB%BD%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 opacity%3D%220.389868024%22 stroke-dasharray%3D%224%2C4%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M30%2C81 C30.6565862%2C81 31.1961673%2C81.5009584 31.2573755%2C82.1415074 L31.2631579%2C82.2631579 L31.263%2C87.736 L36.7368421%2C87.7368421 C37.4344649%2C87.7368421 38%2C88.3023772 38%2C89 C38%2C89.6565862 37.4990416%2C90.1961673 36.8584926%2C90.2573755 L36.7368421%2C90.2631579 L31.263%2C90.263 L31.2631579%2C95.7368421 C31.2631579%2C96.4344649 30.6976228%2C97 30%2C97 C29.3434138%2C97 28.8038327%2C96.4990416 28.7426245%2C95.8584926 L28.7368421%2C95.7368421 L28.736%2C90.263 L23.2631579%2C90.2631579 C22.5655351%2C90.2631579 22%2C89.6976228 22%2C89 C22%2C88.3434138 22.5009584%2C87.8038327 23.1415074%2C87.7426245 L23.2631579%2C87.7368421 L28.736%2C87.736 L28.7368421%2C82.2631579 C28.7368421%2C81.5655351 29.3023772%2C81 30%2C81 Z%22 id%3D%22%E5%BD%A2%E7%8A%B6%E7%BB%93%E5%90%88%E5%A4%87%E4%BB%BD-5%22 fill%3D%22%23979797%22 fill-rule%3D%22nonzero%22 opacity%3D%220.4%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M48.0740865%2C0.0359272935 C49.5929693%2C0.423750577 51.0485652%2C1.0252724 52.4013202%2C1.82466325 C52.8838819%2C2.10959465 53.0737422%2C2.71903123 52.8522385%2C3.22557593 C52.3459442%2C4.3653015 52.5832697%2C5.66332228 53.4613737%2C6.54186074 C54.3394778%2C7.4203992 55.6368568%2C7.65784203 56.7760189%2C7.15129733 C57.290224%2C6.92176926 57.8914484%2C7.11172353 58.1762389%2C7.59452394 C58.9752345%2C8.94003329 59.5764589%2C10.3963493 59.9640905%2C11.9238981 C60.1064857%2C12.4700166 59.8137844%2C13.0319647 59.2916684%2C13.2298337 C58.1287738%2C13.6730603 57.3772433%2C14.7652973 57.3772433%2C16 C57.3772433%2C17.2347027 58.1287738%2C18.3269397 59.2916684%2C18.7701663 C59.8137844%2C18.9680353 60.1064857%2C19.5299834 59.9640905%2C20.0761019 C59.5764589%2C21.6036507 58.9752345%2C23.0599667 58.1683281%2C24.4054761 C57.8835375%2C24.8882765 57.2823131%2C25.0782307 56.768108%2C24.8487027 C55.628946%2C24.342158 54.331567%2C24.5796008 53.4534629%2C25.4581393 C52.5753588%2C26.3366777 52.3380334%2C27.6346985 52.8443276%2C28.7744241 C53.0737422%2C29.2888835 52.8838819%2C29.8904054 52.4013202%2C30.1753367 C51.0485652%2C30.9747276 49.6008801%2C31.5762494 48.0740865%2C31.9640727 C47.528238%2C32.1065384 46.9665679%2C31.8136922 46.7687967%2C31.291318 C46.3257892%2C30.1278482 45.2340922%2C29.3759459 44%2C29.3759459 C42.7659078%2C29.3759459 41.6742108%2C30.1278482 41.2312033%2C31.291318 C41.0255213%2C31.8136922 40.471762%2C32.1065384 39.9259135%2C31.9640727 C38.4070307%2C31.5762494 36.9514348%2C30.9747276 35.5986798%2C30.1753367 C35.1161181%2C29.8904054 34.9262578%2C29.2809688 35.1477615%2C28.7744241 C35.6540558%2C27.6346985 35.4167303%2C26.3366777 34.5386263%2C25.4581393 C33.6605222%2C24.5796008 32.3631432%2C24.342158 31.2239811%2C24.8487027 C30.709776%2C25.0782307 30.1085516%2C24.8882765 29.8237611%2C24.4054761 C29.0247655%2C23.0599667 28.4235411%2C21.6036507 28.0359095%2C20.0761019 C27.8935143%2C19.5299834 28.1862156%2C18.9680353 28.7083316%2C18.7701663 C29.8712262%2C18.3269397 30.6227567%2C17.2347027 30.6227567%2C16 C30.6227567%2C14.7652973 29.8712262%2C13.6730603 28.7083316%2C13.2298337 C28.1862156%2C13.0240499 27.8935143%2C12.4700166 28.0359095%2C11.9238981 C28.4235411%2C10.3963493 29.0247655%2C8.94003329 29.8316719%2C7.59452394 C30.1164625%2C7.11172353 30.7176869%2C6.92176926 31.231892%2C7.15129733 C32.371054%2C7.65784203 33.668433%2C7.4203992 34.5465371%2C6.54186074 C35.4167303%2C5.67123704 35.6619666%2C4.3653015 35.1556724%2C3.22557593 C34.9262578%2C2.71111647 35.1161181%2C2.10959465 35.5986798%2C1.82466325 C36.9435239%2C1.0252724 38.3991199%2C0.423750577 39.9259135%2C0.0359272935 C40.471762%2C-0.106538402 41.0334321%2C0.18630775 41.2312033%2C0.708681969 C41.6742108%2C1.87215182 42.7659078%2C2.6240541 44%2C2.6240541 C45.2340922%2C2.6240541 46.3257892%2C1.87215182 46.7687967%2C0.708681969 C46.9744787%2C0.18630775 47.528238%2C-0.106538402 48.0740865%2C0.0359272935 Z M48.9889809%2C16.3275718 C49.1870168%2C13.310864 46.6887179%2C10.8197946 43.6724791%2C11.0102433 C41.1817971%2C11.1626023 39.1709712%2C13.1813588 39.0110191%2C15.6724282 C38.8129832%2C18.689136 41.3112821%2C21.1802054 44.3275209%2C20.9897567 C46.8182029%2C20.8297798 48.8290288%2C18.8186412 48.9889809%2C16.3275718 Z%22 id%3D%22%E5%BD%A2%E7%8A%B6%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23F2F2F2%22 fill-rule%3D%22nonzero%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M226%2C117 C226.656586%2C117 227.196167%2C117.500958 227.257376%2C118.141507 L227.263158%2C118.263158 L227.263%2C123.736 L232.736842%2C123.736842 C233.434465%2C123.736842 234%2C124.302377 234%2C125 C234%2C125.656586 233.499042%2C126.196167 232.858493%2C126.257376 L232.736842%2C126.263158 L227.263%2C126.263 L227.263158%2C131.736842 C227.263158%2C132.434465 226.697623%2C133 226%2C133 C225.343414%2C133 224.803833%2C132.499042 224.742624%2C131.858493 L224.736842%2C131.736842 L224.736%2C126.263 L219.263158%2C126.263158 C218.565535%2C126.263158 218%2C125.697623 218%2C125 C218%2C124.343414 218.500958%2C123.803833 219.141507%2C123.742624 L219.263158%2C123.736842 L224.736%2C123.736 L224.736842%2C118.263158 C224.736842%2C117.565535 225.302377%2C117 226%2C117 Z%22 id%3D%22%E5%BD%A2%E7%8A%B6%E7%BB%93%E5%90%88%E5%A4%87%E4%BB%BD-6%22 fill%3D%22%23979797%22 fill-rule%3D%22nonzero%22 opacity%3D%220.4%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M169.426384%2C140.016421 C168.022935%2C148.782185 170.880807%2C153.165067 178%2C153.165067 C188.67879%2C153.165067 189.039859%2C153.640489 189.039859%2C161 C189.039859%2C165.906341 195.693239%2C167.906341 209%2C167%22 id%3D%22%E8%B7%AF%E5%BE%84-12%22 stroke%3D%22%23979797%22 stroke-width%3D%222%22%3E%3C%2Fpath%3E                    %3Cpath d%3D%22M212.05702%2C163.31925 C214.70468%2C162.824806 217.35234%2C162.577585 220%2C162.577585 C222.64766%2C162.577585 225.29532%2C162.824806 227.94298%2C163.31925 C229.715226%2C163.650204 231%2C165.197117 231%2C167 C231%2C168.656854 229.656854%2C170 228%2C170 L212%2C170 C210.343146%2C170 209%2C168.656854 209%2C167 C209%2C165.197117 210.284774%2C163.650204 212.05702%2C163.31925 Z%22 id%3D%22%E7%9F%A9%E5%BD%A2%22 stroke%3D%22%23979797%22 stroke-width%3D%222%22 fill%3D%22%23F3F3F3%22%3E%3C%2Fpath%3E                    %3Crect id%3D%22%E7%9F%A9%E5%BD%A2%E5%A4%87%E4%BB%BD-6%22 stroke%3D%22%23979797%22 stroke-width%3D%222%22 fill%3D%22%23FFFFFF%22 x%3D%22218%22 y%3D%22161%22 width%3D%224%22 height%3D%225%22 rx%3D%222%22%3E%3C%2Frect%3E                    %3Cg id%3D%22%E7%BC%96%E7%BB%84-22%22 transform%3D%22translate(60.000000%2C 38.000000)%22%3E                        %3Cpolygon id%3D%22%E7%9F%A9%E5%BD%A2%E5%A4%87%E4%BB%BD-4%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23E5E5E5%22 points%3D%2264.4444444 86 85.5555556 86 90 129 60 129%22%3E%3C%2Fpolygon%3E                        %3Crect id%3D%22%E7%9F%A9%E5%BD%A2%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23FFFFFF%22 x%3D%220%22 y%3D%220%22 width%3D%22149%22 height%3D%22106%22 rx%3D%228%22%3E%3C%2Frect%3E                        %3Crect id%3D%22%E7%9F%A9%E5%BD%A2%E5%A4%87%E4%BB%BD-3%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23FFFFFF%22 x%3D%229%22 y%3D%229%22 width%3D%22131%22 height%3D%2289%22 rx%3D%224%22%3E%3C%2Frect%3E                        %3Cg id%3D%22%E7%BC%96%E7%BB%84%22 transform%3D%22translate(55.000000%2C 32.000000)%22 fill%3D%22%23979797%22 fill-rule%3D%22nonzero%22%3E                            %3Cpath d%3D%22M37.7204233%2C25.7280335 C36.8307907%2C25.5481171 35.7632316%2C26.0878661 35.585305%2C26.9874477 C33.8060397%2C34.3640167 27.4006849%2C39.4016736 19.9277708%2C39.4016736 C11.0314445%2C39.4016736 3.73645699%2C32.0251046 3.73645699%2C23.0292887 C3.73645699%2C14.0334728 11.0314445%2C6.65690375 19.9277708%2C6.65690375 C24.0200809%2C6.65690375 28.1123909%2C8.27615062 30.9592154%2C11.1548117 L23.4863013%2C11.1548117 C22.5966687%2C11.1548117 21.707036%2C11.874477 21.7070361%2C12.9539749 C21.7070361%2C13.8535565 22.4187422%2C14.7531381 23.4863013%2C14.7531381 L34.5177459%2C14.7531381 C35.4073785%2C14.7531381 36.2970111%2C14.0334728 36.2970111%2C12.9539749 L36.2970111%2C1.7991632 C36.2970111%2C0.89958162 35.585305%2C0 34.5177459%2C0 C33.6281132%2C0 32.7384806%2C0.719665288 32.7384806%2C1.7991632 L32.7384806%2C8.09623433 C29.1799501%2C4.8577406 24.5538604%2C3.05857744 19.7498443%2C3.0585774 C8.89632622%2C3.0585774 0%2C12.0543933 0%2C23.0292887 C0%2C34.0041841 8.89632626%2C43 19.7498443%2C43 C28.824097%2C43 36.6528641%2C36.7029289 38.965909%2C27.8870293 C39.1438355%2C26.9874477 38.6100559%2C26.0878661 37.7204233%2C25.7280335 Z%22 id%3D%22%E8%B7%AF%E5%BE%84%22%3E%3C%2Fpath%3E                        %3C%2Fg%3E                        %3Crect id%3D%22%E7%9F%A9%E5%BD%A2%E5%A4%87%E4%BB%BD-5%22 stroke%3D%22%23979797%22 stroke-width%3D%223%22 fill%3D%22%23F2F2F2%22 x%3D%2247%22 y%3D%22128%22 width%3D%2257%22 height%3D%227%22 rx%3D%223.5%22%3E%3C%2Frect%3E                    %3C%2Fg%3E                %3C%2Fg%3E            %3C%2Fg%3E        %3C%2Fg%3E    %3C%2Fg%3E%3C%2Fsvg%3E\")}.gk-alert-container .gk-alert-text{color:#000;font-size:16px;height:22px;line-height:22px;margin-top:24px;opacity:.85;vertical-align:top}.gk-alert-container .gk-alert-button{background-color:#3266fb;border-radius:8px;color:#fff;cursor:pointer;display:inline-block;font-size:16px;height:40px;line-height:40px;margin-top:40px;vertical-align:top;width:96px}"]
+        },]
+    }
 ];
 AlertComponent.ctorParameters = () => [];
 AlertComponent.propDecorators = {
@@ -5843,18 +5953,20 @@ AlertComponent.propDecorators = {
 class GKAlertModule {
 }
 GKAlertModule.decorators = [
-    { type: NgModule, args: [{
-                declarations: [
-                    AlertComponent,
-                ],
-                imports: [
-                    CommonModule,
-                    RouterModule,
-                ],
-                exports: [
-                    AlertComponent,
-                ],
-            },] }
+    {
+        type: NgModule, args: [{
+            declarations: [
+                AlertComponent,
+            ],
+            imports: [
+                CommonModule,
+                RouterModule,
+            ],
+            exports: [
+                AlertComponent,
+            ],
+        },]
+    }
 ];
 
 function isGKList2CustomBtn1(btn) {
@@ -5870,14 +5982,18 @@ class GKList2 {
         this.createTable = () => {
             const tableConfig = this.config.table;
             if (tableConfig.pageMode !== 'server') {
-                return new GKTable2(Object.assign(Object.assign({}, tableConfig), { source: () => __awaiter(this, void 0, void 0, function* () {
+                return new GKTable2(Object.assign(Object.assign({}, tableConfig), {
+                    source: () => __awaiter(this, void 0, void 0, function* () {
                         return yield tableConfig.source(this.getSearchParams());
-                    }) }));
+                    })
+                }));
             }
             else {
-                return new GKTable2(Object.assign(Object.assign({}, tableConfig), { source: (tableParams) => __awaiter(this, void 0, void 0, function* () {
+                return new GKTable2(Object.assign(Object.assign({}, tableConfig), {
+                    source: (tableParams) => __awaiter(this, void 0, void 0, function* () {
                         return yield tableConfig.source(this.getSearchParams(), tableParams);
-                    }) }));
+                    })
+                }));
             }
         };
         if (config.search) {
@@ -6081,11 +6197,13 @@ class List2Component {
     }
 }
 List2Component.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-list2',
-                template: "<div *ngIf=\"list.config.search\" class=\"gk-m-b\">\n    <gk-panel [title]=\"list.config.search.title\">\n        <gk-search [searchs]=\"list.config.search.layouts\" (searchEvent)=\"onSearch()\" (resetEvent)=\"onReset()\">\n        </gk-search>\n    </gk-panel>\n</div>\n<div>\n    <gk-panel [title]=\"contentTitle\">\n        <div id=\"title-left\">\n            <!-- <ng-container *ngFor=\"let btn of list.config.search.fastBtns || []\">\n                <gk-button [type]=\"btn.type\" [icon]=\"btn.icon\" [active]=\"false\" (click)=\"onFastBtnClick(btn.value)\">\n                    {{ btn.label }}\n                </gk-button>  // TODO\n            </ng-container> -->\n\n            <ng-container *ngFor=\"let item of contentBtns.left\">\n                <gk-button *ngIf=\"!item.hide || !item.hide()\" [button]=\"item.btn\" [type]=\"getFunc(item.type)\"\n                    [disabled]=\"item.disabled && item.disabled()\"></gk-button>\n            </ng-container>\n\n            <ng-content select=\"#title-left\"></ng-content>\n        </div>\n        <div id=\"title-right\">\n            <ng-content select=\"#title-right\"></ng-content>\n\n            <ng-container *ngFor=\"let item of contentBtns.right\">\n                <gk-button *ngIf=\"!item.hide || !item.hide()\" [button]=\"item.btn\" [type]=\"getFunc(item.type)\"\n                    [disabled]=\"item.disabled && item.disabled()\"></gk-button>\n            </ng-container>\n        </div>\n\n        <gk-table2 [table]=\"list.table\" [initLoad]=\"false\" [(checks)]=\"checks\" (tableAjaxBefore)=\"onTableAjaxBefore()\">\n        </gk-table2>\n    </gk-panel>\n</div>\n",
-                styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}.ant-modal-footer{border-top:0;padding:8px 24px 32px}.ant-modal-body{padding:16px 24px 0}.gk-modal-bottom .gk-btn{margin-left:8px}.gk-modal-bottom .gk-btn:first-child{margin-left:0}"]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-list2',
+            template: "<div *ngIf=\"list.config.search\" class=\"gk-m-b\">\n    <gk-panel [title]=\"list.config.search.title\">\n        <gk-search [searchs]=\"list.config.search.layouts\" (searchEvent)=\"onSearch()\" (resetEvent)=\"onReset()\">\n        </gk-search>\n    </gk-panel>\n</div>\n<div>\n    <gk-panel [title]=\"contentTitle\">\n        <div id=\"title-left\">\n            <!-- <ng-container *ngFor=\"let btn of list.config.search.fastBtns || []\">\n                <gk-button [type]=\"btn.type\" [icon]=\"btn.icon\" [active]=\"false\" (click)=\"onFastBtnClick(btn.value)\">\n                    {{ btn.label }}\n                </gk-button>  // TODO\n            </ng-container> -->\n\n            <ng-container *ngFor=\"let item of contentBtns.left\">\n                <gk-button *ngIf=\"!item.hide || !item.hide()\" [button]=\"item.btn\" [type]=\"getFunc(item.type)\"\n                    [disabled]=\"item.disabled && item.disabled()\"></gk-button>\n            </ng-container>\n\n            <ng-content select=\"#title-left\"></ng-content>\n        </div>\n        <div id=\"title-right\">\n            <ng-content select=\"#title-right\"></ng-content>\n\n            <ng-container *ngFor=\"let item of contentBtns.right\">\n                <gk-button *ngIf=\"!item.hide || !item.hide()\" [button]=\"item.btn\" [type]=\"getFunc(item.type)\"\n                    [disabled]=\"item.disabled && item.disabled()\"></gk-button>\n            </ng-container>\n        </div>\n\n        <gk-table2 [table]=\"list.table\" [initLoad]=\"false\" [(checks)]=\"checks\" (tableAjaxBefore)=\"onTableAjaxBefore()\">\n        </gk-table2>\n    </gk-panel>\n</div>\n",
+            styles: [".gk-text{color:#595959;font-size:14px}.gk-text-stress{color:#595959;color:#262626;font-size:14px}.gk-text-minor,.gk-text-minor.ant-form-item-label>label{color:#8c8c8c}.gk-text-hint{color:#bfbfbf}.gk-title,.gk-title-minor{color:#262626;font-size:16px;font-weight:500}.gk-title-minor{font-size:14px}.gk-title-stress{color:#262626;font-size:16px;font-size:18px;font-weight:500}.gk-m-t{margin-top:16px}.gk-m-b{margin-bottom:16px}.gk-m-l{margin-left:16px}.gk-m-r{margin-right:16px}.gk-p-t{padding-top:16px}.gk-p-b{padding-bottom:16px}.gk-p-l{padding-left:16px}.gk-p-r{padding-right:16px}.gk-flt{float:left}.gk-frt{float:right}.gk-clr:after{clear:both;content:\"\";display:block}body{background-color:#f5f5f5}.ant-menu-inline,.ant-menu-vertical,.ant-menu-vertical-left{border-right:0}.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-submenu-title{width:100%}.gk-search-group-container .ant-input-number-handler-wrap{display:none}.ant-checkbox-inner,.ant-tree-checkbox-inner{border-radius:4px}.ant-table-tbody>tr>td,.ant-table-thead>tr>th,.ant-table tfoot>tr>td,.ant-table tfoot>tr>th{height:54px;padding:10px 16px}.ant-input{height:32px}.ant-input-affix-wrapper{padding-bottom:0;padding-top:0}.ant-dropdown-menu-item:hover,.ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-item-option-selected:not(.ant-select-item-option-disabled){color:#3266fb}.ant-modal-footer{border-top:0;padding:8px 24px 32px}.ant-modal-body{padding:16px 24px 0}.gk-modal-bottom .gk-btn{margin-left:8px}.gk-modal-bottom .gk-btn:first-child{margin-left:0}"]
+        },]
+    }
 ];
 List2Component.ctorParameters = () => [
     { type: NzIconService },
@@ -6100,24 +6218,26 @@ List2Component.propDecorators = {
 class GKList2Module {
 }
 GKList2Module.decorators = [
-    { type: NgModule, args: [{
-                declarations: [
-                    List2Component,
-                ],
-                imports: [
-                    CommonModule,
-                    NzModalModule,
-                    GKIconModule,
-                    GKButtonModule,
-                    GKPanelModule,
-                    GKIOModule,
-                    GKSearchModule,
-                    GKTable2Module,
-                ],
-                exports: [
-                    List2Component,
-                ],
-            },] }
+    {
+        type: NgModule, args: [{
+            declarations: [
+                List2Component,
+            ],
+            imports: [
+                CommonModule,
+                NzModalModule,
+                GKIconModule,
+                GKButtonModule,
+                GKPanelModule,
+                GKIOModule,
+                GKSearchModule,
+                GKTable2Module,
+            ],
+            exports: [
+                List2Component,
+            ],
+        },]
+    }
 ];
 
 class UploadService {
@@ -6366,9 +6486,11 @@ class UploadService {
 }
 UploadService.ɵprov = ɵɵdefineInjectable({ factory: function UploadService_Factory() { return new UploadService(ɵɵinject(HttpClient)); }, token: UploadService, providedIn: "root" });
 UploadService.decorators = [
-    { type: Injectable, args: [{
-                providedIn: 'root',
-            },] }
+    {
+        type: Injectable, args: [{
+            providedIn: 'root',
+        },]
+    }
 ];
 UploadService.ctorParameters = () => [
     { type: HttpClient }
@@ -6597,11 +6719,13 @@ class BigUploadComponent {
     }
 }
 BigUploadComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'gk-big-upload',
-                template: "<div class=\"gk-big-upload-container\">\n    <ng-container *ngIf=\"store.status === 'wait'\">\n        <form nz-form>\n            <ng-content></ng-content>\n            <ng-content select=\"#form-before\"></ng-content>\n            <nz-form-item>\n                <nz-form-label [nzSpan]=\"config.spans[0]\" [nzRequired]=\"config.required\">{{ config.label\n                    }}</nz-form-label>\n                <nz-form-control [nzSpan]=\"config.spans[1]\">\n                    <ng-container *ngIf=\"!store.file\">\n                        <nz-upload #nzUpload nzAction=\"\" [nzBeforeUpload]=\"nzBeforeUpload\">\n                            <gk-button [label]=\"config.buttonText\" icon=\"upload\" (click)=\"onSelect($event, nzUpload)\">\n                            </gk-button>\n                        </nz-upload>\n                    </ng-container>\n                    <ng-container *ngIf=\"store.file\">\n                        <div>\n                            <gk-icon type=\"paper-clip\" style=\"margin-right: 6px;\"></gk-icon>\n                            <span>{{ store.file.name }}</span>\n                            <gk-button mode=\"text\" (click)=\"onDelete()\" style=\"margin-left: 3px;\">\n                                <gk-icon type=\"delete\" style=\"color: #ff4d4f;\"></gk-icon>\n                            </gk-button>\n                        </div>\n                    </ng-container>\n                    <div *ngIf=\"config.suffixs.length > 0\" style=\"margin-top: 5px;\">\u6587\u4EF6\u540E\u7F00\u540D: {{\n                        config.suffixs.join('\u3001')\n                        }}</div>\n                </nz-form-control>\n            </nz-form-item>\n            <ng-content select=\"#form-after\"></ng-content>\n        </form>\n        <div style=\"text-align: right;\">\n            <button *ngIf=\"config.onCancelBtn\" nz-button nzSize=\"large\" style=\"padding-left: 24px; padding-right: 24px;\"\n                (click)=\"config.onCancelBtn()\">\u53D6\u6D88</button>\n            <button nz-button nzSize=\"large\" nzType=\"primary\" [disabled]=\"!!config.uploadDisabled\"\n                style=\"margin-left: 10px; padding-left: 24px; padding-right: 24px;\" (click)=\"onUpload()\">\u4E0A\u4F20</button>\n        </div>\n    </ng-container>\n\n    <ng-container *ngIf=\"['uploading', 'merging', 'stopping'].includes(store.status)\">\n        <div class=\"gk-big-upload-modal-content gk-big-upload-pending-wp\">\n            <nz-progress [nzPercent]=\"store.progress\" nzType=\"circle\" [nzWidth]=\"48\"></nz-progress>\n            <div style=\"margin-top: 18px; line-height: 24px; font-size: 16px;\n            font-weight: 500; color: #000000;\">\u6587\u4EF6\u4E0A\u4F20</div>\n            <div style=\"margin-top: 8px; line-height: 22px; font-size: 14px;\n            font-weight: 400; color: #585858;\">{{ config.uploadText }}</div>\n            <button *ngIf=\"config.showUploadCancel\" nz-button nzSize=\"large\" class=\"gk-big-upload-pending-stop-button\"\n                style=\"margin-top: 24px; width: 226px; height: 38px;\" (click)=\"onStopUpload()\">{{\n                $any({ uploading: '\u53D6\u6D88', merging: '\u53D6\u6D88', stopping: '\u6B63\u5728\u53D6\u6D88\u4E2D' })[store.status] }}</button>\n        </div>\n    </ng-container>\n\n    <ng-container *ngIf=\"store.status === 'error'\">\n        <div class=\"gk-big-upload-modal-content gk-big-upload-error-wp\">\n            <nz-progress [nzPercent]=\"store.progress\" nzType=\"circle\" [nzWidth]=\"48\" nzStatus=\"exception\"></nz-progress>\n            <div style=\"margin-top: 18px; line-height: 24px; font-size: 16px;\n            font-weight: 500; color: #000000;\">\u4E0A\u4F20\u5931\u8D25</div>\n            <div style=\"margin-top: 8px; line-height: 22px; font-size: 14px;\n            font-weight: 400; color: #585858;\">{{ config.errorText }}</div>\n            <button nz-button nzSize=\"large\" nzType=\"primary\" class=\"gk-big-upload-error-restry-button\"\n                style=\"margin-top: 24px; width: 226px; height: 38px;\" (click)=\"onRetry()\">\u91CD\u8BD5</button>\n        </div>\n    </ng-container>\n\n    <ng-container *ngIf=\"store.status === 'success'\">\n        <div class=\"gk-big-upload-modal-content gk-big-upload-success-wp\">\n            <nz-progress [nzPercent]=\"store.progress\" nzType=\"circle\" [nzWidth]=\"48\"></nz-progress>\n            <div style=\"margin-top: 18px; line-height: 24px; font-size: 16px;\n            font-weight: 500; color: #000000;\">\u4E0A\u4F20\u5B8C\u6210</div>\n            <div style=\"margin-top: 8px; line-height: 22px; font-size: 14px;\n            font-weight: 400; color: #585858;\">{{ config.successText }}</div>\n            <button nz-button nzSize=\"large\" nzType=\"primary\" class=\"gk-big-upload-success-enter-button\"\n                style=\"margin-top: 24px; width: 226px; height: 38px;\" (click)=\"onSuccess()\">\u786E\u5B9A</button>\n        </div>\n    </ng-container>\n</div>\n",
-                styles: [".gk-big-upload-container{height:100%;min-height:200px;min-width:250px;position:relative;width:100%}.gk-big-upload-container .gk-big-upload-modal-content{left:50%;position:absolute;text-align:center;top:50%;transform:translate(-50%,-50%);width:320px}"]
-            },] }
+    {
+        type: Component, args: [{
+            selector: 'gk-big-upload',
+            template: "<div class=\"gk-big-upload-container\">\n    <ng-container *ngIf=\"store.status === 'wait'\">\n        <form nz-form>\n            <ng-content></ng-content>\n            <ng-content select=\"#form-before\"></ng-content>\n            <nz-form-item>\n                <nz-form-label [nzSpan]=\"config.spans[0]\" [nzRequired]=\"config.required\">{{ config.label\n                    }}</nz-form-label>\n                <nz-form-control [nzSpan]=\"config.spans[1]\">\n                    <ng-container *ngIf=\"!store.file\">\n                        <nz-upload #nzUpload nzAction=\"\" [nzBeforeUpload]=\"nzBeforeUpload\">\n                            <gk-button [label]=\"config.buttonText\" icon=\"upload\" (click)=\"onSelect($event, nzUpload)\">\n                            </gk-button>\n                        </nz-upload>\n                    </ng-container>\n                    <ng-container *ngIf=\"store.file\">\n                        <div>\n                            <gk-icon type=\"paper-clip\" style=\"margin-right: 6px;\"></gk-icon>\n                            <span>{{ store.file.name }}</span>\n                            <gk-button mode=\"text\" (click)=\"onDelete()\" style=\"margin-left: 3px;\">\n                                <gk-icon type=\"delete\" style=\"color: #ff4d4f;\"></gk-icon>\n                            </gk-button>\n                        </div>\n                    </ng-container>\n                    <div *ngIf=\"config.suffixs.length > 0\" style=\"margin-top: 5px;\">\u6587\u4EF6\u540E\u7F00\u540D: {{\n                        config.suffixs.join('\u3001')\n                        }}</div>\n                </nz-form-control>\n            </nz-form-item>\n            <ng-content select=\"#form-after\"></ng-content>\n        </form>\n        <div style=\"text-align: right;\">\n            <button *ngIf=\"config.onCancelBtn\" nz-button nzSize=\"large\" style=\"padding-left: 24px; padding-right: 24px;\"\n                (click)=\"config.onCancelBtn()\">\u53D6\u6D88</button>\n            <button nz-button nzSize=\"large\" nzType=\"primary\" [disabled]=\"!!config.uploadDisabled\"\n                style=\"margin-left: 10px; padding-left: 24px; padding-right: 24px;\" (click)=\"onUpload()\">\u4E0A\u4F20</button>\n        </div>\n    </ng-container>\n\n    <ng-container *ngIf=\"['uploading', 'merging', 'stopping'].includes(store.status)\">\n        <div class=\"gk-big-upload-modal-content gk-big-upload-pending-wp\">\n            <nz-progress [nzPercent]=\"store.progress\" nzType=\"circle\" [nzWidth]=\"48\"></nz-progress>\n            <div style=\"margin-top: 18px; line-height: 24px; font-size: 16px;\n            font-weight: 500; color: #000000;\">\u6587\u4EF6\u4E0A\u4F20</div>\n            <div style=\"margin-top: 8px; line-height: 22px; font-size: 14px;\n            font-weight: 400; color: #585858;\">{{ config.uploadText }}</div>\n            <button *ngIf=\"config.showUploadCancel\" nz-button nzSize=\"large\" class=\"gk-big-upload-pending-stop-button\"\n                style=\"margin-top: 24px; width: 226px; height: 38px;\" (click)=\"onStopUpload()\">{{\n                $any({ uploading: '\u53D6\u6D88', merging: '\u53D6\u6D88', stopping: '\u6B63\u5728\u53D6\u6D88\u4E2D' })[store.status] }}</button>\n        </div>\n    </ng-container>\n\n    <ng-container *ngIf=\"store.status === 'error'\">\n        <div class=\"gk-big-upload-modal-content gk-big-upload-error-wp\">\n            <nz-progress [nzPercent]=\"store.progress\" nzType=\"circle\" [nzWidth]=\"48\" nzStatus=\"exception\"></nz-progress>\n            <div style=\"margin-top: 18px; line-height: 24px; font-size: 16px;\n            font-weight: 500; color: #000000;\">\u4E0A\u4F20\u5931\u8D25</div>\n            <div style=\"margin-top: 8px; line-height: 22px; font-size: 14px;\n            font-weight: 400; color: #585858;\">{{ config.errorText }}</div>\n            <button nz-button nzSize=\"large\" nzType=\"primary\" class=\"gk-big-upload-error-restry-button\"\n                style=\"margin-top: 24px; width: 226px; height: 38px;\" (click)=\"onRetry()\">\u91CD\u8BD5</button>\n        </div>\n    </ng-container>\n\n    <ng-container *ngIf=\"store.status === 'success'\">\n        <div class=\"gk-big-upload-modal-content gk-big-upload-success-wp\">\n            <nz-progress [nzPercent]=\"store.progress\" nzType=\"circle\" [nzWidth]=\"48\"></nz-progress>\n            <div style=\"margin-top: 18px; line-height: 24px; font-size: 16px;\n            font-weight: 500; color: #000000;\">\u4E0A\u4F20\u5B8C\u6210</div>\n            <div style=\"margin-top: 8px; line-height: 22px; font-size: 14px;\n            font-weight: 400; color: #585858;\">{{ config.successText }}</div>\n            <button nz-button nzSize=\"large\" nzType=\"primary\" class=\"gk-big-upload-success-enter-button\"\n                style=\"margin-top: 24px; width: 226px; height: 38px;\" (click)=\"onSuccess()\">\u786E\u5B9A</button>\n        </div>\n    </ng-container>\n</div>\n",
+            styles: [".gk-big-upload-container{height:100%;min-height:200px;min-width:250px;position:relative;width:100%}.gk-big-upload-container .gk-big-upload-modal-content{left:50%;position:absolute;text-align:center;top:50%;transform:translate(-50%,-50%);width:320px}"]
+        },]
+    }
 ];
 BigUploadComponent.ctorParameters = () => [
     { type: NzMessageService },
@@ -6616,23 +6740,25 @@ BigUploadComponent.propDecorators = {
 class GKBigUploadModule {
 }
 GKBigUploadModule.decorators = [
-    { type: NgModule, args: [{
-                declarations: [
-                    BigUploadComponent,
-                ],
-                imports: [
-                    CommonModule,
-                    NzUploadModule,
-                    NzFormModule,
-                    NzButtonModule,
-                    NzProgressModule,
-                    GKIconModule,
-                    GKButtonModule,
-                ],
-                exports: [
-                    BigUploadComponent,
-                ],
-            },] }
+    {
+        type: NgModule, args: [{
+            declarations: [
+                BigUploadComponent,
+            ],
+            imports: [
+                CommonModule,
+                NzUploadModule,
+                NzFormModule,
+                NzButtonModule,
+                NzProgressModule,
+                GKIconModule,
+                GKButtonModule,
+            ],
+            exports: [
+                BigUploadComponent,
+            ],
+        },]
+    }
 ];
 
 class GKBigUpload {
