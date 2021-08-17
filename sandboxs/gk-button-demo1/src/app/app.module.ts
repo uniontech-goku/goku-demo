@@ -1,10 +1,5 @@
 import { NgModule } from "@angular/core";
-import { BrowserModule } from '@angular/platform-browser'
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { HttpClientModule } from '@angular/common/http'
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-
-import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { baseModules } from './baseModules';
 
 import {
     GKButtonModule,
@@ -15,13 +10,7 @@ import { AppComponent } from "./app.component";
 @NgModule({
     declarations: [AppComponent],
     imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        FormsModule,
-        ReactiveFormsModule,
-        NzSwitchModule,
+        ...baseModules,
         GKButtonModule,
     ],
     providers: [],
