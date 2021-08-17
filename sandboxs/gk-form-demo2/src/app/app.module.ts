@@ -6,6 +6,11 @@ import {
     GKButtonModule,
     GKSearchModule,
     GKFormModule,
+    GKIOModule,
+    GKEditorModule,
+    GKTipModule,
+    GKTitleModule,
+    GKPanelModule,
 } from 'ng-goku'
 
 import { AppComponent } from "./app.component";
@@ -19,6 +24,11 @@ import { AppComponent } from "./app.component";
         GKButtonModule,
         GKFormModule,
         GKSearchModule,
+        GKIOModule,
+        GKEditorModule,
+        GKTipModule,
+        GKTitleModule,
+        GKPanelModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
