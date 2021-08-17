@@ -1,0 +1,87 @@
+/**
+ *  全局集成样式控制
+ */
+@import "./golbal-variable.less";
+
+/** === 文本 === **/
+/* 普通文本 */
+.gk-text{
+    color: @gk-color-text;
+    font-size: @gk-font-size;
+}
+/* 重要文本 */
+.gk-text-stress{
+    .gk-text;
+    color: @gk-color-text-stress;
+}
+/* 次要文本 */
+.gk-text-minor{
+    color: @gk-color-text-minor;
+}
+.gk-text-minor.ant-form-item-label > label{
+    color: @gk-color-text-minor;
+}
+/* 提示文本 */
+.gk-text-hint{
+    color: @gk-color-text-hint;
+}
+
+/* 普通标题 */
+.gk-title{
+    color: @gk-color-text-stress;
+    font-size: @gk-font-size-stress;
+    font-weight: 500;
+}
+/* 次要标题 */
+.gk-title-minor{
+    .gk-title;
+    font-size: @gk-font-size;
+}
+/* 大标题 */
+.gk-title-stress{
+    .gk-title;
+    font-size: @gk-font-size-max;
+}
+
+
+/** === 边距、边界 === **/
+.gk-m-t{
+    margin-top: @gk-space;
+}
+.gk-m-b{
+    margin-bottom: @gk-space;
+}
+.gk-m-l{
+    margin-left: @gk-space;
+}
+.gk-m-r{
+    margin-right: @gk-space;
+}
+.gk-p-t{
+    padding-top: @gk-space;
+}
+.gk-p-b{
+    padding-bottom: @gk-space;
+}
+.gk-p-l{
+    padding-left: @gk-space;
+}
+.gk-p-r{
+    padding-right: @gk-space;
+}
+
+
+/** === 通用 === **/
+.gk-flt{
+    float: left;
+}
+.gk-frt{
+    float: right;
+}
+.gk-clr{
+    &::after{
+        content: '';
+        display: block;
+        clear: both;
+    }
+}

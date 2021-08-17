@@ -11,6 +11,13 @@ import {
     GKTipModule,
     GKTitleModule,
     GKPanelModule,
+    GKInfoModule,
+    GKTable2Module,
+    GKList2Module,
+    GKChartModule,
+    GKTreeModule,
+    GKModalModule,
+    GKAlertModule,
 } from 'ng-goku'
 
 import { AppComponent } from "./app.component";
@@ -29,6 +36,13 @@ import { AppComponent } from "./app.component";
         GKTipModule,
         GKTitleModule,
         GKPanelModule,
+        GKInfoModule,
+        GKTable2Module,
+        GKList2Module,
+        GKChartModule,
+        GKTreeModule,
+        GKModalModule,
+        GKAlertModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
